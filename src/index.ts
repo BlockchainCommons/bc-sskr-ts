@@ -15,8 +15,8 @@
 // allows for multiple groups and multiple thresholds.
 
 import {
-  MIN_SECRET_LEN as SHAMIR_MIN_SECRET_LEN,
-  MAX_SECRET_LEN as SHAMIR_MAX_SECRET_LEN,
+  MIN_SECRET_LENGTH as SHAMIR_MIN_SECRET_LEN,
+  MAX_SECRET_LENGTH as SHAMIR_MAX_SECRET_LEN,
   MAX_SHARE_COUNT as SHAMIR_MAX_SHARE_COUNT,
 } from "@blockchaincommons/shamir";
 

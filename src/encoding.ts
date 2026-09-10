@@ -7,7 +7,7 @@
 // Ported from bc-sskr-rust/src/encoding.rs
 
 import type { RandomNumberGenerator } from "@blockchaincommons/rand";
-import { SecureRandomNumberGenerator } from "@blockchaincommons/rand";
+import { secureRng } from "@blockchaincommons/rand";
 import { splitSecret, recoverSecret, ShamirError } from "@blockchaincommons/shamir";
 
 import { SSKRError, SSKRErrorType } from "./error.js";
@@ -25,7 +25,7 @@ import { METADATA_SIZE_BYTES } from "./index.js";
  *   each of which is a Uint8Array.
  */
 export function sskrGenerate(spec: Spec, masterSecret: Secret): Uint8Array[][] {
-  const rng = new SecureRandomNumberGenerator();
+  const rng = secureRng();
   return sskrGenerateUsing(spec, masterSecret, rng);
 }
 
@@ -147,19 +147,18 @@ function generateShares(
 ): SSKRShare[][] {
   // assign a random identifier
   const identifierBytes = new Uint8Array(2);
-  randomGenerator.fillRandomData(identifierBytes);
+  randomGenerator.fillBytes(identifierBytes);
   const identifier = (identifierBytes[0] << 8) | identifierBytes[1];
 
   const groupsShares: SSKRShare[][] = [];
 
   let groupSecrets: Uint8Array[];
   try {
-    groupSecrets = splitSecret(
-      spec.groupThreshold(),
-      spec.groupCount(),
-      masterSecret.getData(),
-      randomGenerator,
-    );
+    groupSecrets = splitSecret(masterSecret.getData(), {
+      threshold: spec.groupThreshold(),
+      shareCount: spec.groupCount(),
+      rng: randomGenerator,
+    }).map((s) => s.data);
   } catch (e) {
     if (e instanceof ShamirError) {
       throw SSKRError.fromShamirError(e);
@@ -173,12 +172,11 @@ function generateShares(
 
     let memberSecrets: Uint8Array[];
     try {
-      memberSecrets = splitSecret(
-        group.memberThreshold(),
-        group.memberCount(),
-        groupSecret,
-        randomGenerator,
-      );
+      memberSecrets = splitSecret(groupSecret, {
+        threshold: group.memberThreshold(),
+        shareCount: group.memberCount(),
+        rng: randomGenerator,
+      }).map((s) => s.data);
     } catch (e) {
       if (e instanceof ShamirError) {
         throw SSKRError.fromShamirError(e);
@@ -303,7 +301,9 @@ function combineShares(shares: SSKRShare[]): Secret {
     // already enforces that distinction at the type level.
     try {
       const memberSharesData = group.memberShares.map((s) => s.getData());
-      const groupSecret = recoverSecret(group.memberIndexes, memberSharesData);
+      const groupSecret = recoverSecret(
+        group.memberIndexes.map((index, k) => ({ index, data: memberSharesData[k] })),
+      );
       masterIndexes.push(group.groupIndex);
       masterShares.push(groupSecret);
     } catch (e) {
@@ -329,7 +329,9 @@ function combineShares(shares: SSKRShare[]): Secret {
   // Recover the master secret
   let masterSecretData: Uint8Array;
   try {
-    masterSecretData = recoverSecret(masterIndexes, masterShares);
+    masterSecretData = recoverSecret(
+      masterIndexes.map((index, k) => ({ index, data: masterShares[k] })),
+    );
   } catch (e) {
     if (e instanceof ShamirError) {
       throw SSKRError.fromShamirError(e);
