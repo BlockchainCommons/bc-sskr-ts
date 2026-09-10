@@ -40,6 +40,11 @@ export default [
       // explicit annotations on exported consts the rule deems inferrable.
       "@typescript-eslint/no-inferrable-types": "off",
 
+      // Conflicts with tsconfig `isolatedDeclarations`, which REQUIRES a type
+      // annotation on the exported variable; this rule wants that annotation
+      // removed in favour of a constructor type argument.
+      "@typescript-eslint/consistent-generic-constructors": "off",
+
       // Type safety errors
       "@typescript-eslint/no-explicit-any": "error",
       "@typescript-eslint/no-unsafe-assignment": "error",
