@@ -43,7 +43,7 @@ export class GroupSpec {
   /**
    * Parse `"<threshold>-of-<count>"`; each side is digits with an optional
    * leading `+`, nothing else.
-   * @throws {SskrError} `GroupSpecInvalid`, then the {@link from} codes.
+   * @throws {SskrError} `GroupSpecInvalid`, then the `from` codes.
    */
   static parse(s: string): GroupSpec {
     const parts = s.split("-");
