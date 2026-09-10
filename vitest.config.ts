@@ -13,10 +13,10 @@ export default defineConfig({
       exclude: ["src/**/*.d.ts", "src/index.ts"],
       // Raise-only floors. Seed from the first measured run; never lower.
       thresholds: {
-        statements: 84,
-        branches: 73,
-        functions: 86,
-        lines: 84,
+        statements: 94,
+        branches: 91,
+        functions: 96,
+        lines: 95,
       },
     },
   },

@@ -25,18 +25,25 @@ bun add @blockchaincommons/sskr
 ## Usage Instructions
 
 ```typescript
-import {
-  SSKRError,
-  SSKRErrorType,
-  Secret,
-  GroupSpec,
-  Spec,
-  sskrGenerate,
-  sskrGenerateUsing,
-  sskrCombine,
-  MIN_SECRET_LEN,
-  MAX_SECRET_LEN,
-} from "@blockchaincommons/sskr";
+import { Secret, GroupSpec, Spec, generateShares, combineShares, shareBytes, SskrError } from "@blockchaincommons/sskr";
+
+const secret = Secret.fromText("my secret belongs to me."); // 16–32 bytes, even
+const spec = Spec.from({
+  groupThreshold: 2,
+  groups: [GroupSpec.parse("2-of-3"), GroupSpec.from({ memberThreshold: 3, memberCount: 5 })],
+});
+
+const groups = generateShares(spec, secret); // SskrShare[][], secure RNG by default
+const wire = groups.map((g) => g.map(shareBytes)); // the BCR-2020-011 bytes
+
+const recovered = combineShares([groups[0][0], groups[0][2], groups[1][0], groups[1][1], groups[1][4]]);
+recovered.equals(secret); // true
+
+try {
+  combineShares([groups[0][0], groups[1][0]]);
+} catch (e) {
+  if (SskrError.isSskrError(e)) console.log(e.code); // "NotEnoughGroups"
+}
 ```
 
 Runnable examples live in the [`examples/`](https://github.com/BlockchainCommons/bc-sskr-ts/tree/master/examples) directory.
@@ -47,7 +54,7 @@ Runnable examples live in the [`examples/`](https://github.com/BlockchainCommons
 
 ### Version History
 
-- **1.0.0-beta.1 (September 9, 2026)** - Initial beta release, extracted from the [`paritytech/bcts`](https://github.com/paritytech/bcts) monorepo.
+- **1.0.0-beta.1 (September 9, 2026)** - Initial beta release, extracted from the [`paritytech/bcts`](https://github.com/paritytech/bcts) monorepo and redesigned as an idiomatic TypeScript library ([MIGRATION.md](./MIGRATION.md)). Share bytes are unchanged and cross-validated against `sskr 0.12.0`.
 
 ### Roadmap
 

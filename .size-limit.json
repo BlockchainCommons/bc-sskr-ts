@@ -3,5 +3,11 @@
     "name": "ESM entry (import *), minified + gzipped",
     "path": "dist/index.mjs",
     "limit": "8 kB"
+  },
+  {
+    "name": "ESM entry, package's own code (siblings external)",
+    "path": "dist/index.mjs",
+    "ignore": ["@blockchaincommons/shamir", "@blockchaincommons/rand", "@blockchaincommons/crypto"],
+    "limit": "3 kB"
   }
 ]

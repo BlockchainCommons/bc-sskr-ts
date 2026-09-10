@@ -19,21 +19,30 @@ differs from the Rust reference. It has three kinds of entry:
 
 ## 1. True behavioral divergences
 
-_None recorded yet for the extraction release. The port was byte-compatible with
-the Rust reference at the tracked version when it was extracted from the
-`paritytech/bcts` monorepo._
-
-> Any divergence found after extraction must be added here in the same commit
-> that introduces or discovers it, with the input, the Rust outcome, the
-> TypeScript outcome, and the reason the difference is intentional.
+_None._ All 983 golden vectors (`tests/vectors/vectors.json`), including
+the error variant of every failing recipe, replay exactly against
+`sskr 0.12.0` through `tests/rust-validation`
+(`cargo run --release -- ../vectors/vectors.json`).
 
 ## 2. JS-only input domain
 
-_To be documented as the surface is audited._
+- **Header fields out of range.** `shareBytes` masks each field to its
+  nibble as the reference does with `as u8`; a `groupIndex` of 17 serialises
+  as 1 in both. Neither validates the range on the way in.
 
 ## 3. Mapping equivalences
 
-_To be documented as the surface is audited._
+- **API shape.** `sskr_generate_using(&spec, &secret, &mut rng)` ↔
+  `generateShares(spec, secret, { rng })`; the Rust `Vec<Vec<Vec<u8>>>` ↔
+  `SskrShare[][]` through `shareBytes`; `sskr_combine(&[bytes])` ↔
+  `combineShares`.
+- **Errors.** `Error::X` ↔ `SskrError` with `code: "X"`;
+  `Error::ShamirError(e)` ↔ `"Shamir"` with `cause: e`.
+- **RNG.** `&mut impl RandomNumberGenerator` ↔ `{ rng }`; the harness drives
+  `bc-rand`'s `SeededRandomNumberGenerator` from the same xoshiro state and
+  reproduces the crate tests' counter generator as "fake".
+- **`GroupSpec::parse`** ↔ `GroupSpec.parse`: the strict-digits rule mirrors
+  `usize::from_str` (optional `+`, digits only).
 
 ## Maintenance
 

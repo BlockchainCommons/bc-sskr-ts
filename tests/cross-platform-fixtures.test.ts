@@ -27,7 +27,7 @@
  */
 
 import { describe, it, expect } from "vitest";
-import { Secret, sskrCombine, SSKRError, SSKRErrorType } from "../src/index.js";
+import { combineShares, Secret, SskrError } from "../src/index.js";
 
 function hexToBytes(hex: string): Uint8Array {
   const bytes = new Uint8Array(hex.length / 2);
@@ -64,22 +64,22 @@ describe("Cross-platform Rust → TS SSKR share decoding", () => {
   it("recovers the 3/5 secret from Rust-produced shares (combination 1, 2, 4)", () => {
     const indexes = [1, 2, 4];
     const shares = indexes.map((i) => hexToBytes(RUST_3_5_SHARES[i]));
-    const recovered = sskrCombine(shares);
-    expect(bytesToHex(recovered.getData())).toBe(RUST_3_5_SECRET);
+    const recovered = combineShares(shares);
+    expect(bytesToHex(recovered.bytes)).toBe(RUST_3_5_SECRET);
   });
 
   it("recovers the 3/5 secret from Rust-produced shares (combination 0, 1, 2)", () => {
     const indexes = [0, 1, 2];
     const shares = indexes.map((i) => hexToBytes(RUST_3_5_SHARES[i]));
-    const recovered = sskrCombine(shares);
-    expect(bytesToHex(recovered.getData())).toBe(RUST_3_5_SECRET);
+    const recovered = combineShares(shares);
+    expect(bytesToHex(recovered.bytes)).toBe(RUST_3_5_SECRET);
   });
 
   it("recovers the 3/5 secret from Rust-produced shares (combination 2, 3, 4)", () => {
     const indexes = [2, 3, 4];
     const shares = indexes.map((i) => hexToBytes(RUST_3_5_SHARES[i]));
-    const recovered = sskrCombine(shares);
-    expect(bytesToHex(recovered.getData())).toBe(RUST_3_5_SECRET);
+    const recovered = combineShares(shares);
+    expect(bytesToHex(recovered.bytes)).toBe(RUST_3_5_SECRET);
   });
 
   // Rust KAT: 2-of-7 single group, 32-byte secret, FakeRng.
@@ -100,8 +100,8 @@ describe("Cross-platform Rust → TS SSKR share decoding", () => {
   it("recovers the 2/7 secret from Rust-produced shares (combination 3, 4)", () => {
     const indexes = [3, 4];
     const shares = indexes.map((i) => hexToBytes(RUST_2_7_SHARES[i]));
-    const recovered = sskrCombine(shares);
-    expect(bytesToHex(recovered.getData())).toBe(RUST_2_7_SECRET);
+    const recovered = combineShares(shares);
+    expect(bytesToHex(recovered.bytes)).toBe(RUST_2_7_SECRET);
   });
 
   it("recovers the 2/7 secret from every two-share combination", () => {
@@ -112,8 +112,8 @@ describe("Cross-platform Rust → TS SSKR share decoding", () => {
       for (let j = i + 1; j < 7; j++) {
         const indexes = [i, j];
         const shares = indexes.map((k) => hexToBytes(RUST_2_7_SHARES[k]));
-        const recovered = sskrCombine(shares);
-        expect(bytesToHex(recovered.getData())).toBe(RUST_2_7_SECRET);
+        const recovered = combineShares(shares);
+        expect(bytesToHex(recovered.bytes)).toBe(RUST_2_7_SECRET);
         combinations++;
       }
     }
@@ -140,15 +140,15 @@ describe("Cross-platform Rust → TS SSKR share decoding", () => {
   it("recovers the 2/3+2/3 secret from Rust-produced shares (g0[0,1] g1[0,2])", () => {
     const indexes = [0, 1, 3, 5];
     const shares = indexes.map((i) => hexToBytes(RUST_2_3_2_3_SHARES[i]));
-    const recovered = sskrCombine(shares);
-    expect(bytesToHex(recovered.getData())).toBe(RUST_2_3_2_3_SECRET);
+    const recovered = combineShares(shares);
+    expect(bytesToHex(recovered.bytes)).toBe(RUST_2_3_2_3_SECRET);
   });
 
   it("recovers the 2/3+2/3 secret from Rust-produced shares (g0[1,2] g1[1,2])", () => {
     const indexes = [1, 2, 4, 5];
     const shares = indexes.map((i) => hexToBytes(RUST_2_3_2_3_SHARES[i]));
-    const recovered = sskrCombine(shares);
-    expect(bytesToHex(recovered.getData())).toBe(RUST_2_3_2_3_SECRET);
+    const recovered = combineShares(shares);
+    expect(bytesToHex(recovered.bytes)).toBe(RUST_2_3_2_3_SECRET);
   });
 
   it("rejects a Rust-produced share with corrupted reserved nibble", () => {
@@ -157,26 +157,24 @@ describe("Cross-platform Rust → TS SSKR share decoding", () => {
     // must surface the same enum variant.
     const tampered = hexToBytes(RUST_3_5_SHARES[0]);
     tampered[4] |= 0x10; // any non-zero high nibble
-    expect(() => sskrCombine([tampered])).toThrow(SSKRError);
+    expect(() => combineShares([tampered])).toThrow(SskrError);
     try {
-      sskrCombine([tampered]);
+      combineShares([tampered]);
     } catch (e) {
-      expect(e).toBeInstanceOf(SSKRError);
-      expect((e as InstanceType<typeof SSKRError>).type).toBe(
-        SSKRErrorType.ShareReservedBitsInvalid,
-      );
+      expect(e).toBeInstanceOf(SskrError);
+      expect((e as InstanceType<typeof SskrError>).code).toBe("ShareReservedBitsInvalid");
     }
   });
 
   it("rejects a Rust-produced share that is too short", () => {
     // Truncate to 4 bytes — below METADATA_SIZE_BYTES = 5.
     const tampered = hexToBytes(RUST_3_5_SHARES[0]).slice(0, 4);
-    expect(() => sskrCombine([tampered])).toThrow(SSKRError);
+    expect(() => combineShares([tampered])).toThrow(SskrError);
     try {
-      sskrCombine([tampered]);
+      combineShares([tampered]);
     } catch (e) {
-      expect(e).toBeInstanceOf(SSKRError);
-      expect((e as InstanceType<typeof SSKRError>).type).toBe(SSKRErrorType.ShareLengthInvalid);
+      expect(e).toBeInstanceOf(SskrError);
+      expect((e as InstanceType<typeof SskrError>).code).toBe("ShareLengthInvalid");
     }
   });
 
@@ -189,7 +187,7 @@ describe("Cross-platform Rust → TS SSKR share decoding", () => {
       hexToBytes(RUST_2_7_SHARES[1]),
       hexToBytes(RUST_2_7_SHARES[2]),
     ];
-    expect(() => sskrCombine(mixed)).toThrow(SSKRError);
+    expect(() => combineShares(mixed)).toThrow(SskrError);
   });
 
   it("Rust-produced shares preserve the FakeRng identifier 0x0011", () => {
@@ -202,7 +200,7 @@ describe("Cross-platform Rust → TS SSKR share decoding", () => {
       expect(hex.slice(0, 4)).toBe("0011");
     }
     // And that the recovered secret is unaffected.
-    const recovered = sskrCombine([0, 1, 2].map((i) => hexToBytes(RUST_3_5_SHARES[i])));
-    expect(recovered.equals(Secret.new(hexToBytes(RUST_3_5_SECRET)))).toBe(true);
+    const recovered = combineShares([0, 1, 2].map((i) => hexToBytes(RUST_3_5_SHARES[i])));
+    expect(recovered.equals(Secret.from(hexToBytes(RUST_3_5_SECRET)))).toBe(true);
   });
 });

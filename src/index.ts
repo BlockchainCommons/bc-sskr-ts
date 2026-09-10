@@ -1,63 +1,25 @@
 /**
- * Copyright © 2023-2026 Blockchain Commons, LLC
- * Copyright © 2025-2026 Parity Technologies
+ * @blockchaincommons/sskr - Sharded Secret Key Reconstruction
+ * (BCR-2020-011): a secret split into groups of Shamir shares, any
+ * `groupThreshold` groups of which, each at its member threshold, recover it.
  *
+ * {@link generateShares} produces {@link SskrShare}s per group;
+ * {@link shareBytes} / {@link parseShare} are the wire form;
+ * {@link combineShares} recovers. Every failure is a {@link SskrError} with a `code`.
+ *
+ * @module @blockchaincommons/sskr
  */
-
-// Blockchain Commons Sharded Secret Key Reconstruction (SSKR)
-// Ported from bc-sskr-rust
-//
-// Sharded Secret Key Reconstruction (SSKR) is a protocol for splitting a
-// secret into a set of shares across one or more groups, such that the
-// secret can be reconstructed from any combination of shares totaling or
-// exceeding a threshold number of shares within each group and across all
-// groups. SSKR is a generalization of Shamir's Secret Sharing (SSS) that
-// allows for multiple groups and multiple thresholds.
-
-import {
-  MIN_SECRET_LENGTH as SHAMIR_MIN_SECRET_LEN,
-  MAX_SECRET_LENGTH as SHAMIR_MAX_SECRET_LEN,
-  MAX_SHARE_COUNT as SHAMIR_MAX_SHARE_COUNT,
-} from "@blockchaincommons/shamir";
-
-/**
- * The minimum length of a secret.
- */
-export const MIN_SECRET_LEN: number = SHAMIR_MIN_SECRET_LEN;
-
-/**
- * The maximum length of a secret.
- */
-export const MAX_SECRET_LEN: number = SHAMIR_MAX_SECRET_LEN;
-
-/**
- * The maximum number of shares that can be generated from a secret.
- */
-export const MAX_SHARE_COUNT: number = SHAMIR_MAX_SHARE_COUNT;
-
-/**
- * The maximum number of groups in a split.
- */
-export const MAX_GROUPS_COUNT: number = MAX_SHARE_COUNT;
-
-/**
- * The number of bytes used to encode the metadata for a share.
- */
-export const METADATA_SIZE_BYTES = 5;
-
-/**
- * The minimum number of bytes required to encode a share.
- */
-export const MIN_SERIALIZE_SIZE_BYTES: number = METADATA_SIZE_BYTES + MIN_SECRET_LEN;
-
-// Error types
-export { SSKRError, SSKRErrorType, type SSKRResult } from "./error.js";
-
-// Secret
+export {
+  MIN_SECRET_LENGTH,
+  MAX_SECRET_LENGTH,
+  MAX_SHARE_COUNT,
+  MAX_GROUP_COUNT,
+  SHARE_HEADER_LENGTH,
+  MIN_SHARE_LENGTH,
+} from "./constants.js";
+export { SskrError, type SskrErrorCode } from "./error.js";
 export { Secret } from "./secret.js";
-
-// Specifications
-export { GroupSpec, Spec } from "./spec.js";
-
-// Encoding/Decoding
-export { sskrGenerate, sskrGenerateUsing, sskrCombine } from "./encoding.js";
+export { GroupSpec, Spec, type GroupSpecOptions, type SpecOptions } from "./spec.js";
+export { type SskrShare, shareBytes, parseShare, isSskrShare } from "./share.js";
+export { generateShares, type GenerateOptions } from "./generate.js";
+export { combineShares } from "./combine.js";

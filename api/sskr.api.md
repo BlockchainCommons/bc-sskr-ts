@@ -8,109 +8,130 @@ import { RandomNumberGenerator } from '@blockchaincommons/rand';
 import { ShamirError } from '@blockchaincommons/shamir';
 
 // @public
+export function combineShares(shares: readonly (SskrShare | Uint8Array)[]): Secret;
+
+// @public
+export interface GenerateOptions {
+    readonly rng?: RandomNumberGenerator | undefined;
+}
+
+// @public
+export function generateShares(spec: Spec, secret: Secret, options?: GenerateOptions): SskrShare[][];
+
+// @public
 export class GroupSpec {
-    static default(): GroupSpec;
-    memberCount(): number;
-    memberThreshold(): number;
-    static new(memberThreshold: number, memberCount: number): GroupSpec;
+    static readonly DEFAULT: GroupSpec;
+    // (undocumented)
+    static from(options: GroupSpecOptions): GroupSpec;
+    // (undocumented)
+    readonly memberCount: number;
+    // (undocumented)
+    readonly memberThreshold: number;
     static parse(s: string): GroupSpec;
     toString(): string;
 }
 
 // @public
-export const MAX_GROUPS_COUNT: number;
+export interface GroupSpecOptions {
+    // (undocumented)
+    readonly memberCount: number;
+    // (undocumented)
+    readonly memberThreshold: number;
+}
 
 // @public
-export const MAX_SECRET_LEN: number;
+export function isSskrShare(share: unknown): share is SskrShare;
+
+// @public
+export const MAX_GROUP_COUNT: number;
+
+// @public
+export const MAX_SECRET_LENGTH: number;
 
 // @public
 export const MAX_SHARE_COUNT: number;
 
 // @public
-export const METADATA_SIZE_BYTES = 5;
+export const MIN_SECRET_LENGTH: number;
 
 // @public
-export const MIN_SECRET_LEN: number;
+export const MIN_SHARE_LENGTH: number;
 
 // @public
-export const MIN_SERIALIZE_SIZE_BYTES: number;
+export function parseShare(bytes: Uint8Array): SskrShare;
 
 // @public
 export class Secret {
-    asRef(): Uint8Array;
+    // (undocumented)
+    get byteLength(): number;
+    // (undocumented)
+    get bytes(): Uint8Array<ArrayBuffer>;
+    // (undocumented)
     clone(): Secret;
+    // (undocumented)
     equals(other: Secret): boolean;
-    getData(): Uint8Array;
-    isEmpty(): boolean;
-    len(): number;
-    static new(data: Uint8Array | string): Secret;
+    // (undocumented)
+    static from(bytes: Uint8Array): Secret;
+    static fromText(text: string): Secret;
 }
+
+// @public
+export const SHARE_HEADER_LENGTH = 5;
+
+// @public
+export function shareBytes(share: SskrShare): Uint8Array<ArrayBuffer>;
 
 // @public
 export class Spec {
-    groupCount(): number;
-    groups(): GroupSpec[];
-    groupThreshold(): number;
-    static new(groupThreshold: number, groups: GroupSpec[]): Spec;
-    shareCount(): number;
+    // (undocumented)
+    static from(options: SpecOptions): Spec;
+    // (undocumented)
+    get groupCount(): number;
+    // (undocumented)
+    readonly groups: readonly GroupSpec[];
+    // (undocumented)
+    readonly groupThreshold: number;
+    get shareCount(): number;
 }
 
 // @public
-export function sskrCombine(shares: Uint8Array[]): Secret;
-
-// @public
-export class SSKRError extends Error {
-    constructor(type: SSKRErrorType, message?: string, shamirError?: ShamirError);
+export interface SpecOptions {
     // (undocumented)
-    static fromShamirError(error: ShamirError): SSKRError;
+    readonly groups: readonly GroupSpec[];
     // (undocumented)
-    readonly shamirError?: ShamirError | undefined;
-    // (undocumented)
-    readonly type: SSKRErrorType;
+    readonly groupThreshold: number;
 }
 
 // @public
-export enum SSKRErrorType {
+export class SskrError extends Error {
+    constructor(code: SskrErrorCode, message: string, cause?: unknown);
     // (undocumented)
-    DuplicateMemberIndex = "DuplicateMemberIndex",
+    readonly code: SskrErrorCode;
     // (undocumented)
-    GroupCountInvalid = "GroupCountInvalid",
-    // (undocumented)
-    GroupSpecInvalid = "GroupSpecInvalid",
-    // (undocumented)
-    GroupThresholdInvalid = "GroupThresholdInvalid",
-    // (undocumented)
-    MemberCountInvalid = "MemberCountInvalid",
-    // (undocumented)
-    MemberThresholdInvalid = "MemberThresholdInvalid",
-    // (undocumented)
-    NotEnoughGroups = "NotEnoughGroups",
-    // (undocumented)
-    SecretLengthNotEven = "SecretLengthNotEven",
-    // (undocumented)
-    SecretTooLong = "SecretTooLong",
-    // (undocumented)
-    SecretTooShort = "SecretTooShort",
-    // (undocumented)
-    ShamirError = "ShamirError",
-    // (undocumented)
-    ShareLengthInvalid = "ShareLengthInvalid",
-    // (undocumented)
-    ShareReservedBitsInvalid = "ShareReservedBitsInvalid",
-    // (undocumented)
-    SharesEmpty = "SharesEmpty",
-    // (undocumented)
-    ShareSetInvalid = "ShareSetInvalid"
+    static isSskrError(value: unknown): value is SskrError;
+    static of(code: Exclude<SskrErrorCode, "Shamir">): SskrError;
+    static shamir(cause: ShamirError): SskrError;
 }
 
 // @public
-export function sskrGenerate(spec: Spec, masterSecret: Secret): Uint8Array[][];
+export type SskrErrorCode = "DuplicateMemberIndex" | "GroupSpecInvalid" | "GroupCountInvalid" | "GroupThresholdInvalid" | "MemberCountInvalid" | "MemberThresholdInvalid" | "NotEnoughGroups" | "SecretLengthNotEven" | "SecretTooLong" | "SecretTooShort" | "ShareLengthInvalid" | "ShareReservedBitsInvalid" | "SharesEmpty" | "ShareSetInvalid" | "Shamir";
 
 // @public
-export function sskrGenerateUsing(spec: Spec, masterSecret: Secret, randomGenerator: RandomNumberGenerator): Uint8Array[][];
-
-// @public
-export type SSKRResult<T> = T;
+export interface SskrShare {
+    // (undocumented)
+    readonly groupCount: number;
+    // (undocumented)
+    readonly groupIndex: number;
+    // (undocumented)
+    readonly groupThreshold: number;
+    readonly identifier: number;
+    // (undocumented)
+    readonly memberIndex: number;
+    // (undocumented)
+    readonly memberThreshold: number;
+    // (undocumented)
+    readonly value: Secret;
+}
 
 // (No @packageDocumentation comment for this package)
 

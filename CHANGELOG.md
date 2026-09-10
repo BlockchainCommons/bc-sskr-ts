@@ -2,7 +2,25 @@
 
 ## 1.0.0-beta.1
 
-Extracted from the [`paritytech/bcts`](https://github.com/paritytech/bcts) monorepo, where this library was published as `@bcts/sskr`. The public API is unchanged; see [MIGRATION.md](./MIGRATION.md).
+Extracted from the [`paritytech/bcts`](https://github.com/paritytech/bcts)
+monorepo (`@bcts/sskr`) and redesigned as an idiomatic TypeScript library;
+see [MIGRATION.md](./MIGRATION.md). Every share byte is unchanged.
+
+- Shares are readonly `SskrShare` values; `shareBytes` / `parseShare` are
+  the wire form. `generateShares(spec, secret, { rng? })` returns
+  `SskrShare[][]`; `combineShares` takes shares or bytes.
+- `Secret.from` / `Secret.fromText` with `bytes` and `byteLength`;
+  `GroupSpec.from({ memberThreshold, memberCount })`, `GroupSpec.DEFAULT`,
+  `Spec.from({ groupThreshold, groups })`, readonly fields.
+- One `SskrError` with a `code` union and `SskrError.of(code)`; the
+  `ShamirError` rides along as `cause` under `"Shamir"`. `SSKRErrorType`
+  and `SSKRResult` removed.
+- Constants renamed to spell the word out (`MIN_SECRET_LENGTH`,
+  `SHARE_HEADER_LENGTH`, `MIN_SHARE_LENGTH`, `MAX_GROUP_COUNT`).
+- Built on the redesigned shamir (`ShamirShare`) and rand (`{ rng }`).
+- 983 golden vectors, a differential corpus against the frozen pre-redesign
+  bundle, and a Rust cross-validation harness (`tests/rust-validation`,
+  `sskr 0.12.0`: 983/983 match, error variants included).
 
 ---
 

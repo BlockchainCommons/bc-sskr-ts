@@ -1,108 +1,49 @@
 /**
- * Copyright © 2023-2026 Blockchain Commons, LLC
- * Copyright © 2025-2026 Parity Technologies
+ * The secret being shared.
  *
+ * @module secret
  */
+import { MAX_SECRET_LENGTH, MIN_SECRET_LENGTH } from "./constants.js";
+import { SskrError } from "./error.js";
 
-// Ported from bc-sskr-rust/src/secret.rs
-
-import { MIN_SECRET_LEN, MAX_SECRET_LEN } from "./index.js";
-import { SSKRError, SSKRErrorType } from "./error.js";
-
-/**
- * A secret to be split into shares.
- */
+/** A validated secret: 16–32 bytes, even length. Holds its own copy. */
 export class Secret {
-  private readonly data: Uint8Array;
+  readonly #bytes: Uint8Array<ArrayBuffer>;
 
-  private constructor(data: Uint8Array) {
-    this.data = data;
+  private constructor(bytes: Uint8Array<ArrayBuffer>) {
+    this.#bytes = bytes;
   }
 
-  /**
-   * Creates a new Secret instance with the given data.
-   *
-   * @param data - The secret data to be split into shares.
-   * @returns A new Secret instance.
-   * @throws SSKRError if the length of the secret is less than
-   *   MIN_SECRET_LEN, greater than MAX_SECRET_LEN, or not even.
-   */
-  static new(data: Uint8Array | string): Secret {
-    const bytes = typeof data === "string" ? new TextEncoder().encode(data) : data;
-    const len = bytes.length;
-
-    if (len < MIN_SECRET_LEN) {
-      throw new SSKRError(SSKRErrorType.SecretTooShort);
-    }
-    if (len > MAX_SECRET_LEN) {
-      throw new SSKRError(SSKRErrorType.SecretTooLong);
-    }
-    if ((len & 1) !== 0) {
-      throw new SSKRError(SSKRErrorType.SecretLengthNotEven);
-    }
-
+  /** @throws {SskrError} `SecretTooShort`, `SecretTooLong`, `SecretLengthNotEven`, in that order. */
+  static from(bytes: Uint8Array): Secret {
+    if (bytes.length < MIN_SECRET_LENGTH) throw SskrError.of("SecretTooShort");
+    if (bytes.length > MAX_SECRET_LENGTH) throw SskrError.of("SecretTooLong");
+    if ((bytes.length & 1) !== 0) throw SskrError.of("SecretLengthNotEven");
     return new Secret(new Uint8Array(bytes));
   }
 
-  /**
-   * Returns the length of the secret.
-   */
-  len(): number {
-    return this.data.length;
+  /** The UTF-8 bytes of `text`, validated as `from`. */
+  static fromText(text: string): Secret {
+    return Secret.from(new TextEncoder().encode(text));
   }
 
-  /**
-   * Returns true if the secret is empty.
-   */
-  isEmpty(): boolean {
-    return this.len() === 0;
+  get bytes(): Uint8Array<ArrayBuffer> {
+    return this.#bytes;
   }
 
-  /**
-   * Returns a reference to the secret data.
-   *
-   * Mirrors Rust's `Secret::data(&self) -> &[u8]`
-   * (`bc-sskr-rust/src/secret.rs:43`).
-   */
-  getData(): Uint8Array {
-    return this.data;
+  get byteLength(): number {
+    return this.#bytes.length;
   }
 
-  /**
-   * Returns the secret data as a Uint8Array.
-   *
-   * Mirrors Rust's `impl AsRef<[u8]> for Secret`
-   * (`bc-sskr-rust/src/secret.rs:46-49`). In Rust, `as_ref()` is
-   * provided via the `AsRef<[u8]>` trait, which lets the `Secret` flow
-   * naturally through any API expecting `impl AsRef<[u8]>`. TypeScript
-   * has no equivalent of that trait, so we expose the same backing
-   * buffer through both {@link getData} (the field accessor) and
-   * `asRef` (the trait-style accessor) for ergonomic parity. Callers
-   * may pick whichever name reads better at the call site.
-   */
-  asRef(): Uint8Array {
-    return this.data;
-  }
-
-  /**
-   * Check equality with another Secret.
-   */
   equals(other: Secret): boolean {
-    if (this.data.length !== other.data.length) {
-      return false;
-    }
-    for (let i = 0; i < this.data.length; i++) {
-      if (this.data[i] !== other.data[i]) {
-        return false;
-      }
-    }
+    const a = this.#bytes;
+    const b = other.#bytes;
+    if (a.length !== b.length) return false;
+    for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return false;
     return true;
   }
 
-  /**
-   * Clone the secret.
-   */
   clone(): Secret {
-    return new Secret(new Uint8Array(this.data));
+    return new Secret(new Uint8Array(this.#bytes));
   }
 }
