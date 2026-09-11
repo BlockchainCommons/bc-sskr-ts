@@ -1,12 +1,5 @@
 # Migrating from `@bcts/sskr` to `@blockchaincommons/sskr`
 
-`@blockchaincommons/sskr` is the canonical home of this library. It was
-extracted from the [`paritytech/bcts`](https://github.com/paritytech/bcts)
-monorepo, where it was published as `@bcts/sskr`, into its own Blockchain
-Commons repository at
-[`BlockchainCommons/bc-sskr-ts`](https://github.com/BlockchainCommons/bc-sskr-ts),
-and redesigned as an idiomatic TypeScript library in the same release.
-
 **Every share byte is unchanged.** The share format, the identifier-first
 RNG draw order, and every combine rule are identical to `@bcts/sskr` and to
 the Rust reference `sskr 0.12.0`; 983 golden vectors, a differential corpus
