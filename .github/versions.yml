@@ -1,0 +1,8 @@
+# Version map: TypeScript package -> Reference implementation
+# Used by workflow automation to track upstream reference versions.
+packages:
+  sskr:
+    npm: "@blockchaincommons/sskr"
+    repo: "BlockchainCommons/bc-sskr-rust"
+    version: "0.12.0"
+    commit: "177cd9305c152b6cc1b9768651e65e7d563b4e8e"
