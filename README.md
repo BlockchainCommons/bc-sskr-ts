@@ -65,7 +65,7 @@ Runnable examples live in the [`examples/`](https://github.com/BlockchainCommons
 
 ### Version History
 
-- **1.0.0-beta.2 (September 12, 2026)** - `GroupSpec.parse` reports the reference's code for a count or threshold between 2^53 and 2^64; `RUST_DIVERGENCES.md` reclassifies `shareBytes` validation as a TypeScript-only surface. See [CHANGELOG.md](./CHANGELOG.md).
+- **1.0.0-beta.2 (September 12, 2026)** - `GroupSpec.parse` reports the reference's code for a count or threshold between 2^53 and 2^64;
 - **1.0.0-beta.1 (September 9, 2026)** - Initial beta implementation.
 
 ### Roadmap
