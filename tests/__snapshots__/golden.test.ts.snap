@@ -37,6 +37,11 @@ exports[`golden: error codes > parse 1`] = `
   "{"k":"parse","s":"２-of-3"} → throw:GroupSpecInvalid",
   "{"k":"parse","s":"99999999999999999999-of-3"} → throw:GroupSpecInvalid",
   "{"k":"parse","s":"1-of-3"} → 1-of-3",
+  "{"k":"parse","s":"9007199254740991-of-3"} → throw:MemberThresholdInvalid",
+  "{"k":"parse","s":"9007199254740993-of-3"} → throw:MemberThresholdInvalid",
+  "{"k":"parse","s":"2-of-9007199254740993"} → throw:MemberCountInvalid",
+  "{"k":"parse","s":"18446744073709551615-of-3"} → throw:MemberThresholdInvalid",
+  "{"k":"parse","s":"18446744073709551616-of-3"} → throw:GroupSpecInvalid",
 ]
 `;
 

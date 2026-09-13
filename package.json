@@ -1,6 +1,6 @@
 {
   "name": "@blockchaincommons/sskr",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "type": "module",
   "sideEffects": false,
   "description": "Blockchain Commons Sharded Secret Key Reconstruction (SSKR) for TypeScript",
@@ -42,6 +42,7 @@
     "dist",
     "src",
     "README.md",
+    "CHANGELOG.md",
     "MIGRATION.md"
   ],
   "scripts": {
@@ -53,20 +54,20 @@
     "lint:fix": "eslint 'src/**/*.ts' 'tests/**/*.ts' --fix",
     "format": "prettier --write 'src/**/*.ts' 'tests/**/*.ts'",
     "format:check": "prettier --check 'src/**/*.ts' 'tests/**/*.ts'",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit && tsc --project scripts/tsconfig.json",
     "size": "size-limit",
-    "api:snapshot": "bun scripts/api-snapshot.mjs && node scripts/api-report.mjs --local",
-    "api:check": "bun scripts/api-snapshot.mjs --check && node scripts/api-report.mjs",
+    "api:snapshot": "bun scripts/api-snapshot.ts && bun scripts/api-report.ts --local",
+    "api:check": "bun scripts/api-snapshot.ts --check && bun scripts/api-report.ts",
     "clean": "rm -rf dist",
     "docs": "typedoc",
-    "postinstall": "node scripts/pin-lint-typescript.mjs",
+    "postinstall": "bun scripts/pin-lint-typescript.ts",
     "prepublishOnly": "npm run build",
     "lint:pkg": "publint && attw --pack . --profile node16",
-    "check:deps": "node scripts/check-deps.mjs",
+    "check:deps": "bun scripts/check-deps.ts",
     "test:golden": "vitest run tests/golden-vectors.test.ts",
     "test:differential": "vitest run tests/differential.test.ts",
-    "vectors:generate": "bun scripts/generate-vectors.mjs",
-    "baseline:build": "bun scripts/build-baseline.mjs"
+    "vectors:generate": "bun scripts/generate-vectors.ts",
+    "baseline:build": "bun scripts/build-baseline.ts"
   },
   "keywords": [
     "sskr",
@@ -90,7 +91,6 @@
     "@typescript-eslint/eslint-plugin": "^8.70.0",
     "@typescript-eslint/parser": "^8.70.0",
     "@vitest/coverage-v8": "^5.0.0",
-    "ajv": "^8.20.0",
     "eslint": "^10.10.0",
     "prettier": "3.9.6",
     "publint": "^0.3.24",
@@ -103,7 +103,7 @@
     "fast-check": "^4.10.0"
   },
   "dependencies": {
-    "@blockchaincommons/rand": "^1.0.0-beta.1",
-    "@blockchaincommons/shamir": "^1.0.0-beta.1"
+    "@blockchaincommons/rand": "^1.0.0-beta.2",
+    "@blockchaincommons/shamir": "^1.0.0-beta.2"
   }
 }

@@ -42,8 +42,8 @@ describe("sskr properties", () => {
         const chosen: Uint8Array[] = [];
         for (let k = 0; k < sp.gt; k++) {
           const gi = (pick + k) % sp.groups.length;
-          const grp = sp.groups[gi]!;
-          for (let m = 0; m < grp.mt; m++) chosen.push(groups[gi]![(pick + m) % grp.mc]!);
+          const grp = sp.groups[gi];
+          for (let m = 0; m < grp.mt; m++) chosen.push(groups[gi][(pick + m) % grp.mc]);
         }
         return hex(api.combine(chosen)) === hex(s);
       }),
@@ -61,10 +61,10 @@ describe("sskr properties", () => {
           const chosen: Uint8Array[] = [];
           let shorted = false;
           for (let gi = 0; gi < sp.gt; gi++) {
-            const grp = sp.groups[gi]!;
+            const grp = sp.groups[gi];
             const take = !shorted && grp.mt > 1 ? grp.mt - 1 : grp.mt;
             if (take < grp.mt) shorted = true;
-            for (let m = 0; m < take; m++) chosen.push(groups[gi]![m]!);
+            for (let m = 0; m < take; m++) chosen.push(groups[gi][m]);
           }
           if (!shorted) return true;
           try {
@@ -126,7 +126,7 @@ describe("sskr properties", () => {
       src.Spec.from({ groupThreshold: 1, groups: [src.GroupSpec.DEFAULT] }),
       src.Secret.from(new Uint8Array(16)),
       { rng: rand.SeededRng.forTesting() },
-    )[0]![0]!;
+    )[0][0];
     const outOfWidth = fc.oneof(nonUsize, fc.integer({ min: 0x10000, max: 0x1ffff }));
     const outOfNibble = fc.oneof(nonUsize, fc.integer({ min: 16, max: 1000 }));
     const outOfCount = fc.oneof(nonUsize, fc.constant(0), fc.integer({ min: 17, max: 1000 }));

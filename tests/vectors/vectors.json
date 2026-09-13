@@ -1,5 +1,5 @@
 {
- "count": 1007,
+ "count": 1012,
  "vectors": [
   {
    "name": "generate 1/[1-of-1] len=16 seed=172951",
@@ -40592,6 +40592,46 @@
     "s": "1-of-3"
    },
    "expect": "1-of-3"
+  },
+  {
+   "name": "parse \"9007199254740991-of-3\"",
+   "recipe": {
+    "k": "parse",
+    "s": "9007199254740991-of-3"
+   },
+   "expect": "throw:MemberThresholdInvalid"
+  },
+  {
+   "name": "parse \"9007199254740993-of-3\"",
+   "recipe": {
+    "k": "parse",
+    "s": "9007199254740993-of-3"
+   },
+   "expect": "throw:MemberThresholdInvalid"
+  },
+  {
+   "name": "parse \"2-of-9007199254740993\"",
+   "recipe": {
+    "k": "parse",
+    "s": "2-of-9007199254740993"
+   },
+   "expect": "throw:MemberCountInvalid"
+  },
+  {
+   "name": "parse \"18446744073709551615-of-3\"",
+   "recipe": {
+    "k": "parse",
+    "s": "18446744073709551615-of-3"
+   },
+   "expect": "throw:MemberThresholdInvalid"
+  },
+  {
+   "name": "parse \"18446744073709551616-of-3\"",
+   "recipe": {
+    "k": "parse",
+    "s": "18446744073709551616-of-3"
+   },
+   "expect": "throw:GroupSpecInvalid"
   },
   {
    "name": "spec 0/[1-of-1]",

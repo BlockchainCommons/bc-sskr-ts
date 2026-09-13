@@ -54,6 +54,22 @@ const TOMBSTONES = {
       (r.k === "parse" && /^\+?0+-of-/.test(r.s)),
     tree: "throw:MemberThresholdInvalid",
   },
+  // T3: `GroupSpec.parse` of a threshold or count between 2^53 and 2^64 − 1.
+  // The reference parses it as a `usize` and reports `GroupSpec::new`'s code;
+  // the baseline's safe-integer gate reported `GroupSpecInvalid`.
+  T3: {
+    landed: true,
+    matches: (r: Recipe) =>
+      r.k === "parse" &&
+      r.s
+        .split("-")
+        .filter((p) => /^\+?\d+$/.test(p))
+        .some(
+          (p) => BigInt(p) > BigInt(Number.MAX_SAFE_INTEGER) && BigInt(p) <= 0xffffffffffffffffn,
+        ),
+    trees: new Set(["throw:MemberThresholdInvalid", "throw:MemberCountInvalid"]),
+    rows: 3,
+  },
 };
 
 describe("differential: baseline vs working tree", () => {
@@ -69,8 +85,9 @@ describe("differential: baseline vs working tree", () => {
       let skipped = 0;
       let t1 = 0;
       let t2 = 0;
+      let t3 = 0;
       const diffs: string[] = [];
-      const { T1, T2 } = TOMBSTONES;
+      const { T1, T2, T3 } = TOMBSTONES;
       const t1Accepted = T1.landed ? T1.tree : T1.beforeLanding.tree;
       for (const recipe of gen()) {
         n++;
@@ -83,6 +100,7 @@ describe("differential: baseline vs working tree", () => {
         if (a === b) continue;
         if (name === T1.category && b === t1Accepted) t1++;
         else if (T2.landed && T2.matches(recipe) && b === T2.tree) t2++;
+        else if (T3.landed && T3.matches(recipe) && T3.trees.has(b)) t3++;
         else diffs.push(`${recipeName(recipe)}: ${a.slice(0, 80)} !== ${b.slice(0, 80)}`);
       }
       expect(n).toBeGreaterThan(0);
@@ -94,6 +112,7 @@ describe("differential: baseline vs working tree", () => {
         expect(skipped).toBe(0);
       }
       if (T2.landed && (name === "specs" || name === "parse")) expect(t2).toBe(1);
+      if (T3.landed && name === "parse") expect(t3).toBe(T3.rows);
     });
   }
 });

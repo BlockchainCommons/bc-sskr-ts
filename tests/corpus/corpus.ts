@@ -66,7 +66,7 @@ export const RUST_2_3_2_3: GenSpec = {
 export const README: GenSpec = {
   spec: spec(2, g(2, 3), g(3, 5)),
   secret: { text: "my secret belongs to me." },
-  rng: SEEDS[0]!,
+  rng: SEEDS[0],
 };
 
 function* generate(): Generator<Recipe> {
@@ -97,13 +97,13 @@ function* combine(): Generator<Recipe> {
   const bases: GenSpec[] = [
     RUST_3_5,
     RUST_2_3_2_3,
-    { spec: spec(2, g(1, 1), g(3, 5), g(2, 3)), secret: cyc(16, 0x30), rng: SEEDS[0]! },
-    { spec: spec(1, g(2, 3), g(2, 3)), secret: cyc(32, 0x40), rng: SEEDS[1]! },
+    { spec: spec(2, g(1, 1), g(3, 5), g(2, 3)), secret: cyc(16, 0x30), rng: SEEDS[0] },
+    { spec: spec(1, g(2, 3), g(2, 3)), secret: cyc(32, 0x40), rng: SEEDS[1] },
   ];
   for (const from of bases) {
     const pos = positions(from.spec);
     for (const idx of subsets(pos.length, 6))
-      yield { k: "combine", from, pick: idx.map((i) => pos[i]!) };
+      yield { k: "combine", from, pick: idx.map((i) => pos[i]) };
     // a quorum-satisfying pick, corrupted in every header byte and one value byte
     const pick = pos.slice(0, Math.max(2, num(from.spec.gt) * 2));
     for (const byte of [0, 1, 2, 3, 4, 5, 12])
@@ -121,27 +121,27 @@ function* combine(): Generator<Recipe> {
     "00110002041aa7fe3199bc5092ef3816b074cabdf2",
   ].map(h);
   yield { k: "combine", shares: [] };
-  yield { k: "combine", shares: [S35[1]!, S35[2]!, S35[4]!] };
-  yield { k: "combine", shares: [S35[0]!, S35[1]!, S35[2]!, S35[3]!, S35[4]!] };
-  yield { k: "combine", shares: [S35[0]!, S35[1]!] }; // below quorum
-  yield { k: "combine", shares: [S35[0]!, S35[0]!, S35[1]!] }; // duplicate member
+  yield { k: "combine", shares: [S35[1], S35[2], S35[4]] };
+  yield { k: "combine", shares: [S35[0], S35[1], S35[2], S35[3], S35[4]] };
+  yield { k: "combine", shares: [S35[0], S35[1]] }; // below quorum
+  yield { k: "combine", shares: [S35[0], S35[0], S35[1]] }; // duplicate member
   yield {
     k: "combine",
-    shares: [S35[0]!, h("0012" + "000201d43099fe444807c46921a4f33a2a798b"), S35[2]!],
+    shares: [S35[0], h("0012" + "000201d43099fe444807c46921a4f33a2a798b"), S35[2]],
   }; // identifier mismatch
   yield {
     k: "combine",
-    shares: [S35[0]!, h("0011000211d43099fe444807c46921a4f33a2a798b"), S35[2]!],
+    shares: [S35[0], h("0011000211d43099fe444807c46921a4f33a2a798b"), S35[2]],
   }; // reserved bits
   yield { k: "combine", shares: [h("00110002")] }; // short
   yield { k: "combine", shares: [h("0011000200aabb")] }; // value too short for a secret
-  yield { k: "combine", shares: [S35[0]!, h("0011000201d43099fe444807c46921a4f33a2a79"), S35[2]!] }; // value length mismatch
+  yield { k: "combine", shares: [S35[0], h("0011000201d43099fe444807c46921a4f33a2a79"), S35[2]] }; // value length mismatch
   yield {
     k: "combine",
-    shares: [S35[0]!, h("0011001201d43099fe444807c46921a4f33a2a798b"), S35[2]!],
+    shares: [S35[0], h("0011001201d43099fe444807c46921a4f33a2a798b"), S35[2]],
   }; // member threshold mismatch
   yield { k: "combine", shares: [h("0011300200112233445566778899aabbccddeeff00")] }; // gt > gc
-  yield { k: "combine", shares: [S35[0]!, h("0011010201d43099fe444807c46921a4f33a2a798b")] }; // group threshold mismatch
+  yield { k: "combine", shares: [S35[0], h("0011010201d43099fe444807c46921a4f33a2a798b")] }; // group threshold mismatch
 }
 function* parse(): Generator<Recipe> {
   for (const s of [
@@ -170,6 +170,13 @@ function* parse(): Generator<Recipe> {
     "２-of-3",
     "99999999999999999999-of-3",
     "1-of-3",
+    // The reference parses any decimal up to u64::MAX as a usize and then
+    // applies GroupSpec::new's checks; only beyond u64::MAX is it a parse error.
+    "9007199254740991-of-3",
+    "9007199254740993-of-3",
+    "2-of-9007199254740993",
+    "18446744073709551615-of-3",
+    "18446744073709551616-of-3",
   ])
     yield { k: "parse", s };
 }

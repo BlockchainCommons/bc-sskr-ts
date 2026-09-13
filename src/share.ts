@@ -33,7 +33,7 @@ export interface SskrShare {
  * Serialize: identifier (2 bytes, big-endian), `(gt-1)<<4 | (gc-1)`,
  * `gi<<4 | (mt-1)`, `mi` (reserved high nibble zero), then the value.
  * @throws {SskrError} `InvalidParameter` for a header field outside its
- * width (the reference masks them silently — divergence D2), then
+ * width on this TypeScript-only public serialization API, then
  * `GroupThresholdInvalid` when `groupThreshold > groupCount`.
  */
 export function shareBytes(share: SskrShare): Uint8Array<ArrayBuffer> {

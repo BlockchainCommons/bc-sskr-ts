@@ -4,10 +4,11 @@
 //!
 //! A recipe with an input the reference cannot receive — a spec field that
 //! is not a `u64` (NaN, a fraction, a negative) or a hand-built share
-//! header (`SSKRShare` is crate-private) — is counted as `js-only` and never
+//! header (`SSKRShare` is crate-private, so `shareBytes` on such an object
+//! is a TypeScript-only surface) — is counted as `js-only` and never
 //! compared. Allowlist **D1** (consulted only when outcomes differ): a
 //! `GroupSpec` with member threshold 0, which the reference accepts and
-//! TypeScript rejects (`MemberThresholdInvalid`) once Phase 3 W1 lands.
+//! TypeScript rejects (`MemberThresholdInvalid`).
 use bc_rand::{RandomNumberGenerator, SeededRandomNumberGenerator};
 use serde::Deserialize;
 use sskr::{sskr_combine, sskr_generate_using, GroupSpec, Secret, Spec};

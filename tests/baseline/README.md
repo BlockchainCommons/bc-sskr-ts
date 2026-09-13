@@ -17,3 +17,11 @@ an accidental rebuild cannot turn the differential into a self-comparison.
 
 Baseline commit: 4c1c2f7790ba1ca20f8ca07e694258d0125934d6
 Baseline sha256: 103ef8d089b8a8aa898abf44a1e50a2429dd8d9f24587e327756d1c953dbca95
+
+## Rebuilding the historical baseline
+
+The TypeScript maintenance script runs with `bun run baseline:build`. It requires
+source from the recorded baseline revision and compatible sibling baselines.
+Current source imports APIs absent from those historical dependencies, so a
+rebuild from the current tree is not supported. Keep the frozen artifacts and
+hashes intact when checking current behavior with `bun run test:differential`.
