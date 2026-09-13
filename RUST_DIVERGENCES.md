@@ -23,7 +23,8 @@ Every share byte, the draw order, the header layout, the combine rules and
 the precedence of the reference's fifteen codes are unchanged. Harness on
 the current tree:
 **1 012 vectors — 986 match, 2 expected divergence (D1), 24 js-only, 0
-mismatch** (2026-09-12).
+mismatch** (2026-09-12). D2 below is not vectored: the corpus stays inside
+the safe-integer range.
 
 ### 1.1 A zero member threshold is rejected at construction (D1)
 
@@ -44,6 +45,32 @@ reference — accepting the spec and failing at generation with the vaguer
 `Shamir` code — was considered and rejected. **Upstream fix:**
 `GroupSpec::new` checks `member_threshold == 0` as `Spec::new` does.
 
+### 1.2 An integer above `2⁵³ − 1` in `GroupSpec.from` / `Spec.from` (D2)
+
+The reference's `GroupSpec::new` and `Spec::new` take `usize`, which on a
+64-bit target reaches `2⁶⁴ − 1`; a value above the share limits fails
+with the reference's own code. TypeScript's `number` is exact only up to
+`Number.MAX_SAFE_INTEGER` (`2⁵³ − 1`), and `GroupSpec.from` / `Spec.from`
+check `memberThreshold`, `memberCount` and `groupThreshold` against that
+bound first, so an integer such as `2⁵³` — representable, but not safe —
+is `InvalidParameter` here and `MemberThresholdInvalid` /
+`MemberCountInvalid` / `GroupThresholdInvalid` there (executed):
+
+| call | Rust (64-bit) | TypeScript |
+|---|---|---|
+| `GroupSpec::new(2⁵³, 3)` | `MemberThresholdInvalid` | `InvalidParameter` |
+| `GroupSpec::new(1, 2⁵³)` | `MemberCountInvalid` | `InvalidParameter` |
+| `GroupSpec::new(2⁵³ − 1, 3)` | `MemberThresholdInvalid` | `MemberThresholdInvalid` |
+| `Spec::new(2⁵³, [2-of-3])` | `GroupThresholdInvalid` | `InvalidParameter` |
+
+A `number` above `2⁵³` may already have been rounded before the call, so
+accepting it would accept a count the caller never wrote; exact coverage of
+the reference's domain needs a `bigint` argument path, which is not
+introduced. `GroupSpec.parse` is unaffected: it parses each field as a
+`BigInt` up to `u64::MAX` and applies the reference's checks on it
+(`"9007199254740992-of-3"` → `MemberThresholdInvalid` on both sides, §3).
+No vector carries D2.
+
 ## 2. JS-only input domain
 
 Inputs the reference's `usize` and the wire's `u16`/nibble fields cannot
@@ -52,10 +79,11 @@ receive, and surfaces the reference does not have. Argument faults are
 message `"<parameter> must be an integer in [<min>, <max>], got <value>"`;
 the Rust harness counts their vectors as `js-only`.
 
-- **`memberThreshold`, `memberCount`, `groupThreshold`** that are not safe
+- **`memberThreshold`, `memberCount`, `groupThreshold`** that are not
   non-negative integers (`NaN`, `1.5`, `-1`, `Infinity`, …), checked before
-  the reference's chain so every integer the reference could receive keeps
-  the reference's code in the reference's order. Before this validation
+  the reference's chain so every integer the reference could receive — up
+  to the safe-integer bound; above it see D2 — keeps the reference's code
+  in the reference's order. Before this validation
   `GroupSpec.from` yielded `"1.5-of-3"` and `"1-of-NaN"`, and generation
   failed one level down as `Shamir`.
 - **`shareBytes` on a hand-built share.** The reference's `serialize_share`
