@@ -1,10 +1,6 @@
 # Migrating from `@bcts/sskr` to `@blockchaincommons/sskr`
 
-**Every share byte is unchanged.** The share format, the identifier-first
-RNG draw order, and every combine rule are identical to `@bcts/sskr` and to
-the Rust reference `sskr 0.12.0`; 983 golden vectors, a differential corpus
-against the frozen pre-redesign bundle, and a Rust cross-validation harness
-enforce that. What changed is the shape of the API.
+`@blockchaincommons/sskr` is the redesigned successor to `@bcts/sskr`.
 
 ## TL;DR checklist
 
@@ -89,10 +85,11 @@ try {
 | `error.type === X` | `error.code === "X"` or `error.is("X")`; `error.details` is a union discriminated by `code` (`{ parameter, value }` for `InvalidParameter`, `{ cause }` for `Shamir`) |
 | spec fields accepted as any `number` (`"1.5-of-3"`, `"1-of-NaN"`) | `"InvalidParameter"` from `GroupSpec.from` / `Spec.from`, before the reference's checks |
 | `GroupSpec.from({ memberThreshold: 0, … })` accepted, generation failed as `Shamir` | `"MemberThresholdInvalid"` at construction (divergence D1) |
-| `shareBytes` masked out-of-width header fields | `"InvalidParameter"` (divergence D2); `"GroupThresholdInvalid"` for a threshold above the count |
+| `shareBytes` masked out-of-width header fields | `"InvalidParameter"` (TypeScript-only header serialization); `"GroupThresholdInvalid"` for a threshold above the count |
 
-Messages and check order are unchanged for every value the Rust reference
-could receive. `Secret.bytes` now returns a copy; `Spec`, `GroupSpec`,
+Plain Rust error messages are preserved. Constructor validation differs for
+zero member thresholds (D1) and numbers above `Number.MAX_SAFE_INTEGER`; see
+[RUST_DIVERGENCES.md](./RUST_DIVERGENCES.md). `Secret.bytes` now returns a copy; `Spec`, `GroupSpec`,
 `Spec.groups` and the shares `generateShares` returns are frozen.
 
 ## 5. Node and TypeScript floors

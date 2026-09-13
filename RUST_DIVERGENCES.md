@@ -22,52 +22,84 @@ differs from the Rust reference. It has three kinds of entry:
 Every share byte, the draw order, the header layout, the combine rules and
 the precedence of the reference's fifteen codes are unchanged. Harness on
 the current tree:
-**1 007 vectors — 981 match, 2 expected divergence (D1), 24 js-only, 0
-mismatch** (2026-09-11).
+**1 012 vectors — 986 match, 2 expected divergence (D1), 24 js-only, 0
+mismatch** (2026-09-12). D2 below is not vectored: the corpus stays inside
+the safe-integer range.
 
 ### 1.1 A zero member threshold is rejected at construction (D1)
 
 `GroupSpec::new(0, 3)` succeeds in the reference (it checks only
-`member_threshold > member_count`) and generation then fails with
-`ShamirError(InvalidThreshold)`. BCR-2020-011 requires `1 ≤ threshold ≤
+`member_count == 0`, `member_count > 16` and `member_threshold >
+member_count`) and so does `GroupSpec::parse("0-of-3")`; generating with
+such a spec then fails one level down with `ShamirError(InvalidThreshold)`
+(executed). A share can never carry a zero member threshold — the wire
+nibble is `threshold − 1`, so `deserialize_share` always yields ≥ 1 — so
+the invalid spec is a dead end on both sides; the difference is *where* it
+is refused and *with which code*. BCR-2020-011 requires `1 ≤ threshold ≤
 count`, and `Spec::new` already rejects a zero *group* threshold, so the
-asymmetry is an oversight. TypeScript's `GroupSpec.from` (and therefore
-`GroupSpec.parse`) throws `MemberThresholdInvalid` after the reference's
-own checks. Two vectors carry it (`spec 1/[0-of-1]`, `parse "0-of-3"`);
-the harness allowlists them as D1.
+asymmetry in the reference is an oversight. TypeScript's `GroupSpec.from`
+(and therefore `GroupSpec.parse`) throws `MemberThresholdInvalid` after
+the reference's own checks. Two vectors carry it (`spec 1/[0-of-1]`,
+`parse "0-of-3"`); the harness allowlists them as D1. Matching the
+reference — accepting the spec and failing at generation with the vaguer
+`Shamir` code — was considered and rejected. **Upstream fix:**
+`GroupSpec::new` checks `member_threshold == 0` as `Spec::new` does.
 
-### 1.2 `shareBytes` rejects header fields the reference masks (D2)
+### 1.2 An integer above `2⁵³ − 1` in `GroupSpec.from` / `Spec.from` (D2)
 
-The reference's `serialize_share` masks every nibble field with `& 0xf`
-and the identifier with `& 0xff`, so `groupIndex: 17` serialises as 1 and
-a share that lies about its position is emitted without an error.
-TypeScript's `shareBytes` throws `InvalidParameter` for any header field
-outside its width (`identifier` in `[0, 65535]`, `groupIndex` and
-`memberIndex` in `[0, 15]`, the thresholds and counts in `[1, 16]`) and
-`GroupThresholdInvalid` when `groupThreshold > groupCount` (the check
-`parseShare` already makes). `generateShares` never produces such values;
-the hole was reachable only through hand-built shares. The reference's
-`SSKRShare` is crate-private, so no vector can put the two sides side by
-side: D2 is verified by reading `encoding.rs`, and its fourteen
-`shareBytes` vectors are `js-only`.
+The reference's `GroupSpec::new` and `Spec::new` take `usize`, which on a
+64-bit target reaches `2⁶⁴ − 1`; a value above the share limits fails
+with the reference's own code. TypeScript's `number` is exact only up to
+`Number.MAX_SAFE_INTEGER` (`2⁵³ − 1`), and `GroupSpec.from` / `Spec.from`
+check `memberThreshold`, `memberCount` and `groupThreshold` against that
+bound first, so an integer such as `2⁵³` — representable, but not safe —
+is `InvalidParameter` here and `MemberThresholdInvalid` /
+`MemberCountInvalid` / `GroupThresholdInvalid` there (executed):
+
+| call | Rust (64-bit) | TypeScript |
+|---|---|---|
+| `GroupSpec::new(2⁵³, 3)` | `MemberThresholdInvalid` | `InvalidParameter` |
+| `GroupSpec::new(1, 2⁵³)` | `MemberCountInvalid` | `InvalidParameter` |
+| `GroupSpec::new(2⁵³ − 1, 3)` | `MemberThresholdInvalid` | `MemberThresholdInvalid` |
+| `Spec::new(2⁵³, [2-of-3])` | `GroupThresholdInvalid` | `InvalidParameter` |
+
+A `number` above `2⁵³` may already have been rounded before the call, so
+accepting it would accept a count the caller never wrote; exact coverage of
+the reference's domain needs a `bigint` argument path, which is not
+introduced. `GroupSpec.parse` is unaffected: it parses each field as a
+`BigInt` up to `u64::MAX` and applies the reference's checks on it
+(`"9007199254740992-of-3"` → `MemberThresholdInvalid` on both sides, §3).
+No vector carries D2.
 
 ## 2. JS-only input domain
 
 Inputs the reference's `usize` and the wire's `u16`/nibble fields cannot
-receive. Every one is `SskrError` `InvalidParameter` with `details: {
-parameter, value }` and the message `"<parameter> must be an integer in
-[<min>, <max>], got <value>"`; the Rust harness counts their vectors as
-`js-only`.
+receive, and surfaces the reference does not have. Argument faults are
+`SskrError` `InvalidParameter` with `details: { parameter, value }` and the
+message `"<parameter> must be an integer in [<min>, <max>], got <value>"`;
+the Rust harness counts their vectors as `js-only`.
 
-- **`memberThreshold`, `memberCount`, `groupThreshold`** that are not safe
+- **`memberThreshold`, `memberCount`, `groupThreshold`** that are not
   non-negative integers (`NaN`, `1.5`, `-1`, `Infinity`, …), checked before
-  the reference's chain so every integer the reference could receive keeps
-  the reference's code in the reference's order. Before this validation
+  the reference's chain so every integer the reference could receive — up
+  to the safe-integer bound; above it see D2 — keeps the reference's code
+  in the reference's order. Before this validation
   `GroupSpec.from` yielded `"1.5-of-3"` and `"1-of-NaN"`, and generation
   failed one level down as `Shamir`.
-- **Header fields** outside their width in `shareBytes` (D2 above for the
-  values the reference masks; `identifier` beyond `u16`, fractions and
-  `NaN` have no Rust form at all).
+- **`shareBytes` on a hand-built share.** The reference's `serialize_share`
+  masks every nibble field with `& 0xf` and the identifier to `u16`, but it
+  is private and its only caller is `generate_shares`, whose fields come
+  from a validated `Spec` and from `enumerate()`; `SSKRShare` lives in a
+  private module. No caller of the reference can reach the masking, so
+  there is no reference behaviour for a header that lies about itself.
+  TypeScript's `SskrShare` is a public object and `shareBytes` is exported
+  (components' `SskrShare` wrapper uses it), so the port validates:
+  `InvalidParameter` for a field outside its width (`identifier` in
+  `[0, 65535]`, `groupIndex` and `memberIndex` in `[0, 15]`, the thresholds
+  and counts in `[1, 16]`) and `GroupThresholdInvalid` when `groupThreshold
+  > groupCount` — the check `deserialize_share` makes on the wire.
+  `generateShares` never produces such values; `shareBytes(parseShare(b))`
+  round-trips. Fourteen vectors, all `js-only`.
 - **`combineShares` accepting `SskrShare` objects and bytes in one array**
   — a convenience; the reference takes bytes.
 - **`Secret.fromText`** — the explicit UTF-8 path.
@@ -78,9 +110,14 @@ parameter, value }` and the message `"<parameter> must be an integer in
   `generateShares(spec, secret, { rng })`; the Rust `Vec<Vec<Vec<u8>>>` ↔
   `SskrShare[][]` through `shareBytes`; `sskr_combine(&[bytes])` ↔
   `combineShares`.
+- **Constants.** `MAX_GROUP_COUNT` (16) ↔ `MAX_GROUPS_COUNT`;
+  `SHARE_HEADER_LENGTH` (5) ↔ `METADATA_SIZE_BYTES`; `MIN_SHARE_LENGTH`
+  (21) ↔ `MIN_SERIALIZE_SIZE_BYTES`; the secret bounds and
+  `MAX_SHARE_COUNT` re-export shamir's.
 - **Errors.** `Error::X` ↔ `SskrError` with `code: "X"` and `details: {
   code }`; `Error::ShamirError(e)` ↔ `"Shamir"` with `details.cause` and
-  `cause: e`; `is(code)` for branching.
+  `cause: e`; `is(code)` for branching. The reference's `Display` strings
+  are the messages.
 - **Immutability.** Rust's owned values ↔ `Secret.bytes` returning a copy,
   frozen `Spec`/`GroupSpec` instances and `Spec.groups`, frozen share
   objects from `generateShares`.
@@ -91,9 +128,29 @@ parameter, value }` and the message `"<parameter> must be an integer in
   match the reference.
 - **RNG.** `&mut impl RandomNumberGenerator` ↔ `{ rng }`; the harness drives
   `bc-rand`'s `SeededRandomNumberGenerator` from the same xoshiro state and
-  reproduces the crate tests' counter generator as "fake".
-- **`GroupSpec::parse`** ↔ `GroupSpec.parse`: the strict-digits rule mirrors
-  `usize::from_str` (optional `+`, digits only).
+  reproduces the crate tests' counter generator as "fake". The identifier
+  is two bytes drawn before the group split, then one Shamir split per
+  level, on both sides.
+- **`GroupSpec::parse`** ↔ `GroupSpec.parse`: the grammar mirrors
+  `usize::from_str` (optional `+`, ASCII digits only; whitespace,
+  fullwidth digits, `2.0`, `-2` rejected); any decimal up to `u64::MAX`
+  parses and then meets `GroupSpec::new`'s checks with their own codes
+  (`"9007199254740993-of-3"` → `MemberThresholdInvalid`,
+  `"2-of-9007199254740993"` → `MemberCountInvalid`, on both sides); only a
+  value beyond `u64::MAX` is `GroupSpecInvalid`. `Display` ↔ `toString`;
+  `Default` (1-of-1) ↔ `DEFAULT`.
+- **Executed equivalences beyond the vectors** (fixture seed, 16-byte
+  secret): `GroupSpec::new(0, 0)` and `parse("0-of-0")` →
+  `MemberCountInvalid` (the count is checked first); `parse("17-of-17")` →
+  `MemberCountInvalid`; `Spec::new(0, [])` and `Spec::new(1, [])` →
+  `GroupThresholdInvalid`; combining a header-only 5-byte share →
+  `SecretTooShort`, a 4-byte share → `ShareLengthInvalid`, `[]` →
+  `SharesEmpty`; a header with both `gt > gc` and reserved bits set →
+  `GroupThresholdInvalid` (checked first); a share beyond the threshold is
+  ignored (2 of 3 and 3 of 3 of a `1/[2-of-3]` split both recover, 1 of 3
+  → `NotEnoughGroups`); an identifier off by one bit → `ShareSetInvalid`,
+  the member-threshold nibble off → `MemberThresholdInvalid`, a duplicate
+  member index → `DuplicateMemberIndex`.
 
 ## Maintenance
 

@@ -128,8 +128,8 @@ export function materialize(api: VectorApi, r: Recipe): Outcome {
         if ("shares" in r) shares = r.shares.map(toBytes);
         else {
           const all = api.generate(r.from.spec, toBytes(r.from.secret), api.makeRng(r.from.rng));
-          shares = r.pick.map(([g, m]) => new Uint8Array(all[g]![m]!));
-          if (r.corrupt) shares[r.corrupt.share]![r.corrupt.byte] ^= r.corrupt.mask;
+          shares = r.pick.map(([g, m]) => new Uint8Array(all[g][m]));
+          if (r.corrupt) shares[r.corrupt.share][r.corrupt.byte] ^= r.corrupt.mask;
         }
         return hex(api.combine(shares));
       }

@@ -34,7 +34,7 @@ describe("golden: generation", () => {
     it(name, () => {
       expect(
         [16, 32].map((len) =>
-          run({ k: "generate", spec, secret: { cycle: len, start: 1 }, rng: SEEDS[0]! }),
+          run({ k: "generate", spec, secret: { cycle: len, start: 1 }, rng: SEEDS[0] }),
         ),
       ).toMatchSnapshot();
     });
@@ -45,7 +45,7 @@ describe("golden: combine", () => {
     const from = {
       spec: { gt: 2, groups: [g(2, 3), g(2, 3)] },
       secret: { cycle: 16, start: 1 },
-      rng: SEEDS[0]!,
+      rng: SEEDS[0],
     };
     const picks: [number, number][][] = [
       [
@@ -84,13 +84,13 @@ describe("golden: error codes", () => {
   for (const cat of ["parse", "specs", "secrets"]) {
     it(cat, () => {
       const out: string[] = [];
-      for (const r of categories[cat]!()) out.push(`${JSON.stringify(r)} → ${run(r)}`);
+      for (const r of categories[cat]()) out.push(`${JSON.stringify(r)} → ${run(r)}`);
       expect(out).toMatchSnapshot();
     });
   }
   it("share sets", () => {
     const out: string[] = [];
-    for (const r of categories["combine"]!())
+    for (const r of categories["combine"]())
       if (r.k === "combine" && "shares" in r) out.push(`${r.shares.length} shares → ${run(r)}`);
     expect(out).toMatchSnapshot();
   });
@@ -159,7 +159,7 @@ describe("golden: freeze additions", () => {
       groupThreshold: 1,
       groups: [src.GroupSpec.from({ memberThreshold: 2, memberCount: 3 })],
     });
-    const share = src.generateShares(spec, secret(), { rng: rng() })[0]![0]!;
+    const share = src.generateShares(spec, secret(), { rng: rng() })[0][0];
     const header = (patch: Partial<src.SskrShare>) =>
       outcome(() => hex(src.shareBytes({ ...share, ...patch }).subarray(0, 5)));
     expect([
@@ -189,7 +189,7 @@ describe("golden: freeze additions", () => {
       (spec.groups as src.GroupSpec[]).push(src.GroupSpec.DEFAULT);
       return `groupCount after push=${spec.groupCount}`;
     });
-    const share = src.generateShares(spec, secret(), { rng: rng() })[0]![0]!;
+    const share = src.generateShares(spec, secret(), { rng: rng() })[0][0];
     expect([
       `secret.bytes aliases the secret: equal before=${equalBefore}, after mutating bytes[0]=${a.equals(b)}`,
       `spec.groups push: ${pushed}`,

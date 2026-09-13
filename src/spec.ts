@@ -17,11 +17,20 @@ export interface GroupSpecOptions {
 }
 
 // Rust's `usize::from_str`: optional leading `+`, digits only.
+/** `usize::from_str`'s grammar: an optional `+`, then ASCII digits. */
 const STRICT_UINT = /^\+?\d+$/;
-function parseUint(s: string): number | undefined {
-  if (!STRICT_UINT.test(s)) return undefined;
-  const n = Number(s);
-  return Number.isSafeInteger(n) ? n : undefined;
+/** The largest value the reference's `usize` holds; above it `from_str` fails. */
+const USIZE_MAX = 0xffff_ffff_ffff_ffffn;
+/**
+ * Parses one `usize` field as the reference does: any decimal up to
+ * `u64::MAX` is a number (the range checks come after, with their own
+ * codes); beyond that, or not a digit run, is `GroupSpecInvalid`.
+ */
+function parseUsize(s: string): bigint {
+  if (!STRICT_UINT.test(s)) throw SskrError.of("GroupSpecInvalid");
+  const n = BigInt(s);
+  if (n > USIZE_MAX) throw SskrError.of("GroupSpecInvalid");
+  return n;
 }
 
 /** `memberThreshold`-of-`memberCount` within one group. Instances are frozen. */
@@ -63,12 +72,21 @@ export class GroupSpec {
    */
   static parse(s: string): GroupSpec {
     const parts = s.split("-");
-    if (parts.length !== 3 || parts[1] !== "of") throw SskrError.of("GroupSpecInvalid");
-    const memberThreshold = parseUint(parts[0]);
-    const memberCount = parseUint(parts[2]);
-    if (memberThreshold === undefined || memberCount === undefined)
-      throw SskrError.of("GroupSpecInvalid");
-    return GroupSpec.from({ memberThreshold, memberCount });
+    if (parts.length !== 3) throw SskrError.of("GroupSpecInvalid");
+    // The reference parses the threshold before it checks the "of" literal.
+    const memberThreshold = parseUsize(parts[0]);
+    if (parts[1] !== "of") throw SskrError.of("GroupSpecInvalid");
+    const memberCount = parseUsize(parts[2]);
+    // `GroupSpec::new`'s checks, on the full `usize` range and in its order,
+    // so a value between 2^53 and 2^64 gets the reference's code rather than
+    // a generic parse failure; whatever passes is at most 16 and exact.
+    if (memberCount === 0n || memberCount > BigInt(MAX_SHARE_COUNT))
+      throw SskrError.of("MemberCountInvalid");
+    if (memberThreshold > memberCount) throw SskrError.of("MemberThresholdInvalid");
+    return GroupSpec.from({
+      memberThreshold: Number(memberThreshold),
+      memberCount: Number(memberCount),
+    });
   }
 
   /** `1-of-1`. */

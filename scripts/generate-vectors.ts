@@ -1,5 +1,5 @@
 /**
- * Golden vector generator. `bun scripts/generate-vectors.mjs`.
+ * Golden vector generator. `bun scripts/generate-vectors.ts`.
  * Materialises the golden recipe subset with the WORKING TREE and writes
  * tests/vectors/vectors.json. Regenerating is a deliberate, reviewed act.
  */
@@ -14,6 +14,10 @@ import { goldenRecipes } from "../tests/corpus/corpus.ts";
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const api = redesignedAdapterFor(src, rand);
 const vectors = [];
-for (const recipe of goldenRecipes()) vectors.push({ name: recipeName(recipe), recipe, expect: materialize(api, recipe) });
-writeFileSync(join(root, "tests/vectors/vectors.json"), JSON.stringify({ count: vectors.length, vectors }, null, 1) + "\n");
+for (const recipe of goldenRecipes())
+  vectors.push({ name: recipeName(recipe), recipe, expect: materialize(api, recipe) });
+writeFileSync(
+  join(root, "tests/vectors/vectors.json"),
+  JSON.stringify({ count: vectors.length, vectors }, null, 1) + "\n",
+);
 console.log(`wrote ${vectors.length} vectors`);

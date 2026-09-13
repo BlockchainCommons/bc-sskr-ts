@@ -74,7 +74,7 @@ describe("generateShares / combineShares", () => {
     const secret = Secret.from(hexToBytes("0ff784df000c4380a5ed683f7e6e3dcf"));
     const groups = generateShares(spec(1, g(3, 5)), secret, { rng: fakeRng() });
     expect(groups.length).toBe(1);
-    const shares = groups[0]!;
+    const shares = groups[0];
     expect(shares.map((s) => bytesToHex(shareBytes(s)))).toEqual([
       "001100020000112233445566778899aabbccddeeff",
       "0011000201d43099fe444807c46921a4f33a2a798b",
@@ -90,8 +90,8 @@ describe("generateShares / combineShares", () => {
       memberIndex: 0,
       memberThreshold: 3,
     });
-    expect(combineShares([shares[1]!, shares[2]!, shares[4]!]).equals(secret)).toBe(true);
-    expect(combineShares([shares[1]!, shares[2]!, shares[4]!].map(shareBytes)).equals(secret)).toBe(
+    expect(combineShares([shares[1], shares[2], shares[4]]).equals(secret)).toBe(true);
+    expect(combineShares([shares[1], shares[2], shares[4]].map(shareBytes)).equals(secret)).toBe(
       true,
     );
   });
@@ -99,12 +99,12 @@ describe("generateShares / combineShares", () => {
     const secret = Secret.from(
       hexToBytes("204188bfa6b440a1bdfd6753ff55a8241e07af5c5be943db917e3efabc184b1a"),
     );
-    const shares = generateShares(spec(1, g(2, 7)), secret, { rng: fakeRng() })[0]!;
+    const shares = generateShares(spec(1, g(2, 7)), secret, { rng: fakeRng() })[0];
     expect(shares.length).toBe(7);
-    expect(bytesToHex(shareBytes(shares[0]!))).toBe(
+    expect(bytesToHex(shareBytes(shares[0]))).toBe(
       "00110001002dcd14c2252dc8489af3985030e74d5a48e8eff1478ab86e65b43869bf39d556",
     );
-    expect(combineShares([shares[3]!, shares[4]!]).equals(secret)).toBe(true);
+    expect(combineShares([shares[3], shares[4]]).equals(secret)).toBe(true);
   });
   it("[2-of-3, 2-of-3] gt=2 (Rust test_split_2_3_2_3)", () => {
     const secret = Secret.from(
@@ -112,18 +112,16 @@ describe("generateShares / combineShares", () => {
     );
     const groups = generateShares(spec(2, g(2, 3), g(2, 3)), secret, { rng: fakeRng() });
     expect(groups.map((grp) => grp.length)).toEqual([3, 3]);
-    expect(bytesToHex(shareBytes(groups[0]![0]!))).toBe(
+    expect(bytesToHex(shareBytes(groups[0][0]))).toBe(
       "0011110100ce5cce1ad9fe9cefa4707449576e8eadfc7d107c5a9e812b21f80aeca635cacd",
     );
-    expect(bytesToHex(shareBytes(groups[1]![0]!))).toBe(
+    expect(bytesToHex(shareBytes(groups[1][0]))).toBe(
       "00111111004d741d38fcc276947ad68a6eef10694c784811720d350b061029440281a5a550",
     );
     expect(
-      combineShares([groups[0]![0]!, groups[0]![1]!, groups[1]![0]!, groups[1]![2]!]).equals(
-        secret,
-      ),
+      combineShares([groups[0][0], groups[0][1], groups[1][0], groups[1][2]]).equals(secret),
     ).toBe(true);
-    expect(code(() => combineShares([groups[0]![0]!, groups[0]![1]!, groups[1]![0]!]))).toBe(
+    expect(code(() => combineShares([groups[0][0], groups[0][1], groups[1][0]]))).toBe(
       "NotEnoughGroups",
     );
   });
@@ -131,12 +129,12 @@ describe("generateShares / combineShares", () => {
     const secret = Secret.fromText("my secret belongs to me.");
     const groups = generateShares(spec(2, g(2, 3), g(3, 5)), secret);
     expect(groups.map((grp) => grp.length)).toEqual([2, 3, 5].slice(1));
-    const picked = [groups[0]![0]!, groups[0]![2]!, groups[1]![0]!, groups[1]![1]!, groups[1]![4]!];
+    const picked = [groups[0][0], groups[0][2], groups[1][0], groups[1][1], groups[1][4]];
     expect(combineShares(picked).equals(secret)).toBe(true);
     expect(new TextDecoder().decode(combineShares(picked).bytes)).toBe("my secret belongs to me.");
     // two runs differ in their identifier
-    expect(generateShares(spec(1, g(1, 1)), secret)[0]![0]!.identifier).not.toBe(
-      groups[0]![0]!.identifier,
+    expect(generateShares(spec(1, g(1, 1)), secret)[0][0].identifier).not.toBe(
+      groups[0][0].identifier,
     );
   });
   it("1-of-N groups and extra shares above the group threshold", () => {
@@ -145,7 +143,7 @@ describe("generateShares / combineShares", () => {
       expect(combineShares(generateShares(s, secret).flat()).equals(secret)).toBe(true);
     }
     const flat = generateShares(spec(1, g(2, 3), g(2, 3)), secret).flat();
-    expect(combineShares([flat[0]!, flat[1]!, flat[3]!]).equals(secret)).toBe(true);
+    expect(combineShares([flat[0], flat[1], flat[3]]).equals(secret)).toBe(true);
   });
 });
 
@@ -210,11 +208,11 @@ describe("errors", () => {
     ).toBe("GroupCountInvalid");
     expect(code(() => g(5, 3))).toBe("MemberThresholdInvalid");
     const secret = Secret.from(new Uint8Array(16).fill(1));
-    const [a, b] = generateShares(spec(1, g(2, 3)), secret, { rng: fakeRng() })[0]!;
-    expect(code(() => combineShares([a!, a!]))).toBe("DuplicateMemberIndex");
-    const other = generateShares(spec(1, g(2, 3)), secret, { rng: SeededRng.forTesting() })[0]![0]!;
-    expect(code(() => combineShares([a!, other]))).toBe("ShareSetInvalid");
-    expect(code(() => combineShares([a!, { ...b!, memberThreshold: 3 }]))).toBe(
+    const [a, b] = generateShares(spec(1, g(2, 3)), secret, { rng: fakeRng() })[0];
+    expect(code(() => combineShares([a, a]))).toBe("DuplicateMemberIndex");
+    const other = generateShares(spec(1, g(2, 3)), secret, { rng: SeededRng.forTesting() })[0][0];
+    expect(code(() => combineShares([a, other]))).toBe("ShareSetInvalid");
+    expect(code(() => combineShares([a, { ...b, memberThreshold: 3 }]))).toBe(
       "MemberThresholdInvalid",
     );
   });
@@ -265,7 +263,7 @@ describe("errors", () => {
   });
   it("shareBytes rejects header fields outside their width (B3, D2)", () => {
     const secret = Secret.from(new Uint8Array(16).fill(1));
-    const share = generateShares(spec(1, g(2, 3)), secret, { rng: fakeRng() })[0]![0]!;
+    const share = generateShares(spec(1, g(2, 3)), secret, { rng: fakeRng() })[0][0];
     const withPatch = (patch: Partial<SskrShare>) => code(() => shareBytes({ ...share, ...patch }));
     expect(withPatch({ identifier: 0x1ffff })).toBe("InvalidParameter");
     expect(withPatch({ identifier: -1 })).toBe("InvalidParameter");
@@ -293,7 +291,7 @@ describe("errors", () => {
     expect(Object.isFrozen(GroupSpec.DEFAULT)).toBe(true);
     expect(() => (s.groups as GroupSpec[]).push(GroupSpec.DEFAULT)).toThrow(TypeError);
     expect(s.groupCount).toBe(2);
-    const share = generateShares(s, b, { rng: fakeRng() })[0]![0]!;
+    const share = generateShares(s, b, { rng: fakeRng() })[0][0];
     expect(Object.isFrozen(share)).toBe(true);
   });
 });
@@ -374,10 +372,10 @@ describe("fuzz (Rust test_fuzz)", () => {
     shuffle(groupIndexes, rng);
     const picked: SskrShare[] = [];
     for (const gi of groupIndexes.slice(0, s.groupThreshold)) {
-      const grp = s.groups[gi]!;
+      const grp = s.groups[gi];
       const members = Array.from({ length: grp.memberCount }, (_, i) => i);
       shuffle(members, rng);
-      for (const mi of members.slice(0, grp.memberThreshold)) picked.push(shares[gi]![mi]!);
+      for (const mi of members.slice(0, grp.memberThreshold)) picked.push(shares[gi][mi]);
     }
     shuffle(picked, rng);
     expect(combineShares(picked).equals(secret)).toBe(true);
