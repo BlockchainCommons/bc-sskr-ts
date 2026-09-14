@@ -19,17 +19,19 @@ export function generateShares(spec: Spec, secret: Secret, options?: GenerateOpt
 // @public
 export class GroupSpec {
     static readonly DEFAULT: GroupSpec;
+    equals(other: unknown): boolean;
     static from(options: GroupSpecOptions): GroupSpec;
+    static isGroupSpec(value: unknown): value is GroupSpec;
     readonly memberCount: number;
     readonly memberThreshold: number;
-    static parse(s: string): GroupSpec;
+    static parse(text: string): GroupSpec;
     toString(): string;
 }
 
 // @public
 export interface GroupSpecOptions {
-    readonly memberCount: number;
-    readonly memberThreshold: number;
+    readonly memberCount: number | bigint;
+    readonly memberThreshold: number | bigint;
 }
 
 // @public
@@ -58,9 +60,10 @@ export class Secret {
     get byteLength(): number;
     get bytes(): Uint8Array<ArrayBuffer>;
     clone(): Secret;
-    equals(other: Secret): boolean;
+    equals(other: unknown): boolean;
     static from(bytes: Uint8Array): Secret;
     static fromText(text: string): Secret;
+    static isSecret(value: unknown): value is Secret;
 }
 
 // @public
@@ -71,27 +74,26 @@ export function shareBytes(share: SskrShare): Uint8Array<ArrayBuffer>;
 
 // @public
 export class Spec {
+    equals(other: unknown): boolean;
     static from(options: SpecOptions): Spec;
     get groupCount(): number;
     readonly groups: readonly GroupSpec[];
     readonly groupThreshold: number;
+    static isSpec(value: unknown): value is Spec;
     get shareCount(): number;
 }
 
 // @public
 export interface SpecOptions {
     readonly groups: readonly GroupSpec[];
-    readonly groupThreshold: number;
+    readonly groupThreshold: number | bigint;
 }
 
 // @public
 export class SskrError extends Error {
     readonly code: SskrErrorCode;
     readonly details: SskrErrorDetails;
-    static invalidParameter(parameter: string, value: number, bounds: {
-        readonly min: number;
-        readonly max: number;
-    }): SskrError;
+    static invalidParameter(parameter: SskrParameter, value: unknown, expected: string): SskrError;
     is(code: SskrErrorCode): boolean;
     static isSskrError(value: unknown): value is SskrError;
     override readonly name = "SskrError";
@@ -110,9 +112,12 @@ export type SskrErrorDetails = {
     readonly cause: ShamirError;
 } | {
     readonly code: "InvalidParameter";
-    readonly parameter: string;
-    readonly value: number;
+    readonly parameter: SskrParameter;
+    readonly value: unknown;
 };
+
+// @public
+export type SskrParameter = "memberThreshold" | "memberCount" | "groupThreshold" | "identifier" | "groupIndex" | "groupCount" | "memberIndex" | "bytes" | "text" | "options" | "groups" | "spec" | "secret" | "shares" | "share" | "value";
 
 // @public
 export type SskrPlainCode = Exclude<SskrErrorCode, "Shamir" | "InvalidParameter">;

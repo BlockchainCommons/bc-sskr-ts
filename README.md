@@ -43,17 +43,18 @@ try {
   if (SskrError.isSskrError(e)) console.log(e.code); // "NotEnoughGroups"
 }
 
-// Library validation failures throw SskrError; branch with `is`. Spec and header fields are
-// validated as integers in their domain, never coerced:
+// Library validation failures throw SskrError; branch with `is`. Spec fields are usize values
+// (a number, or a bigint up to 2^64 - 1) and header fields integers in their width, never coerced:
 try {
   GroupSpec.from({ memberThreshold: 1.5, memberCount: 3 });
 } catch (e) {
   if (SskrError.isSskrError(e) && e.is("InvalidParameter")) {
-    console.log(e.details.parameter, e.message); // "memberThreshold", "… must be an integer in [0, …], got 1.5"
+    console.log(e.details.parameter, e.message);
+    // "memberThreshold", "memberThreshold must be an integer in [0, 18446744073709551615] (a number or a bigint), got 1.5"
   }
 }
 
-// Values are immutable: `secret.bytes` is a copy, specs and shares are frozen.
+// Values are immutable: `secret.bytes` is a copy; specs, generated shares and parsed shares are frozen.
 Object.isFrozen(groups[0][0]); // true
 ```
 
@@ -65,13 +66,13 @@ Runnable examples live in the [`examples/`](https://github.com/BlockchainCommons
 
 ### Version History
 
+- **1.0.0-beta.3 (September 14, 2026)** - A zero member threshold is accepted at construction and fails at generation, as in the reference; spec fields accept `bigint` and integer-valued numbers up to 2^64; every argument is type-checked before anything else, share objects are checked as their bytes would be, `equals` on specs, and the identifier draw goes through `@blockchaincommons/rand`.
 - **1.0.0-beta.2 (September 12, 2026)** - `GroupSpec.parse` reports the reference's code for a count or threshold between 2^53 and 2^64;
 - **1.0.0-beta.1 (September 9, 2026)** - Initial beta implementation.
 
 ### Roadmap
 
 - Continued testing and auditing on the path from beta to a stable **1.0.0** release.
-- Continued parity with the Rust reference implementation as it evolves (see [`RUST_DIVERGENCES.md`](./RUST_DIVERGENCES.md)).
 
 ### Dependencies
 

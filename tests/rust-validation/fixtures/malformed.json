@@ -1,0 +1,15 @@
+{
+ "count": 1,
+ "vectors": [
+  {
+   "name": "spec without groups (unparsable, never a panic)",
+   "recipe": {
+    "k": "spec",
+    "spec": {
+     "gt": 1
+    }
+   },
+   "expect": "gc=1,sc=1,groups=1-of-1"
+  }
+ ]
+}

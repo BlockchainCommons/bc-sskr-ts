@@ -1,0 +1,93 @@
+{
+ "count": 4,
+ "vectors": [
+  {
+   "name": "spec 1/[36893488147419103000-of-3] (a JSON number above u64::MAX is js-only)",
+   "recipe": {
+    "k": "spec",
+    "spec": {
+     "gt": 1,
+     "groups": [
+      {
+       "mt": 36893488147419103000,
+       "mc": 3
+      }
+     ]
+    }
+   },
+   "expect": "throw:InvalidParameter:memberThreshold must be an integer in [0, 18446744073709551615] (a number or a bigint), got 36893488147419103232"
+  },
+  {
+   "name": "spec 1/[-1n-of-3] (a negative bigint is js-only)",
+   "recipe": {
+    "k": "spec",
+    "spec": {
+     "gt": 1,
+     "groups": [
+      {
+       "mt": "-1n",
+       "mc": 3
+      }
+     ]
+    }
+   },
+   "expect": "throw:InvalidParameter:memberThreshold must be an integer in [0, 18446744073709551615] (a number or a bigint), got -1n"
+  },
+  {
+   "name": "spec 1/[2-of-3n] (a bigint that fits a u64 is compared)",
+   "recipe": {
+    "k": "spec",
+    "spec": {
+     "gt": 1,
+     "groups": [
+      {
+       "mt": 2,
+       "mc": "3n"
+      }
+     ]
+    }
+   },
+   "expect": "gc=1,sc=3,groups=2-of-3"
+  },
+  {
+   "name": "generate 1/[1-of-1] len=16 fake then 1/[-1n-of-3] len=16 (a js-only field in a later step is js-only)",
+   "recipe": {
+    "k": "generate",
+    "spec": {
+     "gt": 1,
+     "groups": [
+      {
+       "mt": 1,
+       "mc": 1
+      }
+     ]
+    },
+    "secret": {
+     "cycle": 16,
+     "start": 0
+    },
+    "rng": {
+     "fake": true
+    },
+    "then": [
+     {
+      "spec": {
+       "gt": 1,
+       "groups": [
+        {
+         "mt": "-1n",
+         "mc": 3
+        }
+       ]
+      },
+      "secret": {
+       "cycle": 16,
+       "start": 0
+      }
+     }
+    ]
+   },
+   "expect": "0011000000000102030405060708090a0b0c0d0e0f | throw:InvalidParameter:memberThreshold must be an integer in [0, 18446744073709551615] (a number or a bigint), got -1n"
+  }
+ ]
+}

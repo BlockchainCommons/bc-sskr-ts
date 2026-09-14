@@ -32,6 +32,31 @@ export type SskrErrorCode =
 export type SskrPlainCode = Exclude<SskrErrorCode, "Shamir" | "InvalidParameter">;
 
 /**
+ * The argument an `InvalidParameter` error names: a spec field that is not
+ * a `usize`, a share header field outside its width, or an argument of the
+ * wrong type (`bytes` and `text` to the `Secret` factories and `parseShare`,
+ * `options` records, `groups` and its elements, the `spec` and `secret` of
+ * `generateShares`, `shares` and its elements, a share's `value`).
+ */
+export type SskrParameter =
+  | "memberThreshold"
+  | "memberCount"
+  | "groupThreshold"
+  | "identifier"
+  | "groupIndex"
+  | "groupCount"
+  | "memberIndex"
+  | "bytes"
+  | "text"
+  | "options"
+  | "groups"
+  | "spec"
+  | "secret"
+  | "shares"
+  | "share"
+  | "value";
+
+/**
  * The structured payload of a {@link SskrError}, discriminated by `code`:
  * `e.details.code === "InvalidParameter"` narrows to `{ parameter, value }`.
  */
@@ -47,12 +72,12 @@ export type SskrErrorDetails =
       readonly cause: ShamirError;
     }
   | {
-      /** A `number` argument outside the integer domain its type implies (JS-only). */
+      /** An argument outside its domain or of the wrong type (JS-only). */
       readonly code: "InvalidParameter";
       /** The argument, e.g. `"memberThreshold"`. */
-      readonly parameter: string;
-      /** The value received. */
-      readonly value: number;
+      readonly parameter: SskrParameter;
+      /** The value received, as passed. */
+      readonly value: unknown;
     };
 
 const MESSAGES: Record<SskrPlainCode, string> = {
@@ -74,10 +99,32 @@ const MESSAGES: Record<SskrPlainCode, string> = {
 };
 
 /**
+ * The received value, rendered exactly: a `bigint` with its `n` suffix, an
+ * unsafe integer `number` by its exact digits (`String` would round them),
+ * a string quoted, and objects by their constructor name.
+ */
+function render(value: unknown): string {
+  if (typeof value === "bigint") return `${value}n`;
+  if (typeof value === "number") {
+    return Number.isInteger(value) && !Number.isSafeInteger(value)
+      ? BigInt(value).toString()
+      : String(value);
+  }
+  if (typeof value === "string") return JSON.stringify(value);
+  if (typeof value === "function") return "function";
+  if (Array.isArray(value)) return "Array";
+  if (typeof value === "object" && value !== null) {
+    const ctor = (value as { constructor?: { name?: unknown } }).constructor;
+    return typeof ctor?.name === "string" && ctor.name !== "" ? ctor.name : "object";
+  }
+  return String(value);
+}
+
+/**
  * Thrown for invalid specs and secrets, malformed or inconsistent share
  * sets, an unmet quorum, Shamir failures (`Shamir`, with the `ShamirError`
- * as `cause`), and (JS-only) a spec or header field outside its integer
- * domain (`InvalidParameter`). Messages match the Rust reference where a
+ * as `cause`), and (JS-only) an argument outside its domain or of the wrong
+ * type (`InvalidParameter`). Messages match the Rust reference where a
  * variant exists; branch on `code`.
  *
  * Instances come from the static factories only.
@@ -127,15 +174,16 @@ export class SskrError extends Error {
     return new SskrError(`SSKR Shamir error: ${cause.message}`, { code: "Shamir", cause }, cause);
   }
 
-  /** `parameter` is not an integer in `[min, max]`; `value` is what was received. */
-  static invalidParameter(
-    parameter: string,
-    value: number,
-    bounds: { readonly min: number; readonly max: number },
-  ): SskrError {
-    return new SskrError(
-      `${parameter} must be an integer in [${bounds.min}, ${bounds.max}], got ${String(value)}`,
-      { code: "InvalidParameter", parameter, value },
-    );
+  /**
+   * `parameter` is outside its domain: `expected` says what it must be
+   * (`"an integer in [0, 15]"`), and `value` is what was received; the
+   * message renders it exactly (`2n`, `18446744073709551616`, `"2"`).
+   */
+  static invalidParameter(parameter: SskrParameter, value: unknown, expected: string): SskrError {
+    return new SskrError(`${parameter} must be ${expected}, got ${render(value)}`, {
+      code: "InvalidParameter",
+      parameter,
+      value,
+    });
   }
 }

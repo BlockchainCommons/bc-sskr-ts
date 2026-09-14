@@ -9,13 +9,13 @@ import * as rand from "@blockchaincommons/rand";
 import {
   hex,
   materialize,
-  redesignedAdapterFor,
+  currentAdapterFor,
   type Recipe,
   type SpecShape,
 } from "./vectors/recipes";
 import { SEEDS, categories } from "./corpus/corpus";
 
-const api = redesignedAdapterFor(src, rand);
+const api = currentAdapterFor(src, rand);
 const run = (r: Recipe) => materialize(api, r);
 const g = (mt: number, mc: number) => ({ mt, mc });
 const SPECS: [string, SpecShape][] = [
@@ -115,7 +115,7 @@ describe("golden: freeze additions", () => {
   const group = (mt: number, mc: number) =>
     outcome(() => src.GroupSpec.from({ memberThreshold: mt, memberCount: mc }).toString());
 
-  it("B1: non-integer spec fields", () => {
+  it("non-integer spec fields", () => {
     expect([
       `GroupSpec 1.5-of-3: ${group(1.5, 3)}`,
       `GroupSpec 1-of-NaN: ${group(1, NaN)}`,
@@ -140,7 +140,7 @@ describe("golden: freeze additions", () => {
     ]).toMatchSnapshot();
   });
 
-  it("B2: a zero member threshold", () => {
+  it("a zero member threshold is accepted and fails at generation", () => {
     expect([
       `GroupSpec 0-of-3: ${group(0, 3)}`,
       `GroupSpec.parse("0-of-3"): ${outcome(() => src.GroupSpec.parse("0-of-3").toString())}`,
@@ -154,7 +154,7 @@ describe("golden: freeze additions", () => {
     ]).toMatchSnapshot();
   });
 
-  it("B3: shareBytes header fields outside their width", () => {
+  it("shareBytes header fields outside their width", () => {
     const spec = src.Spec.from({
       groupThreshold: 1,
       groups: [src.GroupSpec.from({ memberThreshold: 2, memberCount: 3 })],
@@ -176,7 +176,7 @@ describe("golden: freeze additions", () => {
     ]).toMatchSnapshot();
   });
 
-  it("A1/A2: aliasing and mutability of the value objects", () => {
+  it("aliasing and mutability of the value objects", () => {
     const a = secret();
     const b = secret();
     const equalBefore = a.equals(b);

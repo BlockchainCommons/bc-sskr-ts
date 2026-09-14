@@ -1,20 +1,41 @@
-//! Replays tests/vectors/vectors.json against sskr 0.12.0.
+//! Replays a vector file (tests/vectors/vectors.json, the full corpus or the
+//! header sweep) against sskr 0.12.0 over bc-rand 0.5.0 and bc-shamir 0.13.0.
 //!
-//!   cargo run --release -- ../vectors/vectors.json
+//!   cargo run --release --offline -- ../vectors/vectors.json
 //!
-//! A recipe with an input the reference cannot receive — a spec field that
-//! is not a `u64` (NaN, a fraction, a negative) or a hand-built share
-//! header (`SSKRShare` is crate-private, so `shareBytes` on such an object
-//! is a TypeScript-only surface) — is counted as `js-only` and never
-//! compared. Allowlist **D1** (consulted only when outcomes differ): a
-//! `GroupSpec` with member threshold 0, which the reference accepts and
-//! TypeScript rejects (`MemberThresholdInvalid`).
+//! Exit 0 iff every vector matches or is js-only. There is no divergence
+//! allowance: a compared outcome that differs is a MISMATCH.
+//!
+//! Outcomes are share bytes (`hex,hex;hex,…`, groups separated by `;`; the
+//! steps of a consecutive-generation recipe by ` | `), the recovered secret,
+//! `GroupSpec::parse`'s `Display`, `gc=<n>,sc=<n>,groups=<g,…>` for a spec,
+//! `len=<n>` for a secret, or `throw:<code>:<Display>` where the code is the
+//! `Error` variant, a wrapped Shamir failure spelled `Shamir(<variant>)`.
+//!
+//! Integer classification. A recipe integer is compared when it has an exact
+//! Rust form:
+//! - a JSON number serde reads as a `u64` is compared, whatever its size:
+//!   every check the reference makes compares a spec field with at most 16 or
+//!   with the group count, so a `u64` read from the decimal digits and the
+//!   double JavaScript received have the same outcome. Any other JSON number
+//!   (NaN, a fraction, a negative, a value above `u64::MAX`) is js-only;
+//! - a `"<digits>n"` string is a `bigint`, compared when the digits fit a
+//!   `u64` (js-only when negative or above `u64::MAX`);
+//! - `"NaN"`, `"Infinity"` and `"-Infinity"` are js-only;
+//! - a hand-built share header (`shareBytes`) is js-only: `SSKRShare` is
+//!   crate-private, so no reference caller can build one.
+//! Any other field shape is unparsable: counted, reported, and a failure.
+//! Every vector runs inside its own `catch_unwind`, so a malformed file cannot
+//! abort the run. `usize` is asserted to be 64 bits so that every compared
+//! integer is the value the reference receives.
 use bc_rand::{RandomNumberGenerator, SeededRandomNumberGenerator};
 use serde::Deserialize;
+use serde_json::Value;
 use sskr::{sskr_combine, sskr_generate_using, GroupSpec, Secret, Spec};
 use std::panic::{catch_unwind, AssertUnwindSafe};
 
-/// The counter generator the crate's tests use: 0, 17, 34, … (wrapping).
+/// The counter generator the crate's tests use: 0, 17, 34, … (wrapping),
+/// restarting at 0 for every fill.
 struct Fake;
 impl rand_core::RngCore for Fake {
     fn next_u32(&mut self) -> u32 { unimplemented!() }
@@ -30,109 +51,277 @@ impl RandomNumberGenerator for Fake {}
 #[derive(Deserialize)]
 struct File { count: usize, vectors: Vec<Vector> }
 #[derive(Deserialize)]
-struct Vector { name: String, recipe: serde_json::Value, expect: String }
+struct Vector { name: String, recipe: Value, expect: String }
 
-fn bytes(v: &serde_json::Value) -> Vec<u8> {
-    if let Some(h) = v.get("hex") { return hex::decode(h.as_str().unwrap()).unwrap(); }
-    if let Some(t) = v.get("text") { return t.as_str().unwrap().as_bytes().to_vec(); }
-    let n = v["cycle"].as_u64().unwrap() as usize;
-    let start = v.get("start").and_then(|s| s.as_u64()).unwrap_or(0) as usize;
-    (0..n).map(|i| ((start + i) & 0xff) as u8).collect()
-}
-/// sskr::Error variant → the TypeScript code (`ShamirError(_)` → `Shamir`).
-fn code(e: &sskr::Error) -> String {
-    let d = format!("{e:?}");
-    let name = d.split('(').next().unwrap_or(&d);
-    if name == "ShamirError" { "Shamir".into() } else { name.to_string() }
-}
-type R<T> = Result<T, sskr::Error>;
+/// Why a recipe did not produce an outcome: it is malformed, or the
+/// reference returned an error (which *is* the outcome).
+enum Fail { Unparsable(String), Sskr(sskr::Error) }
+impl From<sskr::Error> for Fail { fn from(e: sskr::Error) -> Self { Fail::Sskr(e) } }
+impl From<String> for Fail { fn from(s: String) -> Self { Fail::Unparsable(s) } }
+impl From<&str> for Fail { fn from(s: &str) -> Self { Fail::Unparsable(s.to_string()) } }
+type R<T> = Result<T, Fail>;
 
-fn is_u64(v: &serde_json::Value) -> bool { v.as_u64().is_some() }
-fn spec_ok(v: &serde_json::Value) -> bool {
-    is_u64(&v["gt"]) && v["groups"].as_array().unwrap().iter().all(|g| is_u64(&g["mt"]) && is_u64(&g["mc"]))
-}
-/// True when the recipe has an input the reference cannot receive.
-fn js_only(r: &serde_json::Value) -> bool {
-    match r["k"].as_str().unwrap_or("") {
-        "shareBytes" => true,
-        "spec" => !spec_ok(&r["spec"]),
-        "generate" => !spec_ok(&r["spec"]),
-        "combine" => r.get("from").map_or(false, |f| !spec_ok(&f["spec"])),
-        _ => false,
-    }
-}
-/// D1: a zero member threshold the reference accepts and TypeScript rejects.
-fn d1(r: &serde_json::Value, rust: &str, ts: &str) -> bool {
-    let zero_threshold = match r["k"].as_str().unwrap_or("") {
-        "spec" => r["spec"]["groups"].as_array().unwrap().iter().any(|g| g["mt"].as_u64() == Some(0)),
-        "parse" => r["s"].as_str().map_or(false, |s| {
-            let t = s.trim_start_matches('+');
-            t.starts_with('0') && t.trim_start_matches('0').starts_with("-of-")
-        }),
-        _ => false,
-    };
-    zero_threshold && !rust.starts_with("throw:") && ts == "throw:MemberThresholdInvalid"
-}
+/// A recipe integer's Rust form.
+enum Int { Exact(u64), JsOnly }
 
-fn spec_of(v: &serde_json::Value) -> R<Spec> {
-    let groups: R<Vec<GroupSpec>> = v["groups"].as_array().unwrap().iter()
-        .map(|g| GroupSpec::new(g["mt"].as_u64().unwrap() as usize, g["mc"].as_u64().unwrap() as usize)).collect();
-    Spec::new(v["gt"].as_u64().unwrap() as usize, groups?)
-}
-fn generate(gs: &serde_json::Value) -> R<Vec<Vec<Vec<u8>>>> {
-    let spec = spec_of(&gs["spec"])?;
-    let secret = Secret::new(bytes(&gs["secret"]))?;
-    let rng = &gs["rng"];
-    if rng.get("fake").is_some() {
-        sskr_generate_using(&spec, &secret, &mut Fake)
-    } else {
-        let s: Vec<u64> = rng["seed"].as_array().unwrap().iter().map(|x| x.as_str().unwrap().parse().unwrap()).collect();
-        let mut g = SeededRandomNumberGenerator::new([s[0], s[1], s[2], s[3]]);
-        sskr_generate_using(&spec, &secret, &mut g)
-    }
-}
-fn run(r: &serde_json::Value) -> String {
-    let out = catch_unwind(AssertUnwindSafe(|| -> String {
-        let res: R<String> = (|| {
-            Ok(match r["k"].as_str().unwrap() {
-                "generate" => generate(r)?.iter().map(|g| g.iter().map(hex::encode).collect::<Vec<_>>().join(",")).collect::<Vec<_>>().join(";"),
-                "combine" => {
-                    let shares: Vec<Vec<u8>> = if let Some(sh) = r.get("shares") {
-                        sh.as_array().unwrap().iter().map(bytes).collect()
-                    } else {
-                        let all = generate(&r["from"])?;
-                        let mut picked: Vec<Vec<u8>> = r["pick"].as_array().unwrap().iter()
-                            .map(|p| all[p[0].as_u64().unwrap() as usize][p[1].as_u64().unwrap() as usize].clone()).collect();
-                        if let Some(c) = r.get("corrupt") {
-                            picked[c["share"].as_u64().unwrap() as usize][c["byte"].as_u64().unwrap() as usize] ^= c["mask"].as_u64().unwrap() as u8;
-                        }
-                        picked
-                    };
-                    hex::encode(sskr_combine(&shares)?.data())
-                }
-                "parse" => { let g = GroupSpec::parse(r["s"].as_str().unwrap())?; format!("{}-of-{}", g.member_threshold(), g.member_count()) }
-                "spec" => { let s = spec_of(&r["spec"])?; format!("gc={},sc={}", s.group_count(), s.share_count()) }
-                "secret" => format!("len={}", Secret::new(bytes(&r["data"]))?.len()),
-                k => panic!("unknown recipe {k}"),
+fn int(v: &Value) -> R<Int> {
+    match v {
+        Value::Number(_) => Ok(match v.as_u64() { Some(n) => Int::Exact(n), None => Int::JsOnly }),
+        Value::String(s) => {
+            if s == "NaN" || s == "Infinity" || s == "-Infinity" { return Ok(Int::JsOnly); }
+            let Some(body) = s.strip_suffix('n') else { return Err(format!("{s:?} is not an integer").into()) };
+            let (negative, digits) = match body.strip_prefix('-') {
+                Some(d) => (true, d),
+                None => (false, body),
+            };
+            if digits.is_empty() || !digits.bytes().all(|b| b.is_ascii_digit()) {
+                return Err(format!("{s:?} is not a bigint").into());
+            }
+            Ok(match digits.parse::<u64>() {
+                Ok(0) => Int::Exact(0),
+                Ok(_) if negative => Int::JsOnly,
+                Ok(n) => Int::Exact(n),
+                Err(_) => Int::JsOnly,
             })
-        })();
-        match res { Ok(s) => s, Err(e) => format!("throw:{}", code(&e)) }
+        }
+        _ => Err(format!("{v} is not an integer").into()),
+    }
+}
+fn field<'a>(v: &'a Value, key: &str) -> R<&'a Value> {
+    v.get(key).ok_or_else(|| Fail::Unparsable(format!("missing field {key:?}")))
+}
+fn array<'a>(v: &'a Value, key: &str) -> R<&'a Vec<Value>> {
+    field(v, key)?.as_array().ok_or_else(|| Fail::Unparsable(format!("{key:?} is not an array")))
+}
+fn string<'a>(v: &'a Value, key: &str) -> R<&'a str> {
+    field(v, key)?.as_str().ok_or_else(|| Fail::Unparsable(format!("{key:?} is not a string")))
+}
+/// An integer that must be exact: a compared spec field, a pick or a corruption.
+fn u(v: &Value) -> R<usize> {
+    match int(v)? {
+        Int::Exact(n) => usize::try_from(n).map_err(|_| Fail::Unparsable(format!("{n} does not fit a usize"))),
+        Int::JsOnly => Err(format!("{v} has no exact Rust form").into()),
+    }
+}
+/// A `Bytes` spec (`hex`, `text`, or `cycle`/`start`).
+fn bytes(v: &Value) -> R<Vec<u8>> {
+    if let Some(h) = v.get("hex") {
+        let h = h.as_str().ok_or("\"hex\" is not a string")?;
+        return hex::decode(h).map_err(|e| Fail::Unparsable(format!("bad hex: {e}")));
+    }
+    if let Some(t) = v.get("text") {
+        return Ok(t.as_str().ok_or("\"text\" is not a string")?.as_bytes().to_vec());
+    }
+    let n = u(field(v, "cycle")?)?;
+    let start = match v.get("start") { Some(s) => u(s)?, None => 0 };
+    Ok((0..n).map(|i| ((start + i) & 0xff) as u8).collect())
+}
+/// Whether a spec shape holds a field the reference cannot receive.
+fn spec_js_only(v: &Value) -> R<bool> {
+    let mut js = matches!(int(field(v, "gt")?)?, Int::JsOnly);
+    for g in array(v, "groups")? {
+        js |= matches!(int(field(g, "mt")?)?, Int::JsOnly);
+        js |= matches!(int(field(g, "mc")?)?, Int::JsOnly);
+    }
+    Ok(js)
+}
+/// A generator spec: the counter generator, or exactly four decimal `u64` seed words.
+fn check_rng(v: &Value) -> R<()> {
+    if v.get("fake") == Some(&Value::Bool(true)) { return Ok(()); }
+    let words = array(v, "seed")?;
+    if words.len() != 4 || !words.iter().all(|w| w.as_str().is_some_and(|s| s.parse::<u64>().is_ok())) {
+        return Err("\"seed\" must be four decimal u64 strings".into());
+    }
+    Ok(())
+}
+/// A generation recipe (`spec`, `secret`, `rng`, optional `then` steps of `spec` and `secret`).
+fn generation_js_only(v: &Value) -> R<bool> {
+    let mut js = spec_js_only(field(v, "spec")?)?;
+    bytes(field(v, "secret")?)?;
+    check_rng(field(v, "rng")?)?;
+    if let Some(then) = v.get("then") {
+        for step in then.as_array().ok_or("\"then\" is not an array")? {
+            js |= spec_js_only(field(step, "spec")?)?;
+            bytes(field(step, "secret")?)?;
+        }
+    }
+    Ok(js)
+}
+/// True when the recipe has an input the reference cannot receive; Err when it is malformed.
+fn js_only(r: &Value) -> R<bool> {
+    match string(r, "k")? {
+        "shareBytes" => Ok(true),
+        "spec" => spec_js_only(field(r, "spec")?),
+        "generate" => generation_js_only(r),
+        "combine" => match r.get("from") {
+            Some(from) => generation_js_only(from),
+            None => { for s in array(r, "shares")? { bytes(s)?; } Ok(false) }
+        },
+        "parse" => { string(r, "s")?; Ok(false) }
+        "secret" => { bytes(field(r, "data")?)?; Ok(false) }
+        k => Err(format!("unknown recipe kind {k:?}").into()),
+    }
+}
+/// `sskr::Error` → the TypeScript code: the variant name, `ShamirError(X)` as `Shamir(X)`.
+fn code(e: &sskr::Error) -> String {
+    match e {
+        sskr::Error::ShamirError(inner) => format!("Shamir({inner:?})"),
+        other => format!("{other:?}"),
+    }
+}
+fn throw(e: &sskr::Error) -> String { format!("throw:{}:{e}", code(e)) }
+
+fn spec_of(v: &Value) -> R<Spec> {
+    let mut groups = Vec::new();
+    for g in array(v, "groups")? {
+        groups.push(GroupSpec::new(u(field(g, "mt")?)?, u(field(g, "mc")?)?)?);
+    }
+    Ok(Spec::new(u(field(v, "gt")?)?, groups)?)
+}
+fn seeded(v: &Value) -> R<SeededRandomNumberGenerator> {
+    check_rng(v)?;
+    let words: Vec<u64> = array(v, "seed")?.iter().map(|w| w.as_str().unwrap_or("").parse().unwrap_or(0)).collect();
+    Ok(SeededRandomNumberGenerator::new([words[0], words[1], words[2], words[3]]))
+}
+fn hex_join(groups: &[Vec<Vec<u8>>]) -> String {
+    groups.iter().map(|g| g.iter().map(hex::encode).collect::<Vec<_>>().join(",")).collect::<Vec<_>>().join(";")
+}
+/// One generation step (`spec` and `secret`) drawing from `g`.
+fn generate_step(step: &Value, g: &mut impl RandomNumberGenerator) -> R<Vec<Vec<Vec<u8>>>> {
+    let spec = spec_of(field(step, "spec")?)?;
+    let secret = Secret::new(bytes(field(step, "secret")?)?)?;
+    Ok(sskr_generate_using(&spec, &secret, g)?)
+}
+/// The steps of a generation recipe: the recipe itself, then each `then` entry.
+fn steps(gs: &Value) -> R<Vec<&Value>> {
+    let mut out = vec![gs];
+    if let Some(then) = gs.get("then") {
+        out.extend(then.as_array().ok_or("\"then\" is not an array")?.iter());
+    }
+    Ok(out)
+}
+/// A generation recipe run on one generator; every step's outcome, joined by ` | `.
+fn generate_recipe(gs: &Value) -> R<String> {
+    fn go(gs: &Value, g: &mut impl RandomNumberGenerator) -> R<String> {
+        let mut outcomes = Vec::new();
+        for step in steps(gs)? {
+            outcomes.push(match generate_step(step, g) {
+                Ok(groups) => hex_join(&groups),
+                Err(Fail::Sskr(e)) => throw(&e),
+                Err(other) => return Err(other),
+            });
+        }
+        Ok(outcomes.join(" | "))
+    }
+    let rng = field(gs, "rng")?;
+    if rng.get("fake").is_some() { go(gs, &mut Fake) } else { go(gs, &mut seeded(rng)?) }
+}
+/// The first step of a generation recipe, for a combine recipe's `from`.
+fn generate(gs: &Value) -> R<Vec<Vec<Vec<u8>>>> {
+    let rng = field(gs, "rng")?;
+    if rng.get("fake").is_some() { generate_step(gs, &mut Fake) } else { generate_step(gs, &mut seeded(rng)?) }
+}
+fn combine(r: &Value) -> R<String> {
+    let shares: Vec<Vec<u8>> = if let Some(sh) = r.get("shares") {
+        sh.as_array().ok_or("\"shares\" is not an array")?.iter().map(bytes).collect::<R<_>>()?
+    } else {
+        let all = generate(field(r, "from")?)?;
+        let mut picked = Vec::new();
+        for p in array(r, "pick")? {
+            let pair = p.as_array().filter(|a| a.len() == 2).ok_or("a pick is not a [group, member] pair")?;
+            let (gi, mi) = (u(&pair[0])?, u(&pair[1])?);
+            let share = all.get(gi).and_then(|g| g.get(mi)).ok_or_else(|| Fail::Unparsable(format!("pick [{gi}, {mi}] is out of range")))?;
+            picked.push(share.clone());
+        }
+        if let Some(c) = r.get("corrupt") {
+            let (si, bi, mask) = (u(field(c, "share")?)?, u(field(c, "byte")?)?, u(field(c, "mask")?)?);
+            let mask = u8::try_from(mask).map_err(|_| Fail::Unparsable(format!("mask {mask} is not a byte")))?;
+            let target = picked.get_mut(si).and_then(|s| s.get_mut(bi)).ok_or_else(|| Fail::Unparsable(format!("corrupt ({si}, {bi}) is out of range")))?;
+            *target ^= mask;
+        }
+        picked
+    };
+    Ok(hex::encode(sskr_combine(&shares)?.data()))
+}
+fn run(r: &Value) -> R<String> {
+    match string(r, "k")? {
+        "generate" => generate_recipe(r),
+        "combine" => combine(r),
+        "parse" => Ok(GroupSpec::parse(string(r, "s")?)?.to_string()),
+        "spec" => {
+            let s = spec_of(field(r, "spec")?)?;
+            let groups: Vec<String> = s.groups().iter().map(ToString::to_string).collect();
+            Ok(format!("gc={},sc={},groups={}", s.group_count(), s.share_count(), groups.join(",")))
+        }
+        "secret" => Ok(format!("len={}", Secret::new(bytes(field(r, "data")?)?)?.len())),
+        k => Err(format!("unknown recipe kind {k:?}").into()),
+    }
+}
+
+enum Verdict { Match, JsOnly, Mismatch(String), Unparsable(String) }
+
+fn evaluate(v: &Vector) -> Verdict {
+    let outcome = catch_unwind(AssertUnwindSafe(|| -> R<Option<String>> {
+        if js_only(&v.recipe)? { return Ok(None); }
+        match run(&v.recipe) {
+            Ok(s) => Ok(Some(s)),
+            Err(Fail::Sskr(e)) => Ok(Some(throw(&e))),
+            Err(other) => Err(other),
+        }
     }));
-    out.unwrap_or_else(|_| "throw:panic".into())
+    match outcome {
+        Err(payload) => {
+            let reason = payload.downcast_ref::<&str>().map(|s| s.to_string())
+                .or_else(|| payload.downcast_ref::<String>().cloned())
+                .unwrap_or_else(|| "panic".into());
+            Verdict::Unparsable(format!("panic: {reason}"))
+        }
+        Ok(Err(Fail::Unparsable(reason))) => Verdict::Unparsable(reason),
+        Ok(Err(Fail::Sskr(e))) => Verdict::Unparsable(format!("unexpected reference error {e:?}")),
+        Ok(Ok(None)) => Verdict::JsOnly,
+        Ok(Ok(Some(got))) if got == v.expect => Verdict::Match,
+        Ok(Ok(Some(got))) => Verdict::Mismatch(got),
+    }
+}
+fn clip(s: &str) -> String {
+    const MAX: usize = 200;
+    if s.len() <= MAX { s.to_string() } else { format!("{}… ({} chars)", &s[..MAX], s.len()) }
 }
 
 fn main() {
-    let path = std::env::args().nth(1).expect("path");
-    let file: File = serde_json::from_str(&std::fs::read_to_string(path).unwrap()).unwrap();
-    assert_eq!(file.count, file.vectors.len());
-    let (mut ok, mut expected, mut js_only_n, mut mismatch) = (0, 0, 0, 0);
-    for v in &file.vectors {
-        if js_only(&v.recipe) { js_only_n += 1; continue; }
-        let got = run(&v.recipe);
-        if got == v.expect { ok += 1; }
-        else if d1(&v.recipe, &got, &v.expect) { expected += 1; eprintln!("expected-divergence [D1] {} | rust={} | ts={}", v.name, got, v.expect); }
-        else { mismatch += 1; eprintln!("MISMATCH {}\n  rust: {}\n  ts:   {}", v.name, &got[..got.len().min(120)], &v.expect[..v.expect.len().min(120)]); }
+    assert_eq!(usize::BITS, 64, "the reference's usize is 64-bit; build the harness for a 64-bit target");
+    let Some(path) = std::env::args().nth(1) else {
+        eprintln!("usage: sskr-validation <vectors.json>");
+        std::process::exit(2);
+    };
+    let text = match std::fs::read_to_string(&path) {
+        Ok(t) => t,
+        Err(e) => { eprintln!("cannot read {path}: {e}"); std::process::exit(2); }
+    };
+    let file: File = match serde_json::from_str(&text) {
+        Ok(f) => f,
+        Err(e) => { eprintln!("{path} is not a vector file: {e}"); std::process::exit(2); }
+    };
+    if file.count != file.vectors.len() {
+        eprintln!("count {} does not equal the number of vectors ({})", file.count, file.vectors.len());
+        std::process::exit(2);
     }
-    println!("{} vectors - {ok} match, {expected} expected divergence (D1), {js_only_n} js-only, {mismatch} MISMATCH", file.vectors.len());
-    std::process::exit(if mismatch == 0 { 0 } else { 1 });
+    let (mut ok, mut js_only, mut mismatch, mut unparsable) = (0, 0, 0, 0);
+    for v in &file.vectors {
+        match evaluate(v) {
+            Verdict::Match => ok += 1,
+            Verdict::JsOnly => js_only += 1,
+            Verdict::Mismatch(got) => {
+                mismatch += 1;
+                eprintln!("MISMATCH {}\n  rust: {}\n  ts:   {}", v.name, clip(&got), clip(&v.expect));
+            }
+            Verdict::Unparsable(reason) => {
+                unparsable += 1;
+                eprintln!("UNPARSABLE {}: {reason}", v.name);
+            }
+        }
+    }
+    let tail = if unparsable > 0 { format!(", {unparsable} unparsable") } else { String::new() };
+    println!("{} vectors - {ok} match, {js_only} js-only, {mismatch} MISMATCH{tail}", file.vectors.len());
+    std::process::exit(if mismatch == 0 && unparsable == 0 { 0 } else { 1 });
 }

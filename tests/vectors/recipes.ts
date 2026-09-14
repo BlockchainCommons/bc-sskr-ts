@@ -2,17 +2,23 @@
  * Vector recipes: a recipe names an operation and its inputs; `materialize`
  * runs it through a `VectorApi` and returns one outcome string, so the same
  * recipe drives the golden file, the differential and the Rust harness.
- * Adapters bridge the pre- and post-redesign surfaces.
+ * Adapters bridge the frozen baseline surface and the current one.
  */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 export type Bytes = { hex: string } | { cycle: number; start?: number } | { text: string };
 /**
- * A JavaScript `number` that must survive JSON: `NaN` and the infinities
- * have no JSON form, so they travel as strings.
+ * A recipe integer. `NaN` and the infinities have no JSON form, so they
+ * travel as strings; a `bigint` travels as its decimal digits followed by
+ * `n`, which JSON keeps exact where a `number` above `2^53 - 1` would not be.
  */
-export type Num = number | "NaN" | "Infinity" | "-Infinity";
-export const num = (v: Num): number => (typeof v === "number" ? v : Number(v));
+export type Num = number | "NaN" | "Infinity" | "-Infinity" | `${bigint}n`;
+export const num = (v: Num): number | bigint => {
+  if (typeof v === "number") return v;
+  if (v.endsWith("n")) return BigInt(v.slice(0, -1));
+  return Number(v);
+};
+/** Seeded xoshiro state (four decimal u64 strings) or the counter "fake" generator (0, 17, 34, …). */
 export type RngSpec = { seed: [string, string, string, string] } | { fake: true };
 export interface GroupShape {
   mt: Num;
@@ -31,10 +37,15 @@ export interface HeaderShape {
   memberIndex: Num;
   memberThreshold: Num;
 }
-export interface GenSpec {
+/** One generation: a spec and a secret. */
+export interface GenStep {
   spec: SpecShape;
   secret: Bytes;
+}
+/** A generation on a fresh generator, optionally followed by more steps on the same generator. */
+export interface GenSpec extends GenStep {
   rng: RngSpec;
+  then?: GenStep[];
 }
 export interface Corruption {
   /** Position in the picked list. */
@@ -61,14 +72,15 @@ export interface VectorApi {
   combine(shares: Uint8Array[]): Uint8Array;
   /** `GroupSpec.parse(s).toString()` */
   parseGroup(s: string): string;
-  /** Build a Spec; returns `gc=<groups>,sc=<shares>`. */
+  /** Build a Spec; returns `gc=<groups>,sc=<shares>,groups=<g,…>`. */
   validateSpec(spec: SpecShape): string;
   /** Build a Secret; returns its length. */
   validateSecret(bytes: Uint8Array): number;
   /** Serialize a hand-built share; returns the hex of its header bytes. */
-  shareHeader(header: Record<keyof HeaderShape, number>, value: Uint8Array): string;
+  shareHeader(header: Record<keyof HeaderShape, number | bigint>, value: Uint8Array): string;
   makeRng(spec: RngSpec): RngLike;
-  errorCode(e: unknown): string;
+  /** The error's code, a wrapped Shamir failure as `Shamir(<cause>)`; `undefined` for a non-package error. */
+  errorCode(e: unknown): string | undefined;
 }
 
 export function toBytes(b: Bytes): Uint8Array {
@@ -81,14 +93,17 @@ export const hex = (u: Uint8Array): string => Buffer.from(u).toString("hex");
 const specName = (s: SpecShape): string =>
   `${s.gt}/[${s.groups.map((g) => `${g.mt}-of-${g.mc}`).join(",")}]`;
 const rngName = (r: RngSpec): string => ("fake" in r ? "fake" : `seed=${r.seed[0].slice(0, 6)}`);
+const stepName = (s: GenStep): string => `${specName(s.spec)} len=${toBytes(s.secret).length}`;
 
 export function recipeName(r: Recipe): string {
   switch (r.k) {
     case "generate":
-      return `generate ${specName(r.spec)} len=${toBytes(r.secret).length} ${rngName(r.rng)}`;
+      return `generate ${stepName(r)} ${rngName(r.rng)}${(r.then ?? [])
+        .map((s) => ` then ${stepName(s)}`)
+        .join("")}`;
     case "combine":
       if ("shares" in r) return `combine explicit ${r.shares.length} shares`;
-      return `combine ${specName(r.from.spec)} len=${toBytes(r.from.secret).length} ${rngName(r.from.rng)} pick=${r.pick
+      return `combine ${stepName(r.from)} ${rngName(r.from.rng)} pick=${r.pick
         .map(([g, m]) => `${g}.${m}`)
         .join(
           ",",
@@ -106,7 +121,7 @@ export function recipeName(r: Recipe): string {
 
 /** Recipe kinds the frozen baseline bundle cannot run (its share class is not exported). */
 export const BASELINE_UNSUPPORTED: ReadonlySet<Recipe["k"]> = new Set<Recipe["k"]>(["shareBytes"]);
-const numHeader = (h: HeaderShape): Record<keyof HeaderShape, number> => ({
+const numHeader = (h: HeaderShape): Record<keyof HeaderShape, number | bigint> => ({
   identifier: num(h.identifier),
   groupIndex: num(h.groupIndex),
   groupThreshold: num(h.groupThreshold),
@@ -115,14 +130,38 @@ const numHeader = (h: HeaderShape): Record<keyof HeaderShape, number> => ({
   memberThreshold: num(h.memberThreshold),
 });
 
-export function materialize(api: VectorApi, r: Recipe): Outcome {
+export interface MaterializeOptions {
+  /** Append `:<message>` to every thrown outcome (the golden file and the Rust harness compare messages). */
+  messages?: boolean;
+}
+
+export function materialize(
+  api: VectorApi,
+  r: Recipe,
+  { messages = false }: MaterializeOptions = {},
+): Outcome {
+  const failure = (e: unknown): string => {
+    const code = api.errorCode(e) ?? (e as Error).name;
+    return messages ? `throw:${code}:${(e as Error).message}` : `throw:${code}`;
+  };
+  const generation = (g: GenSpec): string => {
+    const rng = api.makeRng(g.rng);
+    const step = (s: GenStep): string => {
+      try {
+        return api
+          .generate(s.spec, toBytes(s.secret), rng)
+          .map((grp) => grp.map(hex).join(","))
+          .join(";");
+      } catch (e) {
+        return failure(e);
+      }
+    };
+    return [g, ...(g.then ?? [])].map(step).join(" | ");
+  };
   try {
     switch (r.k) {
       case "generate":
-        return api
-          .generate(r.spec, toBytes(r.secret), api.makeRng(r.rng))
-          .map((g) => g.map(hex).join(","))
-          .join(";");
+        return generation(r);
       case "combine": {
         let shares: Uint8Array[];
         if ("shares" in r) shares = r.shares.map(toBytes);
@@ -143,7 +182,7 @@ export function materialize(api: VectorApi, r: Recipe): Outcome {
         return api.shareHeader(numHeader(r.header), toBytes(r.value));
     }
   } catch (e) {
-    return `throw:${api.errorCode(e)}`;
+    return failure(e);
   }
 }
 
@@ -156,10 +195,8 @@ const FAKE: RngLike = {
     }
   },
 };
-/** The error code, with the old enum's `ShamirError` spelled `Shamir`. */
-const normalizeCode = (c: string): string => (c === "ShamirError" ? "Shamir" : c);
 
-/** Pre-redesign surface: `Spec.new`, `GroupSpec.new`, `Secret.new`, `sskrGenerateUsing`, `sskrCombine`. */
+/** Baseline surface: `Spec.new`, `GroupSpec.new`, `Secret.new`, `sskrGenerateUsing`, `sskrCombine`. */
 export function baselineAdapterFor(m: any, randBaseline: any): VectorApi {
   const wrap = (rng: RngLike) => ({
     fillRandomData: (d: Uint8Array) => rng.fill(d),
@@ -188,7 +225,11 @@ export function baselineAdapterFor(m: any, randBaseline: any): VectorApi {
     parseGroup: (s) => m.GroupSpec.parse(s).toString(),
     validateSpec: (s) => {
       const spec = specOf(s);
-      return `gc=${spec.groupCount()},sc=${spec.shareCount()}`;
+      const groups = spec
+        .groups()
+        .map((g: any) => `${g.memberThreshold()}-of-${g.memberCount()}`)
+        .join(",");
+      return `gc=${spec.groupCount()},sc=${spec.shareCount()},groups=${groups}`;
     },
     validateSecret: (b) => m.Secret.new(b).len(),
     shareHeader: () => {
@@ -199,12 +240,16 @@ export function baselineAdapterFor(m: any, randBaseline: any): VectorApi {
       const g = new randBaseline.SeededRandomNumberGenerator(spec.seed.map(BigInt));
       return { fill: (d) => g.fillRandomData(d) };
     },
-    errorCode: (e) => normalizeCode((e as any)?.type ?? (e as Error).name),
+    errorCode: (e) => {
+      const type: unknown = (e as any)?.type;
+      if (typeof type !== "string") return undefined;
+      return type === "ShamirError" ? `Shamir(${(e as any).shamirError?.type})` : type;
+    },
   };
 }
 
-/** Redesigned surface (D1/W2–W5), falling back to the baseline shape while it is current. */
-export function redesignedAdapterFor(m: any, rand: any): VectorApi {
+/** Current surface: `Spec.from`, `GroupSpec.from`, `Secret.from`, `generateShares`, `combineShares`, `shareBytes`. */
+export function currentAdapterFor(m: any, rand: any): VectorApi {
   const makeRng = (spec: RngSpec): RngLike => {
     if ("fake" in spec) return FAKE;
     const g = new rand.SeededRng(spec.seed.map(BigInt));
@@ -219,7 +264,6 @@ export function redesignedAdapterFor(m: any, rand: any): VectorApi {
       throw new Error("unused");
     },
   });
-  if (m.SSKRErrorType !== undefined) return baselineAdapterFor(m, rand);
   const specOf = (s: SpecShape) =>
     m.Spec.from({
       groupThreshold: num(s.gt),
@@ -236,12 +280,16 @@ export function redesignedAdapterFor(m: any, rand: any): VectorApi {
     parseGroup: (s) => m.GroupSpec.parse(s).toString(),
     validateSpec: (s) => {
       const spec = specOf(s);
-      return `gc=${spec.groupCount},sc=${spec.shareCount}`;
+      return `gc=${spec.groupCount},sc=${spec.shareCount},groups=${spec.groups.map(String).join(",")}`;
     },
     validateSecret: (b) => m.Secret.from(b).byteLength,
     shareHeader: (header, value) =>
       hex(m.shareBytes({ ...header, value: m.Secret.from(value) }).subarray(0, 5)),
     makeRng,
-    errorCode: (e) => (m.SskrError.isSskrError(e) ? (e as any).code : (e as Error).name),
+    errorCode: (e) => {
+      if (!m.SskrError.isSskrError(e)) return undefined;
+      const { code, details } = e as any;
+      return code === "Shamir" ? `Shamir(${details.cause.code})` : code;
+    },
   };
 }

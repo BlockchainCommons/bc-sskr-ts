@@ -24,6 +24,14 @@ type SskrErrorCode = "DuplicateMemberIndex" | "GroupSpecInvalid" | "GroupCountIn
 /** The codes that carry no payload: the reference's fourteen. */
 type SskrPlainCode = Exclude<SskrErrorCode, "Shamir" | "InvalidParameter">;
 /**
+ * The argument an `InvalidParameter` error names: a spec field that is not
+ * a `usize`, a share header field outside its width, or an argument of the
+ * wrong type (`bytes` and `text` to the `Secret` factories and `parseShare`,
+ * `options` records, `groups` and its elements, the `spec` and `secret` of
+ * `generateShares`, `shares` and its elements, a share's `value`).
+ */
+type SskrParameter = "memberThreshold" | "memberCount" | "groupThreshold" | "identifier" | "groupIndex" | "groupCount" | "memberIndex" | "bytes" | "text" | "options" | "groups" | "spec" | "secret" | "shares" | "share" | "value";
+/**
  * The structured payload of a {@link SskrError}, discriminated by `code`:
  * `e.details.code === "InvalidParameter"` narrows to `{ parameter, value }`.
  */
@@ -36,18 +44,18 @@ type SskrErrorDetails = {
   /** The `ShamirError`; also the error's `cause`. */
   readonly cause: ShamirError;
 } | {
-  /** A `number` argument outside the integer domain its type implies (JS-only). */
+  /** An argument outside its domain or of the wrong type (JS-only). */
   readonly code: "InvalidParameter";
   /** The argument, e.g. `"memberThreshold"`. */
-  readonly parameter: string;
-  /** The value received. */
-  readonly value: number;
+  readonly parameter: SskrParameter;
+  /** The value received, as passed. */
+  readonly value: unknown;
 };
 /**
  * Thrown for invalid specs and secrets, malformed or inconsistent share
  * sets, an unmet quorum, Shamir failures (`Shamir`, with the `ShamirError`
- * as `cause`), and (JS-only) a spec or header field outside its integer
- * domain (`InvalidParameter`). Messages match the Rust reference where a
+ * as `cause`), and (JS-only) an argument outside its domain or of the wrong
+ * type (`InvalidParameter`). Messages match the Rust reference where a
  * variant exists; branch on `code`.
  *
  * Instances come from the static factories only.
@@ -79,11 +87,12 @@ export declare class SskrError extends Error {
   static of(code: SskrPlainCode): SskrError;
   /** A Shamir failure surfaced through SSKR; `cause` is the `ShamirError`. */
   static shamir(cause: ShamirError): SskrError;
-  /** `parameter` is not an integer in `[min, max]`; `value` is what was received. */
-  static invalidParameter(parameter: string, value: number, bounds: {
-    readonly min: number;
-    readonly max: number;
-  }): SskrError;
+  /**
+   * `parameter` is outside its domain: `expected` says what it must be
+   * (`"an integer in [0, 15]"`), and `value` is what was received; the
+   * message renders it exactly (`2n`, `18446744073709551616`, `"2"`).
+   */
+  static invalidParameter(parameter: SskrParameter, value: unknown, expected: string): SskrError;
 }
 //#endregion
 //#region src/secret.d.ts
@@ -94,62 +103,87 @@ export declare class SskrError extends Error {
 export declare class Secret {
   #private;
   private constructor();
+  /** Type guard for a `Secret`, including one from another copy of this package. */
+  static isSecret(value: unknown): value is Secret;
   /**
-   * A validated copy of `bytes`.
-   * @throws {SskrError} `SecretTooShort`, `SecretTooLong`, `SecretLengthNotEven`, in that order.
+   * A validated copy of `bytes`. The copy is taken first, so the checks and
+   * the secret see the same bytes (a `Buffer` is accepted; its `slice`
+   * would alias).
+   * @throws {SskrError} `InvalidParameter` unless `bytes` is a `Uint8Array`
+   * (text goes through {@link Secret.fromText}); then `SecretTooShort`,
+   * `SecretTooLong`, `SecretLengthNotEven`, in that order.
    */
   static from(bytes: Uint8Array): Secret;
-  /** The UTF-8 bytes of `text`, validated as `from`. */
+  /**
+   * The UTF-8 bytes of `text`, validated as `from` (the reference's
+   * `Secret::new(&str)`). A lone surrogate, which `&str` cannot hold, is
+   * encoded as U+FFFD.
+   * @throws {SskrError} `InvalidParameter` unless `text` is a string; then the `from` codes.
+   */
   static fromText(text: string): Secret;
   /** A fresh copy of the bytes (16–32); mutating it does not change the secret. */
   get bytes(): Uint8Array<ArrayBuffer>;
   /** The length in bytes. */
   get byteLength(): number;
-  /** Same bytes. */
-  equals(other: Secret): boolean;
+  /** Same bytes; `false` for anything that is not a `Secret` (one from another copy of this package compares by its bytes). */
+  equals(other: unknown): boolean;
   /** A new `Secret` with the same bytes. */
   clone(): Secret;
 }
 //#endregion
 //#region src/spec.d.ts
-/** Options for {@link GroupSpec.from}. */
+/** Options for {@link GroupSpec.from}. Each field is a `usize`: a `number` or a `bigint`. */
 interface GroupSpecOptions {
-  /** Members needed to recover the group's share; `1 ≤ memberThreshold ≤ memberCount`. */
-  readonly memberThreshold: number;
+  /**
+   * Members needed to recover the group's share;
+   * `0 ≤ memberThreshold ≤ memberCount`. A threshold of 0 is accepted, as the
+   * reference accepts it, and fails at generation.
+   */
+  readonly memberThreshold: number | bigint;
   /** Members in the group; `1..=16`. */
-  readonly memberCount: number;
+  readonly memberCount: number | bigint;
 }
 /** `memberThreshold`-of-`memberCount` within one group. Instances are frozen. */
 export declare class GroupSpec {
+  #private;
   /** Members needed to recover the group's share. */
   readonly memberThreshold: number;
   /** Members in the group. */
   readonly memberCount: number;
   private constructor();
+  /** Type guard for a `GroupSpec`, including one from another copy of this package. */
+  static isGroupSpec(value: unknown): value is GroupSpec;
   /**
-   * A validated `memberThreshold`-of-`memberCount`.
-   * @throws {SskrError} `InvalidParameter` unless both fields are safe
-   * non-negative integers; then, in the reference's order,
-   * `MemberCountInvalid` (0 or > 16), `MemberThresholdInvalid` (> count);
-   * then `MemberThresholdInvalid` for a threshold of 0 (which the reference
-   * accepts — divergence D1; BCR-2020-011 requires at least 1).
+   * A validated `memberThreshold`-of-`memberCount`. Each field is read once.
+   * @throws {SskrError} `InvalidParameter` unless `options` is an object and
+   * both fields are `usize`s (a non-negative integer `number` up to `2^64`,
+   * or a `bigint` in `[0, 2^64 - 1]`); then, in the reference's order,
+   * `MemberCountInvalid` (0 or > 16), `MemberThresholdInvalid` (> count). A
+   * threshold of 0 passes, as it does in `GroupSpec::new`; generating with
+   * it fails as `Shamir` (cause `InvalidThreshold`).
    */
   static from(options: GroupSpecOptions): GroupSpec;
   /**
    * Parse `"<threshold>-of-<count>"`; each side is digits with an optional
-   * leading `+`, nothing else.
-   * @throws {SskrError} `GroupSpecInvalid`, then the `from` codes.
+   * leading `+`, nothing else, up to `u64::MAX`.
+   * @throws {SskrError} `InvalidParameter` unless `text` is a string;
+   * `GroupSpecInvalid`, then the `from` codes.
    */
-  static parse(s: string): GroupSpec;
+  static parse(text: string): GroupSpec;
   /** `1-of-1`. */
   static readonly DEFAULT: GroupSpec;
+  /** Same threshold and count; `false` for anything that is not a `GroupSpec` (one from another copy of this package compares by its fields). */
+  equals(other: unknown): boolean;
   /** `"<threshold>-of-<count>"` */
   toString(): string;
 }
 /** Options for {@link Spec.from}. */
 interface SpecOptions {
-  /** Groups that must each meet their member threshold; `1 ≤ groupThreshold ≤ groups.length`. */
-  readonly groupThreshold: number;
+  /**
+   * Groups that must each meet their member threshold;
+   * `1 ≤ groupThreshold ≤ groups.length`. A `usize`: a `number` or a `bigint`.
+   */
+  readonly groupThreshold: number | bigint;
   /** The groups, at most 16. */
   readonly groups: readonly GroupSpec[];
 }
@@ -163,13 +197,21 @@ export declare class Spec {
   /** The groups, in order; a frozen copy of what was passed. */
   readonly groups: readonly GroupSpec[];
   private constructor();
+  /** Type guard for a `Spec`, including one from another copy of this package. */
+  static isSpec(value: unknown): value is Spec;
   /**
-   * A validated spec over a frozen copy of `groups`.
-   * @throws {SskrError} `InvalidParameter` unless `groupThreshold` is a safe
-   * non-negative integer; then `GroupThresholdInvalid` (0 or > groups),
-   * `GroupCountInvalid` (> 16), in the reference's order.
+   * A validated spec over a frozen copy of `groups`. The fields are read
+   * once and `groups` is snapshotted by index, so what is checked is what
+   * is stored; a `GroupSpec` from another copy of this package is rebuilt
+   * through this copy's factory.
+   * @throws {SskrError} `InvalidParameter` unless `options` is an object,
+   * `groupThreshold` a `usize` and `groups` an array of `GroupSpec`; then
+   * `GroupThresholdInvalid` (0 or > groups), `GroupCountInvalid` (> 16), in
+   * the reference's order.
    */
   static from(options: SpecOptions): Spec;
+  /** Same group threshold and pairwise equal groups; `false` for anything that is not a `Spec` (one from another copy of this package compares by its fields). */
+  equals(other: unknown): boolean;
   /** Number of groups. */
   get groupCount(): number;
   /** Total shares across all groups. */
@@ -179,7 +221,7 @@ export declare class Spec {
 //#region src/share.d.ts
 /**
  * One SSKR share. All fields are wire; the objects {@link generateShares}
- * returns are frozen.
+ * and {@link parseShare} return are frozen.
  */
 interface SskrShare {
   /** 16-bit random identifier shared by every share of one split. */
@@ -200,54 +242,71 @@ interface SskrShare {
 /**
  * Serialize: identifier (2 bytes, big-endian), `(gt-1)<<4 | (gc-1)`,
  * `gi<<4 | (mt-1)`, `mi` (reserved high nibble zero), then the value.
- * @throws {SskrError} `InvalidParameter` for a header field outside its
- * width on this TypeScript-only public serialization API, then
+ * The reference's serializer is private and only ever sees fields from a
+ * validated spec; this public one validates the object instead.
+ * @throws {SskrError} `InvalidParameter` for a non-object, a header field
+ * outside its width or a `value` that is not a `Secret`;
  * `GroupThresholdInvalid` when `groupThreshold > groupCount`.
  */
 export declare function shareBytes(share: SskrShare): Uint8Array<ArrayBuffer>;
 /**
- * Parse the wire form.
- * @throws {SskrError} `ShareLengthInvalid` (under 5 bytes), `GroupThresholdInvalid`
+ * Parse the wire form: the checks the reference makes on each share inside
+ * `sskr_combine`, in its order. The result is frozen.
+ * @throws {SskrError} `InvalidParameter` unless `bytes` is a `Uint8Array`;
+ * then `ShareLengthInvalid` (under 5 bytes), `GroupThresholdInvalid`
  * (threshold above count), `ShareReservedBitsInvalid`, then the secret codes.
  */
 export declare function parseShare(bytes: Uint8Array): SskrShare;
 /**
- * Whether `share` is a parsed share (vs its bytes): a duck-type check on
- * `value instanceof Secret`, enough to tell the two forms
- * {@link combineShares} accepts apart. It does not validate the fields;
- * {@link shareBytes} does.
+ * Whether `share` is a share object (vs its bytes): an object whose `value`
+ * is a `Secret`, from this or another copy of this package. That is enough
+ * to tell the two forms {@link combineShares} accepts apart; it does not
+ * validate the header fields, which {@link shareBytes} and `combineShares` do.
  */
 export declare function isSskrShare(share: unknown): share is SskrShare;
 //#endregion
 //#region src/generate.d.ts
 /**
  * Options for {@link generateShares}: rand's `rng` (secure by default), which
- * draws the identifier and every Shamir share.
+ * draws the identifier and every Shamir share. `null` or `undefined` selects
+ * the secure generator; a generator without a callable `fillBytes` fails at
+ * the identifier draw with rand's `RandError` `InvalidGenerator`.
  */
 type GenerateOptions = RngOptions;
 /**
  * Split `secret` per `spec`: one array of shares per group, in spec order.
  *
- * The draw order is wire: two identifier bytes first, then the group-level
- * Shamir split, then each group's member split in group order. The share
- * objects are frozen.
- * @throws {SskrError} `Shamir` for a Shamir failure.
+ * The arguments are checked before the first draw: `spec` must be a `Spec`
+ * and `secret` a `Secret` (instances from another copy of this package are
+ * rebuilt through this copy's factories), `options` an object or absent.
+ * The draw order is wire: two identifier bytes first (through rand's
+ * `fillRandomBytes`, so a malformed generator fails there with rand's
+ * `RandError`, unwrapped), then the group-level Shamir split, then each
+ * group's member split in group order. A generator's own error propagates
+ * unwrapped. The share objects are frozen.
+ * @throws {SskrError} `InvalidParameter` for an argument of the wrong type;
+ * `Shamir` for a Shamir failure, including a group whose member threshold
+ * is 0 (cause `InvalidThreshold`), after every earlier draw.
  */
 export declare function generateShares(spec: Spec, secret: Secret, options?: GenerateOptions): SskrShare[][];
 //#endregion
 //#region src/combine.d.ts
 /**
- * Recover the secret from `shares` (parsed `SskrShare` objects, serialized
- * bytes, or both in one array — a JS-only convenience; the reference takes
- * bytes), in any order. Every share must carry the same identifier, group
+ * Recover the secret from `shares`: serialized bytes (what the reference
+ * takes), share objects, or both in one array, in any order. Each element is
+ * normalised once, in array order: bytes through {@link parseShare}, an
+ * object through the checks {@link shareBytes} makes; so at every position
+ * an object has exactly the outcome its bytes would have, and errors surface
+ * in array order. Every share must carry the same identifier, group
  * threshold, group count and value length; a group that fails its Shamir
  * recovery is skipped.
  *
- * @throws {SskrError} `SharesEmpty`, the parse codes, `ShareSetInvalid`,
- * `MemberThresholdInvalid`, `DuplicateMemberIndex`, `NotEnoughGroups`,
- * `Shamir`.
+ * @throws {SskrError} `InvalidParameter` for a non-array or an element that
+ * is neither bytes nor a share object; `SharesEmpty`, the parse codes,
+ * `ShareSetInvalid`, `MemberThresholdInvalid`, `DuplicateMemberIndex`,
+ * `NotEnoughGroups`, `Shamir`.
  */
 export declare function combineShares(shares: readonly (SskrShare | Uint8Array)[]): Secret;
 //#endregion
-export type { GenerateOptions, GroupSpecOptions, SpecOptions, SskrErrorCode, SskrErrorDetails, SskrPlainCode, SskrShare };
+export type { GenerateOptions, GroupSpecOptions, SpecOptions, SskrErrorCode, SskrErrorDetails, SskrParameter, SskrPlainCode, SskrShare };
 //# sourceMappingURL=index.d.mts.map
