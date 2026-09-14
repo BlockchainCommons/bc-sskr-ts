@@ -4,9 +4,10 @@
  * @module combine
  */
 import { ShamirError, recoverSecret, type ShamirShare } from "@blockchaincommons/shamir";
+import { isBytes } from "./domain.js";
 import { SskrError } from "./error.js";
 import { Secret } from "./secret.js";
-import { type SskrShare, isSskrShare, parseShare } from "./share.js";
+import { type SskrShare, checkedShare, parseShare } from "./share.js";
 
 interface Group {
   readonly groupIndex: number;
@@ -15,19 +16,30 @@ interface Group {
 }
 
 /**
- * Recover the secret from `shares` (parsed `SskrShare` objects, serialized
- * bytes, or both in one array — a JS-only convenience; the reference takes
- * bytes), in any order. Every share must carry the same identifier, group
+ * Recover the secret from `shares`: serialized bytes (what the reference
+ * takes), share objects, or both in one array, in any order. Each element is
+ * normalised once, in array order: bytes through {@link parseShare}, an
+ * object through the checks {@link shareBytes} makes; so at every position
+ * an object has exactly the outcome its bytes would have, and errors surface
+ * in array order. Every share must carry the same identifier, group
  * threshold, group count and value length; a group that fails its Shamir
  * recovery is skipped.
  *
- * @throws {SskrError} `SharesEmpty`, the parse codes, `ShareSetInvalid`,
- * `MemberThresholdInvalid`, `DuplicateMemberIndex`, `NotEnoughGroups`,
- * `Shamir`.
+ * @throws {SskrError} `InvalidParameter` for a non-array or an element that
+ * is neither bytes nor a share object; `SharesEmpty`, the parse codes,
+ * `ShareSetInvalid`, `MemberThresholdInvalid`, `DuplicateMemberIndex`,
+ * `NotEnoughGroups`, `Shamir`.
  */
 export function combineShares(shares: readonly (SskrShare | Uint8Array)[]): Secret {
-  if (shares.length === 0) throw SskrError.of("SharesEmpty");
-  const parsed = shares.map((s) => (isSskrShare(s) ? s : parseShare(s)));
+  const input: unknown = shares;
+  if (!Array.isArray(input)) throw SskrError.invalidParameter("shares", input, "an array");
+  const items: readonly unknown[] = input;
+  const count = items.length;
+  if (count === 0) throw SskrError.of("SharesEmpty");
+  const parsed: SskrShare[] = Array.from({ length: count }, (_, i) => {
+    const item = items[i];
+    return isBytes(item) ? parseShare(item) : checkedShare(item);
+  });
   const first = parsed[0];
   const groups: Group[] = [];
 
@@ -67,6 +79,8 @@ export function combineShares(shares: readonly (SskrShare | Uint8Array)[]): Secr
     try {
       groupShares.push({ index: group.groupIndex, data: recoverSecret(group.members) });
     } catch (e) {
+      // `ShamirError` is the class of the same `recoverSecret` import, so
+      // every failure it reports is an instance; a group that fails is skipped.
       if (e instanceof ShamirError) continue;
       throw e;
     }

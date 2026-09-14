@@ -57,3 +57,85 @@ jobs:
 
       - name: Check dependency hygiene
         run: bun run check:deps
+
+  rust-validation:
+    name: Cross-validate vectors against the Rust reference
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
+        with:
+          bun-version: latest
+
+      - name: Setup Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: '24'
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      # The stored outcomes must first equal the working tree's.
+      - name: Check the golden vectors against the working tree
+        run: bun run test:golden
+
+      # The whole corpus (tests/corpus/corpus.ts `allRecipes()`
+      - name: Materialise the full corpus and the header sweep
+        run: |
+          bun run vectors:full "${{ runner.temp }}/sskr-full-corpus.json"
+          bun run vectors:sweep "${{ runner.temp }}/sskr-header-sweep.json"
+
+      # The runner image ships a stable Rust toolchain
+      - name: Fetch the pinned reference crates
+        working-directory: tests/rust-validation
+        run: cargo fetch --locked
+
+      - name: Validate the golden vectors against sskr
+        working-directory: tests/rust-validation
+        run: cargo run --release --locked --offline -- ../vectors/vectors.json
+
+      - name: Validate the full corpus against sskr
+        working-directory: tests/rust-validation
+        run: cargo run --release --locked --offline -- "${{ runner.temp }}/sskr-full-corpus.json"
+
+      - name: Validate the header sweep against sskr
+        working-directory: tests/rust-validation
+        run: cargo run --release --locked --offline -- "${{ runner.temp }}/sskr-header-sweep.json"
+
+      # The comparison must bite: the committed one-vector fixture with a
+      # flipped share digit fails with exactly one MISMATCH.
+      - name: Reject the mismatch fixture
+        working-directory: tests/rust-validation
+        run: |
+          set +e
+          output=$(cargo run --release --locked --offline --quiet -- mismatch.json 2>&1)
+          status=$?
+          set -e
+          printf '%s\n' "$output"
+          test "$status" -eq 1
+          printf '%s\n' "$output" | grep -q ' 1 MISMATCH$'
+
+      # The harness's own contract: integer classes, a malformed recipe that
+      # is reported rather than panicking, and a wrong Shamir cause.
+      - name: Check the harness fixtures
+        working-directory: tests/rust-validation
+        run: |
+          set +e
+          classes=$(cargo run --release --locked --offline --quiet -- fixtures/classes.json 2>&1)
+          classes_status=$?
+          malformed=$(cargo run --release --locked --offline --quiet -- fixtures/malformed.json 2>&1)
+          malformed_status=$?
+          cause=$(cargo run --release --locked --offline --quiet -- fixtures/cause.json 2>&1)
+          cause_status=$?
+          set -e
+          printf '%s\n%s\n%s\n' "$classes" "$malformed" "$cause"
+          test "$classes_status" -eq 0
+          printf '%s\n' "$classes" | grep -q '^4 vectors - 1 match, 3 js-only, 0 MISMATCH$'
+          test "$malformed_status" -eq 1
+          printf '%s\n' "$malformed" | grep -q ', 1 unparsable$'
+          test "$cause_status" -eq 1
+          printf '%s\n' "$cause" | grep -q ' 1 MISMATCH$'

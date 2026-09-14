@@ -1,0 +1,33 @@
+{
+ "count": 1,
+ "vectors": [
+  {
+   "name": "generate 1/[0-of-3] len=16 seed=172951 (wrong Shamir cause: must be a MISMATCH)",
+   "recipe": {
+    "k": "generate",
+    "spec": {
+     "gt": 1,
+     "groups": [
+      {
+       "mt": 0,
+       "mc": 3
+      }
+     ]
+    },
+    "secret": {
+     "cycle": 16,
+     "start": 32
+    },
+    "rng": {
+     "seed": [
+      "17295166580085024720",
+      "422929670265678780",
+      "5577237070365765850",
+      "7953171132032326923"
+     ]
+    }
+   },
+   "expect": "throw:Shamir(ChecksumFailure):SSKR Shamir error: checksum failure"
+  }
+ ]
+}

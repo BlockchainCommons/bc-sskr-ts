@@ -1,8 +1,11 @@
-// Tests ported from bc-sskr-rust, expressed against the redesigned API.
+// Tests ported from bc-sskr-rust, plus the TypeScript input contract.
 
+import { runInNewContext } from "node:vm";
+import { vi } from "vitest";
 import type { RandomNumberGenerator } from "@blockchaincommons/rand";
-import { SeededRng } from "@blockchaincommons/rand";
+import { RandError, SeededRng, fillRandomBytes } from "@blockchaincommons/rand";
 import { nextInClosedRangeU64 } from "@blockchaincommons/rand/samplers";
+import { ShamirError } from "@blockchaincommons/shamir";
 import {
   Secret,
   GroupSpec,
@@ -231,12 +234,12 @@ describe("errors", () => {
     expect(SskrError.isSskrError(foreign)).toBe(true);
     expect(SskrError.isSskrError(new Error("x"))).toBe(false);
   });
-  it("InvalidParameter for non-integer spec fields, before the reference chain (B1)", () => {
+  it("InvalidParameter for spec fields that are not a usize, before the reference chain", () => {
     expect(code(() => g(1.5, 3))).toBe("InvalidParameter");
     expect(code(() => g(1, NaN))).toBe("InvalidParameter");
     expect(code(() => g(-1, 3))).toBe("InvalidParameter");
     expect(() => g(2, 2.5)).toThrow(
-      "memberCount must be an integer in [0, 9007199254740991], got 2.5",
+      "memberCount must be an integer in [0, 18446744073709551615] (a number or a bigint), got 2.5",
     );
     expect(code(() => spec(NaN, g(1, 1)))).toBe("InvalidParameter");
     expect(code(() => spec(1.5, g(1, 1), g(1, 1)))).toBe("InvalidParameter");
@@ -255,13 +258,84 @@ describe("errors", () => {
     expect(code(() => g(5, 3))).toBe("MemberThresholdInvalid");
     expect(code(() => spec(0, g(1, 1)))).toBe("GroupThresholdInvalid");
   });
-  it("a zero member threshold is MemberThresholdInvalid at construction (B2, D1)", () => {
-    expect(code(() => g(0, 3))).toBe("MemberThresholdInvalid");
-    expect(code(() => GroupSpec.parse("0-of-3"))).toBe("MemberThresholdInvalid");
-    expect(code(() => GroupSpec.parse("+0-of-1"))).toBe("MemberThresholdInvalid");
-    expect(GroupSpec.DEFAULT.memberThreshold).toBe(1);
+  it("spec fields take the whole usize domain as numbers or bigints", () => {
+    // Unsafe numbers and bigints reach the reference's checks with the reference's codes.
+    expect(code(() => g(2 ** 53, 3))).toBe("MemberThresholdInvalid");
+    expect(code(() => g(1, 2 ** 53))).toBe("MemberCountInvalid");
+    expect(code(() => g(2 ** 64, 2 ** 64))).toBe("MemberCountInvalid");
+    expect(code(() => Spec.from({ groupThreshold: 2 ** 53, groups: [g(2, 3)] }))).toBe(
+      "GroupThresholdInvalid",
+    );
+    expect(code(() => GroupSpec.from({ memberThreshold: 2n ** 53n, memberCount: 3n }))).toBe(
+      "MemberThresholdInvalid",
+    );
+    expect(
+      code(() => GroupSpec.from({ memberThreshold: 0xffffffffffffffffn, memberCount: 3 })),
+    ).toBe("MemberThresholdInvalid");
+    const fromBigints = GroupSpec.from({ memberThreshold: 2n, memberCount: 3n });
+    expect([fromBigints.memberThreshold, fromBigints.memberCount]).toEqual([2, 3]);
+    const specFromBigint = Spec.from({ groupThreshold: 1n, groups: [fromBigints] });
+    expect(specFromBigint.groupThreshold).toBe(1);
+    // Outside the domain: above 2^64 as a number, or a bigint outside [0, 2^64 - 1].
+    expect(code(() => g(2 ** 65, 3))).toBe("InvalidParameter");
+    expect(code(() => GroupSpec.from({ memberThreshold: -1n, memberCount: 3n }))).toBe(
+      "InvalidParameter",
+    );
+    expect(code(() => GroupSpec.from({ memberThreshold: 1n, memberCount: 2n ** 64n }))).toBe(
+      "InvalidParameter",
+    );
+    // `details.value` is what was passed; the message renders it exactly.
+    try {
+      GroupSpec.from({ memberThreshold: 1n, memberCount: 2n ** 64n });
+    } catch (e) {
+      expect(SskrError.isSskrError(e) && e.details).toEqual({
+        code: "InvalidParameter",
+        parameter: "memberCount",
+        value: 2n ** 64n,
+      });
+      expect((e as SskrError).message).toBe(
+        "memberCount must be an integer in [0, 18446744073709551615] (a number or a bigint), got 18446744073709551616n",
+      );
+    }
+    expect(() => g(2 ** 65, 3)).toThrow("got 36893488147419103232");
   });
-  it("shareBytes rejects header fields outside their width (B3, D2)", () => {
+  it("a zero member threshold is accepted and fails at generation, as in the reference", () => {
+    expect(g(0, 3).toString()).toBe("0-of-3");
+    expect(GroupSpec.parse("+0-of-1").toString()).toBe("0-of-1");
+    expect(code(() => g(0, 0))).toBe("MemberCountInvalid");
+    expect(code(() => g(0, 17))).toBe("MemberCountInvalid");
+    expect(GroupSpec.DEFAULT.memberThreshold).toBe(1);
+    // Generation draws the identifier and the group split, then fails on the
+    // member split; the generator is left where the reference leaves it, so a
+    // following generation yields the bytes the Rust harness pins.
+    const secret = Secret.from(Uint8Array.from({ length: 16 }, (_, i) => 0x20 + i));
+    const rng = new SeededRng(
+      [
+        "17295166580085024720",
+        "422929670265678780",
+        "5577237070365765850",
+        "7953171132032326923",
+      ].map(BigInt) as [bigint, bigint, bigint, bigint],
+    );
+    let failure: SskrError | undefined;
+    try {
+      generateShares(spec(1, g(0, 3)), secret, { rng });
+    } catch (e) {
+      failure = e as SskrError;
+    }
+    expect(failure?.code).toBe("Shamir");
+    expect(failure?.details.code === "Shamir" && failure.details.cause.code).toBe(
+      "InvalidThreshold",
+    );
+    expect(failure?.message).toBe("SSKR Shamir error: invalid threshold");
+    const next = generateShares(spec(1, g(2, 3)), secret, { rng })[0];
+    expect(next.map((s) => bytesToHex(shareBytes(s)))).toEqual([
+      "59bb000100b36f39f68bdc97d81d15da7575c3a752",
+      "59bb000101ce86268210957fd907f36f471305d9e9",
+      "59bb00010249a6071ea64e5cda29c2ab11b9545b3f",
+    ]);
+  });
+  it("shareBytes rejects header fields outside their width", () => {
     const secret = Secret.from(new Uint8Array(16).fill(1));
     const share = generateShares(spec(1, g(2, 3)), secret, { rng: fakeRng() })[0][0];
     const withPatch = (patch: Partial<SskrShare>) => code(() => shareBytes({ ...share, ...patch }));
@@ -383,5 +457,269 @@ describe("fuzz (Rust test_fuzz)", () => {
   it("100 random split/recover iterations", () => {
     const rng = SeededRng.forTesting();
     for (let i = 0; i < 100; i++) oneFuzz(rng);
+  });
+});
+
+/** A deliberately ill-typed argument, as a JavaScript caller can pass one. */
+const ill = (v: unknown): never => v as never;
+
+describe("argument validation", () => {
+  /** `ok`, the error code, or `InvalidParameter:<parameter>`. */
+  const param = (f: () => unknown): string => {
+    try {
+      f();
+      return "ok";
+    } catch (e) {
+      expect(SskrError.isSskrError(e)).toBe(true);
+      const err = e as SskrError;
+      return err.details.code === "InvalidParameter"
+        ? `InvalidParameter:${err.details.parameter}`
+        : err.code;
+    }
+  };
+  const secret = () => Secret.from(Uint8Array.from({ length: 16 }, (_, i) => i + 1));
+  const share = () => generateShares(spec(1, g(2, 3)), secret(), { rng: fakeRng() })[0][0];
+
+  it("rejects an argument of the wrong type with InvalidParameter naming it", () => {
+    expect(param(() => Secret.from(ill("0123456789abcdef")))).toBe("InvalidParameter:bytes");
+    expect(param(() => Secret.from(ill("é1234567890123a")))).toBe("InvalidParameter:bytes");
+    expect(param(() => Secret.from(ill(Array.from({ length: 16 }, () => 1))))).toBe(
+      "InvalidParameter:bytes",
+    );
+    expect(param(() => Secret.from(ill(new Uint16Array(16))))).toBe("InvalidParameter:bytes");
+    expect(param(() => Secret.fromText(ill(123)))).toBe("InvalidParameter:text");
+    expect(param(() => parseShare(ill(Array.from(shareBytes(share())))))).toBe(
+      "InvalidParameter:bytes",
+    );
+    expect(param(() => combineShares(ill("abc")))).toBe("InvalidParameter:shares");
+    expect(param(() => combineShares(ill(undefined)))).toBe("InvalidParameter:shares");
+    expect(param(() => combineShares(ill([5])))).toBe("InvalidParameter:share");
+    expect(param(() => GroupSpec.parse(ill(123)))).toBe("InvalidParameter:text");
+    expect(param(() => GroupSpec.from(ill(undefined)))).toBe("InvalidParameter:options");
+    expect(param(() => Spec.from(ill(null)))).toBe("InvalidParameter:options");
+    expect(param(() => Spec.from({ groupThreshold: 1, groups: ill("ab") }))).toBe(
+      "InvalidParameter:groups",
+    );
+    expect(
+      param(() =>
+        Spec.from({ groupThreshold: 1, groups: [ill({ memberThreshold: 1, memberCount: 17 })] }),
+      ),
+    ).toBe("InvalidParameter:groups");
+    expect(param(() => generateShares(spec(1, g(2, 3)), secret(), ill("x")))).toBe(
+      "InvalidParameter:options",
+    );
+    expect(
+      param(() =>
+        generateShares(ill({ groupThreshold: 1, groups: [GroupSpec.DEFAULT] }), secret()),
+      ),
+    ).toBe("InvalidParameter:spec");
+    expect(param(() => generateShares(spec(1, g(2, 3)), ill({ bytes: new Uint8Array(15) })))).toBe(
+      "InvalidParameter:secret",
+    );
+    expect(() => Secret.from(ill("0123456789abcdef"))).toThrow(
+      'bytes must be a Uint8Array, got "0123456789abcdef"',
+    );
+  });
+  it("reads groups once, by index", () => {
+    const groups = [GroupSpec.DEFAULT];
+    (groups as unknown as Record<symbol, unknown>)[Symbol.iterator] = function* () {
+      for (let i = 0; i < 20; i++) yield GroupSpec.DEFAULT;
+    };
+    expect(Spec.from({ groupThreshold: 1, groups }).groupCount).toBe(1);
+  });
+  it("copies a Buffer before checking it, and accepts a cross-realm Uint8Array", () => {
+    const buffer = Buffer.alloc(16);
+    const s = Secret.from(buffer);
+    buffer[0] = 1;
+    expect(s.bytes[0]).toBe(0);
+    const foreignBytes = runInNewContext("new Uint8Array(16).fill(7)") as Uint8Array;
+    expect(foreignBytes instanceof Uint8Array).toBe(false);
+    expect(Secret.from(foreignBytes).bytes[0]).toBe(7);
+    const wire = shareBytes(share());
+    const foreignWire = runInNewContext(
+      `Uint8Array.from(${JSON.stringify(Array.from(wire))})`,
+    ) as Uint8Array;
+    expect(parseShare(foreignWire).identifier).toBe(0x0011);
+  });
+  it("parsed shares are frozen", () => {
+    expect(Object.isFrozen(parseShare(shareBytes(share())))).toBe(true);
+  });
+  it("Secret.equals is false for anything that is not a Secret", () => {
+    const s = secret();
+    expect(s.equals(undefined)).toBe(false);
+    expect(s.equals({})).toBe(false);
+    expect(s.equals({ bytes: s.bytes, byteLength: 16 })).toBe(false);
+    expect(s.equals(s.clone())).toBe(true);
+  });
+  it("a share object at any position has exactly the outcome of its bytes, in array order", () => {
+    const [a, b] = generateShares(spec(1, g(2, 3)), secret(), { rng: fakeRng() })[0];
+    const patched = (s: SskrShare, patch: Partial<SskrShare>): SskrShare => ({ ...s, ...patch });
+    expect(
+      param(() =>
+        combineShares([
+          patched(a, { groupThreshold: 2, groupCount: 1 }),
+          patched(b, { groupThreshold: 2, groupCount: 1 }),
+        ]),
+      ),
+    ).toBe("GroupThresholdInvalid");
+    expect(param(() => combineShares([a, patched(b, { memberIndex: 16 })]))).toBe(
+      "InvalidParameter:memberIndex",
+    );
+    expect(
+      param(() =>
+        combineShares([patched(a, { identifier: 70000 }), patched(b, { identifier: 70000 })]),
+      ),
+    ).toBe("InvalidParameter:identifier");
+    expect(param(() => combineShares([patched(a, { memberThreshold: 0 })]))).toBe(
+      "InvalidParameter:memberThreshold",
+    );
+    expect(
+      param(() => combineShares([shareBytes(a).subarray(0, 4), patched(b, { identifier: 70000 })])),
+    ).toBe("ShareLengthInvalid");
+    expect(param(() => combineShares([patched(a, { value: ill(a.value.bytes) }), b]))).toBe(
+      "InvalidParameter:value",
+    );
+  });
+});
+
+describe("the generator", () => {
+  const secret = () => Secret.from(Uint8Array.from({ length: 16 }, (_, i) => i + 1));
+  it("draws two identifier bytes first, then the splits, all through rand's contract", () => {
+    const fills: number[] = [];
+    const inner = fakeRng();
+    const recording: RandomNumberGenerator = {
+      ...inner,
+      fillBytes(data) {
+        fills.push(data.length);
+        inner.fillBytes(data);
+      },
+    };
+    const groups = generateShares(spec(1, g(2, 3)), secret(), { rng: recording });
+    expect(fills[0]).toBe(2);
+    expect(fills.length).toBeGreaterThan(1);
+    expect(groups[0][0].identifier).toBe(0x0011);
+  });
+  it("a malformed generator fails at the identifier draw with rand's InvalidGenerator, unwrapped", () => {
+    const expected = (() => {
+      try {
+        fillRandomBytes(new Uint8Array(2), { rng: {} as RandomNumberGenerator });
+      } catch (e) {
+        return e as RandError;
+      }
+      throw new Error("unreachable");
+    })();
+    let got: unknown;
+    try {
+      generateShares(spec(1, g(2, 3)), secret(), { rng: {} as RandomNumberGenerator });
+    } catch (e) {
+      got = e;
+    }
+    expect(RandError.isRandError(got)).toBe(true);
+    expect(SskrError.isSskrError(got)).toBe(false);
+    const err = got as RandError;
+    expect(err.code).toBe("InvalidGenerator");
+    expect(err.details).toEqual(expected.details);
+    expect(err.message).toBe(expected.message);
+  });
+  it("a generator's own ShamirError is unwrapped at the identifier draw and wrapped inside a split", () => {
+    const throwingAt = (call: number): RandomNumberGenerator => {
+      let n = 0;
+      const inner = fakeRng();
+      return {
+        ...inner,
+        fillBytes(data) {
+          n += 1;
+          if (n === call) throw ShamirError.invalidThreshold();
+          inner.fillBytes(data);
+        },
+      };
+    };
+    let first: unknown;
+    try {
+      generateShares(spec(1, g(2, 3)), secret(), { rng: throwingAt(1) });
+    } catch (e) {
+      first = e;
+    }
+    expect(ShamirError.isShamirError(first)).toBe(true);
+    expect(SskrError.isSskrError(first)).toBe(false);
+    let later: unknown;
+    try {
+      generateShares(spec(1, g(2, 3)), secret(), { rng: throwingAt(2) });
+    } catch (e) {
+      later = e;
+    }
+    expect(SskrError.isSskrError(later)).toBe(true);
+    expect((later as SskrError).code).toBe("Shamir");
+    expect((later as SskrError).details).toMatchObject({ cause: { code: "InvalidThreshold" } });
+  });
+  it("rng null or undefined selects the secure generator", () => {
+    const a = generateShares(spec(1, g(1, 1)), secret(), { rng: null as unknown as undefined });
+    const b = generateShares(spec(1, g(1, 1)), secret(), { rng: undefined });
+    expect(a[0][0].identifier).not.toBe(b[0][0].identifier);
+  });
+});
+
+describe("GroupSpec and Spec equality", () => {
+  it("compares by fields; false for anything else", () => {
+    expect(g(2, 3).equals(GroupSpec.parse("2-of-3"))).toBe(true);
+    expect(g(2, 3).equals(g(3, 3))).toBe(false);
+    expect(g(2, 3).equals({ memberThreshold: 2, memberCount: 3 })).toBe(false);
+    expect(g(2, 3).equals(undefined)).toBe(false);
+    const a = spec(2, g(2, 3), g(3, 5));
+    expect(a.equals(spec(2, GroupSpec.parse("2-of-3"), g(3, 5)))).toBe(true);
+    expect(a.equals(spec(1, g(2, 3), g(3, 5)))).toBe(false);
+    expect(a.equals(spec(2, g(2, 3), g(3, 6)))).toBe(false);
+    expect(a.equals(spec(2, g(2, 3), g(3, 5), g(1, 1)))).toBe(false);
+    expect(a.equals({ groupThreshold: 2, groups: a.groups })).toBe(false);
+    expect(a.equals(null)).toBe(false);
+  });
+});
+
+describe("instances from another copy of the package", () => {
+  it("are recognised by the guards, rebuilt, and interoperate", async () => {
+    vi.resetModules();
+    const other = await import("../src/index.js");
+    expect(other.Secret).not.toBe(Secret);
+    const bytes = Uint8Array.from({ length: 16 }, (_, i) => i + 1);
+    const local = Secret.from(bytes);
+    const foreignSecret = other.Secret.from(bytes);
+    const foreignSpec = other.Spec.from({
+      groupThreshold: 2,
+      groups: [
+        other.GroupSpec.parse("2-of-3"),
+        other.GroupSpec.from({ memberThreshold: 3, memberCount: 5 }),
+      ],
+    });
+    expect(foreignSecret instanceof Secret).toBe(false);
+    expect(Secret.isSecret(foreignSecret)).toBe(true);
+    expect(Spec.isSpec(foreignSpec)).toBe(true);
+    expect(GroupSpec.isGroupSpec(foreignSpec.groups[0])).toBe(true);
+    expect(other.Secret.isSecret(local)).toBe(true);
+    // Foreign spec and secret through this copy's generation: the same bytes.
+    const here = generateShares(spec(2, g(2, 3), g(3, 5)), local, { rng: fakeRng() });
+    const viaForeign = generateShares(foreignSpec, foreignSecret, { rng: fakeRng() });
+    const wire = (groups: SskrShare[][]) => groups.flat().map((s) => bytesToHex(shareBytes(s)));
+    expect(wire(viaForeign)).toEqual(wire(here));
+    // Foreign share objects through this copy's combine.
+    const foreignShares = other.generateShares(foreignSpec, foreignSecret, { rng: fakeRng() });
+    const picked = [
+      foreignShares[0][0],
+      foreignShares[0][2],
+      foreignShares[1][0],
+      foreignShares[1][1],
+      foreignShares[1][4],
+    ];
+    expect(picked.every((s) => isSskrShare(s))).toBe(true);
+    expect(combineShares(picked).equals(local)).toBe(true);
+    // A foreign GroupSpec inside this copy's Spec is rebuilt here.
+    const rebuilt = Spec.from({ groupThreshold: 1, groups: [other.GroupSpec.DEFAULT] });
+    expect(rebuilt.groups[0]).toBeInstanceOf(GroupSpec);
+    expect(rebuilt.groups[0].toString()).toBe("1-of-1");
+    expect(local.equals(foreignSecret)).toBe(true);
+    expect(foreignSecret.equals(local)).toBe(true);
+    expect(spec(2, g(2, 3), g(3, 5)).equals(foreignSpec)).toBe(true);
+    expect(foreignSpec.equals(spec(2, g(2, 3), g(3, 5)))).toBe(true);
+    expect(g(2, 3).equals(foreignSpec.groups[0])).toBe(true);
+    expect(spec(2, g(2, 3), g(3, 6)).equals(foreignSpec)).toBe(false);
   });
 });

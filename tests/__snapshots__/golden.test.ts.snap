@@ -17,7 +17,7 @@ exports[`golden: error codes > parse 1`] = `
   "{"k":"parse","s":"16-of-16"} → 16-of-16",
   "{"k":"parse","s":"+2-of-3"} → 2-of-3",
   "{"k":"parse","s":"2-of-+3"} → 2-of-3",
-  "{"k":"parse","s":"0-of-3"} → throw:MemberThresholdInvalid",
+  "{"k":"parse","s":"0-of-3"} → 0-of-3",
   "{"k":"parse","s":"4-of-3"} → throw:MemberThresholdInvalid",
   "{"k":"parse","s":"2-of-17"} → throw:MemberCountInvalid",
   "{"k":"parse","s":"2-of-0"} → throw:MemberCountInvalid",
@@ -42,6 +42,12 @@ exports[`golden: error codes > parse 1`] = `
   "{"k":"parse","s":"2-of-9007199254740993"} → throw:MemberCountInvalid",
   "{"k":"parse","s":"18446744073709551615-of-3"} → throw:MemberThresholdInvalid",
   "{"k":"parse","s":"18446744073709551616-of-3"} → throw:GroupSpecInvalid",
+  "{"k":"parse","s":"0002-of-0003"} → 2-of-3",
+  "{"k":"parse","s":"2-of-03"} → 2-of-3",
+  "{"k":"parse","s":"٣-of-3"} → throw:GroupSpecInvalid",
+  "{"k":"parse","s":"𝟐-of-3"} → throw:GroupSpecInvalid",
+  "{"k":"parse","s":"2-of-3\\n"} → throw:GroupSpecInvalid",
+  "{"k":"parse","s":"1e1-of-16"} → throw:GroupSpecInvalid",
 ]
 `;
 
@@ -77,6 +83,9 @@ exports[`golden: error codes > share sets 1`] = `
   "3 shares → throw:NotEnoughGroups",
   "1 shares → throw:GroupThresholdInvalid",
   "2 shares → throw:ShareSetInvalid",
+  "4 shares → throw:Shamir(ChecksumFailure)",
+  "4 shares → throw:NotEnoughGroups",
+  "4 shares → 204188bfa6b440a1bdfd6753ff55a8241e07af5c5be943db917e3efabc184b1a",
 ]
 `;
 
@@ -84,19 +93,27 @@ exports[`golden: error codes > specs 1`] = `
 [
   "{"k":"spec","spec":{"gt":0,"groups":[{"mt":1,"mc":1}]}} → throw:GroupThresholdInvalid",
   "{"k":"spec","spec":{"gt":2,"groups":[{"mt":1,"mc":1}]}} → throw:GroupThresholdInvalid",
-  "{"k":"spec","spec":{"gt":1,"groups":[{"mt":0,"mc":1}]}} → throw:MemberThresholdInvalid",
+  "{"k":"spec","spec":{"gt":1,"groups":[{"mt":0,"mc":1}]}} → gc=1,sc=1,groups=0-of-1",
   "{"k":"spec","spec":{"gt":1,"groups":[{"mt":2,"mc":1}]}} → throw:MemberThresholdInvalid",
   "{"k":"spec","spec":{"gt":1,"groups":[{"mt":1,"mc":0}]}} → throw:MemberCountInvalid",
   "{"k":"spec","spec":{"gt":1,"groups":[{"mt":1,"mc":17}]}} → throw:MemberCountInvalid",
-  "{"k":"spec","spec":{"gt":1,"groups":[{"mt":16,"mc":16}]}} → gc=1,sc=16",
+  "{"k":"spec","spec":{"gt":1,"groups":[{"mt":16,"mc":16}]}} → gc=1,sc=16,groups=16-of-16",
   "{"k":"spec","spec":{"gt":1,"groups":[{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1}]}} → throw:GroupCountInvalid",
-  "{"k":"spec","spec":{"gt":16,"groups":[{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1}]}} → gc=16,sc=16",
+  "{"k":"spec","spec":{"gt":16,"groups":[{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1},{"mt":1,"mc":1}]}} → gc=16,sc=16,groups=1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1",
   "{"k":"spec","spec":{"gt":1,"groups":[]}} → throw:GroupThresholdInvalid",
-  "{"k":"spec","spec":{"gt":2,"groups":[{"mt":2,"mc":3},{"mt":3,"mc":5}]}} → gc=2,sc=8",
+  "{"k":"spec","spec":{"gt":2,"groups":[{"mt":2,"mc":3},{"mt":3,"mc":5}]}} → gc=2,sc=8,groups=2-of-3,3-of-5",
 ]
 `;
 
-exports[`golden: freeze additions > A1/A2: aliasing and mutability of the value objects 1`] = `
+exports[`golden: freeze additions > a zero member threshold is accepted and fails at generation 1`] = `
+[
+  "GroupSpec 0-of-3: 0-of-3",
+  "GroupSpec.parse("0-of-3"): 0-of-3",
+  "generate with 0-of-3: throw:Shamir:SSKR Shamir error: invalid threshold",
+]
+`;
+
+exports[`golden: freeze additions > aliasing and mutability of the value objects 1`] = `
 [
   "secret.bytes aliases the secret: equal before=true, after mutating bytes[0]=true",
   "spec.groups push: throw:TypeError:Cannot add property 2, object is not extensible",
@@ -104,28 +121,20 @@ exports[`golden: freeze additions > A1/A2: aliasing and mutability of the value 
 ]
 `;
 
-exports[`golden: freeze additions > B1: non-integer spec fields 1`] = `
+exports[`golden: freeze additions > non-integer spec fields 1`] = `
 [
-  "GroupSpec 1.5-of-3: throw:InvalidParameter:memberThreshold must be an integer in [0, 9007199254740991], got 1.5",
-  "GroupSpec 1-of-NaN: throw:InvalidParameter:memberCount must be an integer in [0, 9007199254740991], got NaN",
-  "GroupSpec -1-of-3: throw:InvalidParameter:memberThreshold must be an integer in [0, 9007199254740991], got -1",
-  "GroupSpec 2-of-2.5: throw:InvalidParameter:memberCount must be an integer in [0, 9007199254740991], got 2.5",
-  "GroupSpec 2-of-Infinity: throw:InvalidParameter:memberCount must be an integer in [0, 9007199254740991], got Infinity",
-  "Spec groupThreshold NaN: throw:InvalidParameter:groupThreshold must be an integer in [0, 9007199254740991], got NaN",
-  "generate groupThreshold 1.5 of two groups: throw:InvalidParameter:groupThreshold must be an integer in [0, 9007199254740991], got 1.5",
-  "generate 1-of-2.5: throw:InvalidParameter:memberCount must be an integer in [0, 9007199254740991], got 2.5",
+  "GroupSpec 1.5-of-3: throw:InvalidParameter:memberThreshold must be an integer in [0, 18446744073709551615] (a number or a bigint), got 1.5",
+  "GroupSpec 1-of-NaN: throw:InvalidParameter:memberCount must be an integer in [0, 18446744073709551615] (a number or a bigint), got NaN",
+  "GroupSpec -1-of-3: throw:InvalidParameter:memberThreshold must be an integer in [0, 18446744073709551615] (a number or a bigint), got -1",
+  "GroupSpec 2-of-2.5: throw:InvalidParameter:memberCount must be an integer in [0, 18446744073709551615] (a number or a bigint), got 2.5",
+  "GroupSpec 2-of-Infinity: throw:InvalidParameter:memberCount must be an integer in [0, 18446744073709551615] (a number or a bigint), got Infinity",
+  "Spec groupThreshold NaN: throw:InvalidParameter:groupThreshold must be an integer in [0, 18446744073709551615] (a number or a bigint), got NaN",
+  "generate groupThreshold 1.5 of two groups: throw:InvalidParameter:groupThreshold must be an integer in [0, 18446744073709551615] (a number or a bigint), got 1.5",
+  "generate 1-of-2.5: throw:InvalidParameter:memberCount must be an integer in [0, 18446744073709551615] (a number or a bigint), got 2.5",
 ]
 `;
 
-exports[`golden: freeze additions > B2: a zero member threshold 1`] = `
-[
-  "GroupSpec 0-of-3: throw:MemberThresholdInvalid:SSKR member threshold is invalid",
-  "GroupSpec.parse("0-of-3"): throw:MemberThresholdInvalid:SSKR member threshold is invalid",
-  "generate with 0-of-3: throw:MemberThresholdInvalid:SSKR member threshold is invalid",
-]
-`;
-
-exports[`golden: freeze additions > B3: shareBytes header fields outside their width 1`] = `
+exports[`golden: freeze additions > shareBytes header fields outside their width 1`] = `
 [
   "as generated: 7eb5000100",
   "identifier 0x1ffff: throw:InvalidParameter:identifier must be an integer in [0, 65535], got 131071",

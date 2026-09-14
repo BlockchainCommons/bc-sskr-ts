@@ -1,5 +1,5 @@
 {
- "count": 1012,
+ "count": 1054,
  "vectors": [
   {
    "name": "generate 1/[1-of-1] len=16 seed=172951",
@@ -12243,7 +12243,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.1",
@@ -12273,7 +12273,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1",
@@ -12307,7 +12307,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.2",
@@ -12337,7 +12337,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.2",
@@ -12371,7 +12371,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.1,0.2",
@@ -12405,7 +12405,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1,0.2",
@@ -12473,7 +12473,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.3",
@@ -12507,7 +12507,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.1,0.3",
@@ -12541,7 +12541,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1,0.3",
@@ -12613,7 +12613,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.2,0.3",
@@ -12761,7 +12761,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.4",
@@ -12795,7 +12795,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.1,0.4",
@@ -12829,7 +12829,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1,0.4",
@@ -12901,7 +12901,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.2,0.4",
@@ -13053,7 +13053,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.3,0.4",
@@ -13332,7 +13332,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(1,0,1)",
@@ -13371,7 +13371,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(0,0,16)",
@@ -13410,7 +13410,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(1,0,16)",
@@ -13449,7 +13449,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(0,0,128)",
@@ -13488,7 +13488,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(1,0,128)",
@@ -13527,7 +13527,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(0,1,1)",
@@ -13566,7 +13566,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(1,1,1)",
@@ -13605,7 +13605,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(0,1,16)",
@@ -13644,7 +13644,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(1,1,16)",
@@ -13683,7 +13683,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(0,1,128)",
@@ -13722,7 +13722,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(1,1,128)",
@@ -13761,7 +13761,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(0,2,1)",
@@ -13800,7 +13800,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(1,2,1)",
@@ -13839,7 +13839,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(0,2,16)",
@@ -13878,7 +13878,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:GroupThresholdInvalid"
+   "expect": "throw:GroupThresholdInvalid:SSKR group threshold is invalid"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(1,2,16)",
@@ -13917,7 +13917,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:GroupThresholdInvalid"
+   "expect": "throw:GroupThresholdInvalid:SSKR group threshold is invalid"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(0,2,128)",
@@ -13956,7 +13956,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:GroupThresholdInvalid"
+   "expect": "throw:GroupThresholdInvalid:SSKR group threshold is invalid"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(1,2,128)",
@@ -13995,7 +13995,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:GroupThresholdInvalid"
+   "expect": "throw:GroupThresholdInvalid:SSKR group threshold is invalid"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(0,3,1)",
@@ -14034,7 +14034,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:MemberThresholdInvalid"
+   "expect": "throw:MemberThresholdInvalid:SSKR member threshold is invalid"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(1,3,1)",
@@ -14073,7 +14073,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:MemberThresholdInvalid"
+   "expect": "throw:MemberThresholdInvalid:SSKR member threshold is invalid"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(0,3,16)",
@@ -14112,7 +14112,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(1,3,16)",
@@ -14151,7 +14151,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(0,3,128)",
@@ -14190,7 +14190,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(1,3,128)",
@@ -14229,7 +14229,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(0,4,1)",
@@ -14268,7 +14268,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:DuplicateMemberIndex"
+   "expect": "throw:DuplicateMemberIndex:When combining shares, the provided shares contained a duplicate member index"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(1,4,1)",
@@ -14307,7 +14307,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:DuplicateMemberIndex"
+   "expect": "throw:DuplicateMemberIndex:When combining shares, the provided shares contained a duplicate member index"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(0,4,16)",
@@ -14346,7 +14346,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:ShareReservedBitsInvalid"
+   "expect": "throw:ShareReservedBitsInvalid:SSKR shares contained invalid reserved bits"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(1,4,16)",
@@ -14385,7 +14385,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:ShareReservedBitsInvalid"
+   "expect": "throw:ShareReservedBitsInvalid:SSKR shares contained invalid reserved bits"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(0,4,128)",
@@ -14424,7 +14424,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:ShareReservedBitsInvalid"
+   "expect": "throw:ShareReservedBitsInvalid:SSKR shares contained invalid reserved bits"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(1,4,128)",
@@ -14463,7 +14463,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:ShareReservedBitsInvalid"
+   "expect": "throw:ShareReservedBitsInvalid:SSKR shares contained invalid reserved bits"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(0,5,1)",
@@ -14502,7 +14502,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(1,5,1)",
@@ -14541,7 +14541,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(0,5,16)",
@@ -14580,7 +14580,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(1,5,16)",
@@ -14619,7 +14619,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(0,5,128)",
@@ -14658,7 +14658,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(1,5,128)",
@@ -14697,7 +14697,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(0,12,1)",
@@ -14736,7 +14736,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(1,12,1)",
@@ -14775,7 +14775,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(0,12,16)",
@@ -14814,7 +14814,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(1,12,16)",
@@ -14853,7 +14853,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(0,12,128)",
@@ -14892,7 +14892,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[3-of-5] len=16 fake pick=0.0,0.1 corrupt(1,12,128)",
@@ -14931,7 +14931,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0",
@@ -14965,7 +14965,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.1",
@@ -14999,7 +14999,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1",
@@ -15037,7 +15037,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.2",
@@ -15071,7 +15071,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.2",
@@ -15109,7 +15109,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.1,0.2",
@@ -15147,7 +15147,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2",
@@ -15189,7 +15189,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=1.0",
@@ -15223,7 +15223,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,1.0",
@@ -15261,7 +15261,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.1,1.0",
@@ -15299,7 +15299,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,1.0",
@@ -15341,7 +15341,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.2,1.0",
@@ -15379,7 +15379,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.2,1.0",
@@ -15421,7 +15421,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.1,0.2,1.0",
@@ -15463,7 +15463,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0",
@@ -15509,7 +15509,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=1.1",
@@ -15543,7 +15543,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,1.1",
@@ -15581,7 +15581,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.1,1.1",
@@ -15619,7 +15619,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,1.1",
@@ -15661,7 +15661,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.2,1.1",
@@ -15699,7 +15699,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.2,1.1",
@@ -15741,7 +15741,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.1,0.2,1.1",
@@ -15783,7 +15783,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.1",
@@ -15829,7 +15829,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=1.0,1.1",
@@ -15867,7 +15867,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,1.0,1.1",
@@ -15909,7 +15909,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.1,1.0,1.1",
@@ -15951,7 +15951,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,1.0,1.1",
@@ -16039,7 +16039,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.2,1.0,1.1",
@@ -16165,7 +16165,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,1.2",
@@ -16203,7 +16203,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.1,1.2",
@@ -16241,7 +16241,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,1.2",
@@ -16283,7 +16283,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.2,1.2",
@@ -16321,7 +16321,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.2,1.2",
@@ -16363,7 +16363,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.1,0.2,1.2",
@@ -16405,7 +16405,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.2",
@@ -16451,7 +16451,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=1.0,1.2",
@@ -16489,7 +16489,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,1.0,1.2",
@@ -16531,7 +16531,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.1,1.0,1.2",
@@ -16573,7 +16573,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,1.0,1.2",
@@ -16661,7 +16661,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.2,1.0,1.2",
@@ -16791,7 +16791,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,1.1,1.2",
@@ -16833,7 +16833,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.1,1.1,1.2",
@@ -16875,7 +16875,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,1.1,1.2",
@@ -16963,7 +16963,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.2,1.1,1.2",
@@ -17097,7 +17097,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,1.0,1.1,1.2",
@@ -17143,7 +17143,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.1,1.0,1.1,1.2",
@@ -17189,7 +17189,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.2,1.0,1.1,1.2",
@@ -17235,7 +17235,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(0,0,1)",
@@ -17286,7 +17286,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(3,0,1)",
@@ -17337,7 +17337,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(0,0,16)",
@@ -17388,7 +17388,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(3,0,16)",
@@ -17439,7 +17439,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(0,0,128)",
@@ -17490,7 +17490,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(3,0,128)",
@@ -17541,7 +17541,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(0,1,1)",
@@ -17592,7 +17592,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(3,1,1)",
@@ -17643,7 +17643,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(0,1,16)",
@@ -17694,7 +17694,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(3,1,16)",
@@ -17745,7 +17745,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(0,1,128)",
@@ -17796,7 +17796,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(3,1,128)",
@@ -17847,7 +17847,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(0,2,1)",
@@ -17898,7 +17898,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:GroupThresholdInvalid"
+   "expect": "throw:GroupThresholdInvalid:SSKR group threshold is invalid"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(3,2,1)",
@@ -17949,7 +17949,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:GroupThresholdInvalid"
+   "expect": "throw:GroupThresholdInvalid:SSKR group threshold is invalid"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(0,2,16)",
@@ -18000,7 +18000,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(3,2,16)",
@@ -18051,7 +18051,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(0,2,128)",
@@ -18102,7 +18102,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:GroupThresholdInvalid"
+   "expect": "throw:GroupThresholdInvalid:SSKR group threshold is invalid"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(3,2,128)",
@@ -18153,7 +18153,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:GroupThresholdInvalid"
+   "expect": "throw:GroupThresholdInvalid:SSKR group threshold is invalid"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(0,3,1)",
@@ -18204,7 +18204,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:MemberThresholdInvalid"
+   "expect": "throw:MemberThresholdInvalid:SSKR member threshold is invalid"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(3,3,1)",
@@ -18255,7 +18255,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:Shamir"
+   "expect": "throw:Shamir(ChecksumFailure):SSKR Shamir error: checksum failure"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(0,3,16)",
@@ -18306,7 +18306,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:DuplicateMemberIndex"
+   "expect": "throw:DuplicateMemberIndex:When combining shares, the provided shares contained a duplicate member index"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(3,3,16)",
@@ -18357,7 +18357,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:DuplicateMemberIndex"
+   "expect": "throw:DuplicateMemberIndex:When combining shares, the provided shares contained a duplicate member index"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(0,3,128)",
@@ -18408,7 +18408,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(3,3,128)",
@@ -18459,7 +18459,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(0,4,1)",
@@ -18510,7 +18510,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:DuplicateMemberIndex"
+   "expect": "throw:DuplicateMemberIndex:When combining shares, the provided shares contained a duplicate member index"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(3,4,1)",
@@ -18561,7 +18561,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(0,4,16)",
@@ -18612,7 +18612,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:ShareReservedBitsInvalid"
+   "expect": "throw:ShareReservedBitsInvalid:SSKR shares contained invalid reserved bits"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(3,4,16)",
@@ -18663,7 +18663,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:ShareReservedBitsInvalid"
+   "expect": "throw:ShareReservedBitsInvalid:SSKR shares contained invalid reserved bits"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(0,4,128)",
@@ -18714,7 +18714,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:ShareReservedBitsInvalid"
+   "expect": "throw:ShareReservedBitsInvalid:SSKR shares contained invalid reserved bits"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(3,4,128)",
@@ -18765,7 +18765,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:ShareReservedBitsInvalid"
+   "expect": "throw:ShareReservedBitsInvalid:SSKR shares contained invalid reserved bits"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(0,5,1)",
@@ -18816,7 +18816,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(3,5,1)",
@@ -18867,7 +18867,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(0,5,16)",
@@ -18918,7 +18918,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(3,5,16)",
@@ -18969,7 +18969,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(0,5,128)",
@@ -19020,7 +19020,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(3,5,128)",
@@ -19071,7 +19071,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(0,12,1)",
@@ -19122,7 +19122,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(3,12,1)",
@@ -19173,7 +19173,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(0,12,16)",
@@ -19224,7 +19224,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(3,12,16)",
@@ -19275,7 +19275,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(0,12,128)",
@@ -19326,7 +19326,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[2-of-3,2-of-3] len=32 fake pick=0.0,0.1,0.2,1.0 corrupt(3,12,128)",
@@ -19377,7 +19377,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0",
@@ -19421,7 +19421,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0",
@@ -19465,7 +19465,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0",
@@ -19513,7 +19513,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.1",
@@ -19557,7 +19557,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.1",
@@ -19605,7 +19605,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.1",
@@ -19653,7 +19653,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1",
@@ -19705,7 +19705,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.2",
@@ -19749,7 +19749,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.2",
@@ -19797,7 +19797,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.2",
@@ -19845,7 +19845,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.2",
@@ -19897,7 +19897,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.1,1.2",
@@ -19945,7 +19945,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.1,1.2",
@@ -19997,7 +19997,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.1,1.2",
@@ -20049,7 +20049,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2",
@@ -20149,7 +20149,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.3",
@@ -20197,7 +20197,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.3",
@@ -20245,7 +20245,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.3",
@@ -20297,7 +20297,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.1,1.3",
@@ -20345,7 +20345,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.1,1.3",
@@ -20397,7 +20397,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.1,1.3",
@@ -20449,7 +20449,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.3",
@@ -20553,7 +20553,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.2,1.3",
@@ -20605,7 +20605,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.2,1.3",
@@ -20657,7 +20657,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.2,1.3",
@@ -20765,7 +20765,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.1,1.2,1.3",
@@ -20877,7 +20877,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.4",
@@ -20921,7 +20921,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.4",
@@ -20969,7 +20969,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.4",
@@ -21017,7 +21017,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.4",
@@ -21069,7 +21069,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.1,1.4",
@@ -21117,7 +21117,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.1,1.4",
@@ -21169,7 +21169,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.1,1.4",
@@ -21221,7 +21221,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.4",
@@ -21325,7 +21325,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.2,1.4",
@@ -21377,7 +21377,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.2,1.4",
@@ -21429,7 +21429,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.2,1.4",
@@ -21537,7 +21537,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.1,1.2,1.4",
@@ -21649,7 +21649,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.3,1.4",
@@ -21697,7 +21697,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.3,1.4",
@@ -21749,7 +21749,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.3,1.4",
@@ -21801,7 +21801,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.3,1.4",
@@ -21909,7 +21909,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.1,1.3,1.4",
@@ -22021,7 +22021,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.2,1.3,1.4",
@@ -22073,7 +22073,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.2,1.3,1.4",
@@ -22185,7 +22185,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.1,1.2,1.3,1.4",
@@ -22241,7 +22241,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=2.0",
@@ -22285,7 +22285,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,2.0",
@@ -22333,7 +22333,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,2.0",
@@ -22381,7 +22381,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,2.0",
@@ -22433,7 +22433,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.1,2.0",
@@ -22481,7 +22481,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.1,2.0",
@@ -22533,7 +22533,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.1,2.0",
@@ -22585,7 +22585,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,2.0",
@@ -22641,7 +22641,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.2,2.0",
@@ -22689,7 +22689,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.2,2.0",
@@ -22741,7 +22741,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.2,2.0",
@@ -22793,7 +22793,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.2,2.0",
@@ -22849,7 +22849,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.1,1.2,2.0",
@@ -22901,7 +22901,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.1,1.2,2.0",
@@ -22957,7 +22957,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.1,1.2,2.0",
@@ -23013,7 +23013,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.3,2.0",
@@ -23061,7 +23061,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.3,2.0",
@@ -23113,7 +23113,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.3,2.0",
@@ -23165,7 +23165,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.3,2.0",
@@ -23221,7 +23221,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.1,1.3,2.0",
@@ -23273,7 +23273,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.1,1.3,2.0",
@@ -23329,7 +23329,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.1,1.3,2.0",
@@ -23385,7 +23385,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.2,1.3,2.0",
@@ -23437,7 +23437,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.2,1.3,2.0",
@@ -23493,7 +23493,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.2,1.3,2.0",
@@ -23549,7 +23549,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.1,1.2,1.3,2.0",
@@ -23605,7 +23605,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.4,2.0",
@@ -23653,7 +23653,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.4,2.0",
@@ -23705,7 +23705,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.4,2.0",
@@ -23757,7 +23757,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.4,2.0",
@@ -23813,7 +23813,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.1,1.4,2.0",
@@ -23865,7 +23865,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.1,1.4,2.0",
@@ -23921,7 +23921,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.1,1.4,2.0",
@@ -23977,7 +23977,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.2,1.4,2.0",
@@ -24029,7 +24029,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.2,1.4,2.0",
@@ -24085,7 +24085,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.2,1.4,2.0",
@@ -24141,7 +24141,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.1,1.2,1.4,2.0",
@@ -24197,7 +24197,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.3,1.4,2.0",
@@ -24249,7 +24249,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.3,1.4,2.0",
@@ -24305,7 +24305,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.3,1.4,2.0",
@@ -24361,7 +24361,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.1,1.3,1.4,2.0",
@@ -24417,7 +24417,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.2,1.3,1.4,2.0",
@@ -24473,7 +24473,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=2.1",
@@ -24517,7 +24517,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,2.1",
@@ -24565,7 +24565,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,2.1",
@@ -24613,7 +24613,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,2.1",
@@ -24665,7 +24665,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.1,2.1",
@@ -24713,7 +24713,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.1,2.1",
@@ -24765,7 +24765,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.1,2.1",
@@ -24817,7 +24817,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,2.1",
@@ -24873,7 +24873,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.2,2.1",
@@ -24921,7 +24921,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.2,2.1",
@@ -24973,7 +24973,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.2,2.1",
@@ -25025,7 +25025,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.2,2.1",
@@ -25081,7 +25081,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.1,1.2,2.1",
@@ -25133,7 +25133,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.1,1.2,2.1",
@@ -25189,7 +25189,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.1,1.2,2.1",
@@ -25245,7 +25245,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.3,2.1",
@@ -25293,7 +25293,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.3,2.1",
@@ -25345,7 +25345,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.3,2.1",
@@ -25397,7 +25397,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.3,2.1",
@@ -25453,7 +25453,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.1,1.3,2.1",
@@ -25505,7 +25505,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.1,1.3,2.1",
@@ -25561,7 +25561,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.1,1.3,2.1",
@@ -25617,7 +25617,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.2,1.3,2.1",
@@ -25669,7 +25669,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.2,1.3,2.1",
@@ -25725,7 +25725,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.2,1.3,2.1",
@@ -25781,7 +25781,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.1,1.2,1.3,2.1",
@@ -25837,7 +25837,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.4,2.1",
@@ -25885,7 +25885,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.4,2.1",
@@ -25937,7 +25937,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.4,2.1",
@@ -25989,7 +25989,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.4,2.1",
@@ -26045,7 +26045,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.1,1.4,2.1",
@@ -26097,7 +26097,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.1,1.4,2.1",
@@ -26153,7 +26153,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.1,1.4,2.1",
@@ -26209,7 +26209,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.2,1.4,2.1",
@@ -26261,7 +26261,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.2,1.4,2.1",
@@ -26317,7 +26317,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.2,1.4,2.1",
@@ -26373,7 +26373,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.1,1.2,1.4,2.1",
@@ -26429,7 +26429,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.3,1.4,2.1",
@@ -26481,7 +26481,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.3,1.4,2.1",
@@ -26537,7 +26537,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.3,1.4,2.1",
@@ -26593,7 +26593,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.1,1.3,1.4,2.1",
@@ -26649,7 +26649,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.2,1.3,1.4,2.1",
@@ -26705,7 +26705,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=2.0,2.1",
@@ -26753,7 +26753,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,2.0,2.1",
@@ -26857,7 +26857,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,2.0,2.1",
@@ -26965,7 +26965,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.1,2.0,2.1",
@@ -27077,7 +27077,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.2,2.0,2.1",
@@ -27129,7 +27129,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.2,2.0,2.1",
@@ -27241,7 +27241,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.1,1.2,2.0,2.1",
@@ -27297,7 +27297,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.3,2.0,2.1",
@@ -27349,7 +27349,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.3,2.0,2.1",
@@ -27461,7 +27461,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.1,1.3,2.0,2.1",
@@ -27517,7 +27517,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.2,1.3,2.0,2.1",
@@ -27573,7 +27573,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.4,2.0,2.1",
@@ -27625,7 +27625,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.4,2.0,2.1",
@@ -27737,7 +27737,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.1,1.4,2.0,2.1",
@@ -27793,7 +27793,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.2,1.4,2.0,2.1",
@@ -27849,7 +27849,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.3,1.4,2.0,2.1",
@@ -27905,7 +27905,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=2.2",
@@ -27949,7 +27949,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,2.2",
@@ -27997,7 +27997,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,2.2",
@@ -28045,7 +28045,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,2.2",
@@ -28097,7 +28097,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.1,2.2",
@@ -28145,7 +28145,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.1,2.2",
@@ -28197,7 +28197,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.1,2.2",
@@ -28249,7 +28249,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,2.2",
@@ -28305,7 +28305,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.2,2.2",
@@ -28353,7 +28353,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.2,2.2",
@@ -28405,7 +28405,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.2,2.2",
@@ -28457,7 +28457,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.2,2.2",
@@ -28513,7 +28513,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.1,1.2,2.2",
@@ -28565,7 +28565,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.1,1.2,2.2",
@@ -28621,7 +28621,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.1,1.2,2.2",
@@ -28677,7 +28677,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.3,2.2",
@@ -28725,7 +28725,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.3,2.2",
@@ -28777,7 +28777,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.3,2.2",
@@ -28829,7 +28829,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.3,2.2",
@@ -28885,7 +28885,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.1,1.3,2.2",
@@ -28937,7 +28937,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.1,1.3,2.2",
@@ -28993,7 +28993,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.1,1.3,2.2",
@@ -29049,7 +29049,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.2,1.3,2.2",
@@ -29101,7 +29101,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.2,1.3,2.2",
@@ -29157,7 +29157,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.2,1.3,2.2",
@@ -29213,7 +29213,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.1,1.2,1.3,2.2",
@@ -29269,7 +29269,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.4,2.2",
@@ -29317,7 +29317,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.4,2.2",
@@ -29369,7 +29369,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.4,2.2",
@@ -29421,7 +29421,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.4,2.2",
@@ -29477,7 +29477,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.1,1.4,2.2",
@@ -29529,7 +29529,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.1,1.4,2.2",
@@ -29585,7 +29585,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.1,1.4,2.2",
@@ -29641,7 +29641,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.2,1.4,2.2",
@@ -29693,7 +29693,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.2,1.4,2.2",
@@ -29749,7 +29749,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.2,1.4,2.2",
@@ -29805,7 +29805,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.1,1.2,1.4,2.2",
@@ -29861,7 +29861,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.3,1.4,2.2",
@@ -29913,7 +29913,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.3,1.4,2.2",
@@ -29969,7 +29969,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.0,1.3,1.4,2.2",
@@ -30025,7 +30025,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.1,1.3,1.4,2.2",
@@ -30081,7 +30081,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.2,1.3,1.4,2.2",
@@ -30137,7 +30137,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=2.0,2.2",
@@ -30185,7 +30185,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,2.0,2.2",
@@ -30289,7 +30289,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,2.0,2.2",
@@ -30397,7 +30397,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.1,2.0,2.2",
@@ -30509,7 +30509,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.2,2.0,2.2",
@@ -30561,7 +30561,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.2,2.0,2.2",
@@ -30673,7 +30673,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.1,1.2,2.0,2.2",
@@ -30729,7 +30729,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.3,2.0,2.2",
@@ -30781,7 +30781,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.3,2.0,2.2",
@@ -30893,7 +30893,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.1,1.3,2.0,2.2",
@@ -30949,7 +30949,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.2,1.3,2.0,2.2",
@@ -31005,7 +31005,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.4,2.0,2.2",
@@ -31057,7 +31057,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.4,2.0,2.2",
@@ -31169,7 +31169,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.1,1.4,2.0,2.2",
@@ -31225,7 +31225,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.2,1.4,2.0,2.2",
@@ -31281,7 +31281,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.3,1.4,2.0,2.2",
@@ -31337,7 +31337,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=2.1,2.2",
@@ -31385,7 +31385,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,2.1,2.2",
@@ -31489,7 +31489,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,2.1,2.2",
@@ -31597,7 +31597,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.1,2.1,2.2",
@@ -31709,7 +31709,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.2,2.1,2.2",
@@ -31761,7 +31761,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.2,2.1,2.2",
@@ -31873,7 +31873,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.1,1.2,2.1,2.2",
@@ -31929,7 +31929,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.3,2.1,2.2",
@@ -31981,7 +31981,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.3,2.1,2.2",
@@ -32093,7 +32093,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.1,1.3,2.1,2.2",
@@ -32149,7 +32149,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.2,1.3,2.1,2.2",
@@ -32205,7 +32205,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.4,2.1,2.2",
@@ -32257,7 +32257,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.4,2.1,2.2",
@@ -32369,7 +32369,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.1,1.4,2.1,2.2",
@@ -32425,7 +32425,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.2,1.4,2.1,2.2",
@@ -32481,7 +32481,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.3,1.4,2.1,2.2",
@@ -32537,7 +32537,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=2.0,2.1,2.2",
@@ -32589,7 +32589,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,2.0,2.1,2.2",
@@ -32701,7 +32701,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.1,2.0,2.1,2.2",
@@ -32757,7 +32757,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.2,2.0,2.1,2.2",
@@ -32813,7 +32813,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.3,2.0,2.1,2.2",
@@ -32869,7 +32869,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=1.4,2.0,2.1,2.2",
@@ -32925,7 +32925,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(0,0,1)",
@@ -32986,7 +32986,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(3,0,1)",
@@ -33047,7 +33047,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(0,0,16)",
@@ -33108,7 +33108,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(3,0,16)",
@@ -33169,7 +33169,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(0,0,128)",
@@ -33230,7 +33230,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(3,0,128)",
@@ -33291,7 +33291,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(0,1,1)",
@@ -33352,7 +33352,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(3,1,1)",
@@ -33413,7 +33413,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(0,1,16)",
@@ -33474,7 +33474,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(3,1,16)",
@@ -33535,7 +33535,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(0,1,128)",
@@ -33596,7 +33596,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(3,1,128)",
@@ -33657,7 +33657,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(0,2,1)",
@@ -33718,7 +33718,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(3,2,1)",
@@ -33779,7 +33779,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(0,2,16)",
@@ -33840,7 +33840,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(3,2,16)",
@@ -33901,7 +33901,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(0,2,128)",
@@ -33962,7 +33962,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:GroupThresholdInvalid"
+   "expect": "throw:GroupThresholdInvalid:SSKR group threshold is invalid"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(3,2,128)",
@@ -34023,7 +34023,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:GroupThresholdInvalid"
+   "expect": "throw:GroupThresholdInvalid:SSKR group threshold is invalid"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(0,3,1)",
@@ -34084,7 +34084,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(3,3,1)",
@@ -34145,7 +34145,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:MemberThresholdInvalid"
+   "expect": "throw:MemberThresholdInvalid:SSKR member threshold is invalid"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(0,3,16)",
@@ -34206,7 +34206,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:MemberThresholdInvalid"
+   "expect": "throw:MemberThresholdInvalid:SSKR member threshold is invalid"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(3,3,16)",
@@ -34267,7 +34267,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:MemberThresholdInvalid"
+   "expect": "throw:MemberThresholdInvalid:SSKR member threshold is invalid"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(0,3,128)",
@@ -34328,7 +34328,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:Shamir"
+   "expect": "throw:Shamir(ChecksumFailure):SSKR Shamir error: checksum failure"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(3,3,128)",
@@ -34389,7 +34389,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(0,4,1)",
@@ -34511,7 +34511,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(0,4,16)",
@@ -34572,7 +34572,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:ShareReservedBitsInvalid"
+   "expect": "throw:ShareReservedBitsInvalid:SSKR shares contained invalid reserved bits"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(3,4,16)",
@@ -34633,7 +34633,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:ShareReservedBitsInvalid"
+   "expect": "throw:ShareReservedBitsInvalid:SSKR shares contained invalid reserved bits"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(0,4,128)",
@@ -34694,7 +34694,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:ShareReservedBitsInvalid"
+   "expect": "throw:ShareReservedBitsInvalid:SSKR shares contained invalid reserved bits"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(3,4,128)",
@@ -34755,7 +34755,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:ShareReservedBitsInvalid"
+   "expect": "throw:ShareReservedBitsInvalid:SSKR shares contained invalid reserved bits"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(0,5,1)",
@@ -34816,7 +34816,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:Shamir"
+   "expect": "throw:Shamir(ChecksumFailure):SSKR Shamir error: checksum failure"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(3,5,1)",
@@ -34877,7 +34877,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(0,5,16)",
@@ -34938,7 +34938,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:Shamir"
+   "expect": "throw:Shamir(ChecksumFailure):SSKR Shamir error: checksum failure"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(3,5,16)",
@@ -34999,7 +34999,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(0,5,128)",
@@ -35060,7 +35060,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:Shamir"
+   "expect": "throw:Shamir(ChecksumFailure):SSKR Shamir error: checksum failure"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(3,5,128)",
@@ -35121,7 +35121,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(0,12,1)",
@@ -35182,7 +35182,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:Shamir"
+   "expect": "throw:Shamir(ChecksumFailure):SSKR Shamir error: checksum failure"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(3,12,1)",
@@ -35243,7 +35243,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(0,12,16)",
@@ -35304,7 +35304,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:Shamir"
+   "expect": "throw:Shamir(ChecksumFailure):SSKR Shamir error: checksum failure"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(3,12,16)",
@@ -35365,7 +35365,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(0,12,128)",
@@ -35426,7 +35426,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:Shamir"
+   "expect": "throw:Shamir(ChecksumFailure):SSKR Shamir error: checksum failure"
   },
   {
    "name": "combine 2/[1-of-1,3-of-5,2-of-3] len=16 seed=172951 pick=0.0,1.0,1.1,1.2 corrupt(3,12,128)",
@@ -35487,7 +35487,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0",
@@ -35527,7 +35527,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.1",
@@ -35567,7 +35567,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1",
@@ -35651,7 +35651,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.2",
@@ -35827,7 +35827,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,1.0",
@@ -35871,7 +35871,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.1,1.0",
@@ -35915,7 +35915,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1,1.0",
@@ -36007,7 +36007,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.2,1.0",
@@ -36195,7 +36195,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,1.1",
@@ -36239,7 +36239,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.1,1.1",
@@ -36283,7 +36283,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1,1.1",
@@ -36375,7 +36375,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.2,1.1",
@@ -36907,7 +36907,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,1.2",
@@ -36951,7 +36951,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.1,1.2",
@@ -36995,7 +36995,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1,1.2",
@@ -37087,7 +37087,7 @@
      ]
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.2,1.2",
@@ -38176,7 +38176,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(1,0,1)",
@@ -38225,7 +38225,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(0,0,16)",
@@ -38274,7 +38274,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(1,0,16)",
@@ -38323,7 +38323,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(0,0,128)",
@@ -38372,7 +38372,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(1,0,128)",
@@ -38421,7 +38421,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(0,1,1)",
@@ -38470,7 +38470,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(1,1,1)",
@@ -38519,7 +38519,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(0,1,16)",
@@ -38568,7 +38568,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(1,1,16)",
@@ -38617,7 +38617,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(0,1,128)",
@@ -38666,7 +38666,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(1,1,128)",
@@ -38715,7 +38715,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(0,2,1)",
@@ -38764,7 +38764,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(1,2,1)",
@@ -38813,7 +38813,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(0,2,16)",
@@ -38862,7 +38862,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(1,2,16)",
@@ -38911,7 +38911,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(0,2,128)",
@@ -38960,7 +38960,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:GroupThresholdInvalid"
+   "expect": "throw:GroupThresholdInvalid:SSKR group threshold is invalid"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(1,2,128)",
@@ -39009,7 +39009,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:GroupThresholdInvalid"
+   "expect": "throw:GroupThresholdInvalid:SSKR group threshold is invalid"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(0,3,1)",
@@ -39058,7 +39058,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:MemberThresholdInvalid"
+   "expect": "throw:MemberThresholdInvalid:SSKR member threshold is invalid"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(1,3,1)",
@@ -39107,7 +39107,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:MemberThresholdInvalid"
+   "expect": "throw:MemberThresholdInvalid:SSKR member threshold is invalid"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(0,3,16)",
@@ -39156,7 +39156,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(1,3,16)",
@@ -39205,7 +39205,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(0,3,128)",
@@ -39254,7 +39254,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(1,3,128)",
@@ -39303,7 +39303,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(0,4,1)",
@@ -39352,7 +39352,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:DuplicateMemberIndex"
+   "expect": "throw:DuplicateMemberIndex:When combining shares, the provided shares contained a duplicate member index"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(1,4,1)",
@@ -39401,7 +39401,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:DuplicateMemberIndex"
+   "expect": "throw:DuplicateMemberIndex:When combining shares, the provided shares contained a duplicate member index"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(0,4,16)",
@@ -39450,7 +39450,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:ShareReservedBitsInvalid"
+   "expect": "throw:ShareReservedBitsInvalid:SSKR shares contained invalid reserved bits"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(1,4,16)",
@@ -39499,7 +39499,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:ShareReservedBitsInvalid"
+   "expect": "throw:ShareReservedBitsInvalid:SSKR shares contained invalid reserved bits"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(0,4,128)",
@@ -39548,7 +39548,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:ShareReservedBitsInvalid"
+   "expect": "throw:ShareReservedBitsInvalid:SSKR shares contained invalid reserved bits"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(1,4,128)",
@@ -39597,7 +39597,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:ShareReservedBitsInvalid"
+   "expect": "throw:ShareReservedBitsInvalid:SSKR shares contained invalid reserved bits"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(0,5,1)",
@@ -39646,7 +39646,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(1,5,1)",
@@ -39695,7 +39695,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(0,5,16)",
@@ -39744,7 +39744,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(1,5,16)",
@@ -39793,7 +39793,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(0,5,128)",
@@ -39842,7 +39842,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(1,5,128)",
@@ -39891,7 +39891,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(0,12,1)",
@@ -39940,7 +39940,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(1,12,1)",
@@ -39989,7 +39989,7 @@
      "mask": 1
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(0,12,16)",
@@ -40038,7 +40038,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(1,12,16)",
@@ -40087,7 +40087,7 @@
      "mask": 16
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(0,12,128)",
@@ -40136,7 +40136,7 @@
      "mask": 128
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine 1/[2-of-3,2-of-3] len=32 seed=1 pick=0.0,0.1 corrupt(1,12,128)",
@@ -40185,7 +40185,103 @@
      "mask": 128
     }
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
+  },
+  {
+   "name": "combine 1/[2-of-3] len=16 seed=172951 pick=0.0,0.1,0.2,0.2",
+   "recipe": {
+    "k": "combine",
+    "from": {
+     "spec": {
+      "gt": 1,
+      "groups": [
+       {
+        "mt": 2,
+        "mc": 3
+       }
+      ]
+     },
+     "secret": {
+      "cycle": 16,
+      "start": 32
+     },
+     "rng": {
+      "seed": [
+       "17295166580085024720",
+       "422929670265678780",
+       "5577237070365765850",
+       "7953171132032326923"
+      ]
+     }
+    },
+    "pick": [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      2
+     ]
+    ]
+   },
+   "expect": "202122232425262728292a2b2c2d2e2f"
+  },
+  {
+   "name": "combine 1/[2-of-3] len=16 seed=172951 pick=0.0,0.1,0.2,0.1",
+   "recipe": {
+    "k": "combine",
+    "from": {
+     "spec": {
+      "gt": 1,
+      "groups": [
+       {
+        "mt": 2,
+        "mc": 3
+       }
+      ]
+     },
+     "secret": {
+      "cycle": 16,
+      "start": 32
+     },
+     "rng": {
+      "seed": [
+       "17295166580085024720",
+       "422929670265678780",
+       "5577237070365765850",
+       "7953171132032326923"
+      ]
+     }
+    },
+    "pick": [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      1
+     ],
+     [
+      0,
+      2
+     ],
+     [
+      0,
+      1
+     ]
+    ]
+   },
+   "expect": "throw:DuplicateMemberIndex:When combining shares, the provided shares contained a duplicate member index"
   },
   {
    "name": "combine explicit 0 shares",
@@ -40193,7 +40289,7 @@
     "k": "combine",
     "shares": []
    },
-   "expect": "throw:SharesEmpty"
+   "expect": "throw:SharesEmpty:SSKR shares were empty"
   },
   {
    "name": "combine explicit 3 shares",
@@ -40250,7 +40346,7 @@
      }
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine explicit 3 shares",
@@ -40268,7 +40364,7 @@
      }
     ]
    },
-   "expect": "throw:DuplicateMemberIndex"
+   "expect": "throw:DuplicateMemberIndex:When combining shares, the provided shares contained a duplicate member index"
   },
   {
    "name": "combine explicit 3 shares",
@@ -40286,7 +40382,7 @@
      }
     ]
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
   },
   {
    "name": "combine explicit 3 shares",
@@ -40304,7 +40400,7 @@
      }
     ]
    },
-   "expect": "throw:ShareReservedBitsInvalid"
+   "expect": "throw:ShareReservedBitsInvalid:SSKR shares contained invalid reserved bits"
   },
   {
    "name": "combine explicit 1 shares",
@@ -40316,7 +40412,7 @@
      }
     ]
    },
-   "expect": "throw:ShareLengthInvalid"
+   "expect": "throw:ShareLengthInvalid:SSKR shares did not contain enough serialized bytes"
   },
   {
    "name": "combine explicit 1 shares",
@@ -40328,7 +40424,7 @@
      }
     ]
    },
-   "expect": "throw:SecretTooShort"
+   "expect": "throw:SecretTooShort:SSKR secret is too short"
   },
   {
    "name": "combine explicit 3 shares",
@@ -40346,7 +40442,7 @@
      }
     ]
    },
-   "expect": "throw:SecretTooShort"
+   "expect": "throw:SecretTooShort:SSKR secret is too short"
   },
   {
    "name": "combine explicit 3 shares",
@@ -40364,7 +40460,7 @@
      }
     ]
    },
-   "expect": "throw:NotEnoughGroups"
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
   },
   {
    "name": "combine explicit 1 shares",
@@ -40376,7 +40472,7 @@
      }
     ]
    },
-   "expect": "throw:GroupThresholdInvalid"
+   "expect": "throw:GroupThresholdInvalid:SSKR group threshold is invalid"
   },
   {
    "name": "combine explicit 2 shares",
@@ -40391,7 +40487,70 @@
      }
     ]
    },
-   "expect": "throw:ShareSetInvalid"
+   "expect": "throw:ShareSetInvalid:SSKR shares were invalid"
+  },
+  {
+   "name": "combine explicit 4 shares",
+   "recipe": {
+    "k": "combine",
+    "shares": [
+     {
+      "hex": "0011110100ce5cce1ad9fe9cefa4707449576e8eadfc7d107c5a9e812b21f80aeca635cacd"
+     },
+     {
+      "hex": "001111010184190ee2fcc276947ad68a6eef10694c784811720d350b061029440281a5a550"
+     },
+     {
+      "hex": "0011111100e14f4ceecc9f6a39bae91c4f6231c497d281742758affe5a2ed9888af60150f4"
+     },
+     {
+      "hex": "0011111101020375c1cbf1bf85bb81cff5003a744e0d3779438dc1f959fdb189ea460a3292"
+     }
+    ]
+   },
+   "expect": "throw:Shamir(ChecksumFailure):SSKR Shamir error: checksum failure"
+  },
+  {
+   "name": "combine explicit 4 shares",
+   "recipe": {
+    "k": "combine",
+    "shares": [
+     {
+      "hex": "0011110100ce5cce1ad9fe9cefa4707449576e8eadfc7d107c5a9e812b21f80aeca635cacd"
+     },
+     {
+      "hex": "0011110101a9af1649cc9f6a39bae91c4f6231c497d281742758affe5a2ed9888af60150f4"
+     },
+     {
+      "hex": "00111111004d741d38fcc276947ad68a6eef10694c784811720d350b061029440281a5a550"
+     },
+     {
+      "hex": "0011111101b39fde657f5bfe7d5dd8756d20a28c322ea751df1156f0b3e4e3429182843b1c"
+     }
+    ]
+   },
+   "expect": "throw:NotEnoughGroups:SSKR shares did not contain enough groups"
+  },
+  {
+   "name": "combine explicit 4 shares",
+   "recipe": {
+    "k": "combine",
+    "shares": [
+     {
+      "hex": "00110101002dcd14c2252dc8489af3985030e74d5a48e8eff1478ab86e65b43869bf39d556"
+     },
+     {
+      "hex": "0011010101f398b14e077ff78f453db5cdea921a62136be39bc54f3540870d77e728a2d8ad"
+     },
+     {
+      "hex": "00110111002dcd14c2252dc8489af3985030e74d5a48e8eff1478ab86e65b43869bf39d556"
+     },
+     {
+      "hex": "0011011101a1dfdd798388aada635b9974472b4fc59a32ae520c42c9f6a0af70149b882487"
+     }
+    ]
+   },
+   "expect": "204188bfa6b440a1bdfd6753ff55a8241e07af5c5be943db917e3efabc184b1a"
   },
   {
    "name": "parse \"2-of-3\"",
@@ -40439,7 +40598,7 @@
     "k": "parse",
     "s": "0-of-3"
    },
-   "expect": "throw:MemberThresholdInvalid"
+   "expect": "0-of-3"
   },
   {
    "name": "parse \"4-of-3\"",
@@ -40447,7 +40606,7 @@
     "k": "parse",
     "s": "4-of-3"
    },
-   "expect": "throw:MemberThresholdInvalid"
+   "expect": "throw:MemberThresholdInvalid:SSKR member threshold is invalid"
   },
   {
    "name": "parse \"2-of-17\"",
@@ -40455,7 +40614,7 @@
     "k": "parse",
     "s": "2-of-17"
    },
-   "expect": "throw:MemberCountInvalid"
+   "expect": "throw:MemberCountInvalid:SSKR member count is invalid"
   },
   {
    "name": "parse \"2-of-0\"",
@@ -40463,7 +40622,7 @@
     "k": "parse",
     "s": "2-of-0"
    },
-   "expect": "throw:MemberCountInvalid"
+   "expect": "throw:MemberCountInvalid:SSKR member count is invalid"
   },
   {
    "name": "parse \"2-of-3-of-4\"",
@@ -40471,7 +40630,7 @@
     "k": "parse",
     "s": "2-of-3-of-4"
    },
-   "expect": "throw:GroupSpecInvalid"
+   "expect": "throw:GroupSpecInvalid:Invalid group specification."
   },
   {
    "name": "parse \"2of3\"",
@@ -40479,7 +40638,7 @@
     "k": "parse",
     "s": "2of3"
    },
-   "expect": "throw:GroupSpecInvalid"
+   "expect": "throw:GroupSpecInvalid:Invalid group specification."
   },
   {
    "name": "parse \"2-off-3\"",
@@ -40487,7 +40646,7 @@
     "k": "parse",
     "s": "2-off-3"
    },
-   "expect": "throw:GroupSpecInvalid"
+   "expect": "throw:GroupSpecInvalid:Invalid group specification."
   },
   {
    "name": "parse \"2.0-of-3\"",
@@ -40495,7 +40654,7 @@
     "k": "parse",
     "s": "2.0-of-3"
    },
-   "expect": "throw:GroupSpecInvalid"
+   "expect": "throw:GroupSpecInvalid:Invalid group specification."
   },
   {
    "name": "parse \"2-of-3x\"",
@@ -40503,7 +40662,7 @@
     "k": "parse",
     "s": "2-of-3x"
    },
-   "expect": "throw:GroupSpecInvalid"
+   "expect": "throw:GroupSpecInvalid:Invalid group specification."
   },
   {
    "name": "parse \" 2-of-3\"",
@@ -40511,7 +40670,7 @@
     "k": "parse",
     "s": " 2-of-3"
    },
-   "expect": "throw:GroupSpecInvalid"
+   "expect": "throw:GroupSpecInvalid:Invalid group specification."
   },
   {
    "name": "parse \"2-of-3 \"",
@@ -40519,7 +40678,7 @@
     "k": "parse",
     "s": "2-of-3 "
    },
-   "expect": "throw:GroupSpecInvalid"
+   "expect": "throw:GroupSpecInvalid:Invalid group specification."
   },
   {
    "name": "parse \"-2-of-3\"",
@@ -40527,7 +40686,7 @@
     "k": "parse",
     "s": "-2-of-3"
    },
-   "expect": "throw:GroupSpecInvalid"
+   "expect": "throw:GroupSpecInvalid:Invalid group specification."
   },
   {
    "name": "parse \"2--of-3\"",
@@ -40535,7 +40694,7 @@
     "k": "parse",
     "s": "2--of-3"
    },
-   "expect": "throw:GroupSpecInvalid"
+   "expect": "throw:GroupSpecInvalid:Invalid group specification."
   },
   {
    "name": "parse \"-of-3\"",
@@ -40543,7 +40702,7 @@
     "k": "parse",
     "s": "-of-3"
    },
-   "expect": "throw:GroupSpecInvalid"
+   "expect": "throw:GroupSpecInvalid:Invalid group specification."
   },
   {
    "name": "parse \"2-of-\"",
@@ -40551,7 +40710,7 @@
     "k": "parse",
     "s": "2-of-"
    },
-   "expect": "throw:GroupSpecInvalid"
+   "expect": "throw:GroupSpecInvalid:Invalid group specification."
   },
   {
    "name": "parse \"\"",
@@ -40559,7 +40718,7 @@
     "k": "parse",
     "s": ""
    },
-   "expect": "throw:GroupSpecInvalid"
+   "expect": "throw:GroupSpecInvalid:Invalid group specification."
   },
   {
    "name": "parse \"a-of-b\"",
@@ -40567,7 +40726,7 @@
     "k": "parse",
     "s": "a-of-b"
    },
-   "expect": "throw:GroupSpecInvalid"
+   "expect": "throw:GroupSpecInvalid:Invalid group specification."
   },
   {
    "name": "parse \"２-of-3\"",
@@ -40575,7 +40734,7 @@
     "k": "parse",
     "s": "２-of-3"
    },
-   "expect": "throw:GroupSpecInvalid"
+   "expect": "throw:GroupSpecInvalid:Invalid group specification."
   },
   {
    "name": "parse \"99999999999999999999-of-3\"",
@@ -40583,7 +40742,7 @@
     "k": "parse",
     "s": "99999999999999999999-of-3"
    },
-   "expect": "throw:GroupSpecInvalid"
+   "expect": "throw:GroupSpecInvalid:Invalid group specification."
   },
   {
    "name": "parse \"1-of-3\"",
@@ -40599,7 +40758,7 @@
     "k": "parse",
     "s": "9007199254740991-of-3"
    },
-   "expect": "throw:MemberThresholdInvalid"
+   "expect": "throw:MemberThresholdInvalid:SSKR member threshold is invalid"
   },
   {
    "name": "parse \"9007199254740993-of-3\"",
@@ -40607,7 +40766,7 @@
     "k": "parse",
     "s": "9007199254740993-of-3"
    },
-   "expect": "throw:MemberThresholdInvalid"
+   "expect": "throw:MemberThresholdInvalid:SSKR member threshold is invalid"
   },
   {
    "name": "parse \"2-of-9007199254740993\"",
@@ -40615,7 +40774,7 @@
     "k": "parse",
     "s": "2-of-9007199254740993"
    },
-   "expect": "throw:MemberCountInvalid"
+   "expect": "throw:MemberCountInvalid:SSKR member count is invalid"
   },
   {
    "name": "parse \"18446744073709551615-of-3\"",
@@ -40623,7 +40782,7 @@
     "k": "parse",
     "s": "18446744073709551615-of-3"
    },
-   "expect": "throw:MemberThresholdInvalid"
+   "expect": "throw:MemberThresholdInvalid:SSKR member threshold is invalid"
   },
   {
    "name": "parse \"18446744073709551616-of-3\"",
@@ -40631,7 +40790,55 @@
     "k": "parse",
     "s": "18446744073709551616-of-3"
    },
-   "expect": "throw:GroupSpecInvalid"
+   "expect": "throw:GroupSpecInvalid:Invalid group specification."
+  },
+  {
+   "name": "parse \"0002-of-0003\"",
+   "recipe": {
+    "k": "parse",
+    "s": "0002-of-0003"
+   },
+   "expect": "2-of-3"
+  },
+  {
+   "name": "parse \"2-of-03\"",
+   "recipe": {
+    "k": "parse",
+    "s": "2-of-03"
+   },
+   "expect": "2-of-3"
+  },
+  {
+   "name": "parse \"٣-of-3\"",
+   "recipe": {
+    "k": "parse",
+    "s": "٣-of-3"
+   },
+   "expect": "throw:GroupSpecInvalid:Invalid group specification."
+  },
+  {
+   "name": "parse \"𝟐-of-3\"",
+   "recipe": {
+    "k": "parse",
+    "s": "𝟐-of-3"
+   },
+   "expect": "throw:GroupSpecInvalid:Invalid group specification."
+  },
+  {
+   "name": "parse \"2-of-3\\n\"",
+   "recipe": {
+    "k": "parse",
+    "s": "2-of-3\n"
+   },
+   "expect": "throw:GroupSpecInvalid:Invalid group specification."
+  },
+  {
+   "name": "parse \"1e1-of-16\"",
+   "recipe": {
+    "k": "parse",
+    "s": "1e1-of-16"
+   },
+   "expect": "throw:GroupSpecInvalid:Invalid group specification."
   },
   {
    "name": "spec 0/[1-of-1]",
@@ -40647,7 +40854,7 @@
      ]
     }
    },
-   "expect": "throw:GroupThresholdInvalid"
+   "expect": "throw:GroupThresholdInvalid:SSKR group threshold is invalid"
   },
   {
    "name": "spec 2/[1-of-1]",
@@ -40663,7 +40870,7 @@
      ]
     }
    },
-   "expect": "throw:GroupThresholdInvalid"
+   "expect": "throw:GroupThresholdInvalid:SSKR group threshold is invalid"
   },
   {
    "name": "spec 1/[0-of-1]",
@@ -40679,7 +40886,7 @@
      ]
     }
    },
-   "expect": "throw:MemberThresholdInvalid"
+   "expect": "gc=1,sc=1,groups=0-of-1"
   },
   {
    "name": "spec 1/[2-of-1]",
@@ -40695,7 +40902,7 @@
      ]
     }
    },
-   "expect": "throw:MemberThresholdInvalid"
+   "expect": "throw:MemberThresholdInvalid:SSKR member threshold is invalid"
   },
   {
    "name": "spec 1/[1-of-0]",
@@ -40711,7 +40918,7 @@
      ]
     }
    },
-   "expect": "throw:MemberCountInvalid"
+   "expect": "throw:MemberCountInvalid:SSKR member count is invalid"
   },
   {
    "name": "spec 1/[1-of-17]",
@@ -40727,7 +40934,7 @@
      ]
     }
    },
-   "expect": "throw:MemberCountInvalid"
+   "expect": "throw:MemberCountInvalid:SSKR member count is invalid"
   },
   {
    "name": "spec 1/[16-of-16]",
@@ -40743,7 +40950,7 @@
      ]
     }
    },
-   "expect": "gc=1,sc=16"
+   "expect": "gc=1,sc=16,groups=16-of-16"
   },
   {
    "name": "spec 1/[1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1]",
@@ -40823,7 +41030,7 @@
      ]
     }
    },
-   "expect": "throw:GroupCountInvalid"
+   "expect": "throw:GroupCountInvalid:When creating a split spec, the group count is invalid"
   },
   {
    "name": "spec 16/[1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1]",
@@ -40899,7 +41106,7 @@
      ]
     }
    },
-   "expect": "gc=16,sc=16"
+   "expect": "gc=16,sc=16,groups=1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1"
   },
   {
    "name": "spec 1/[]",
@@ -40910,7 +41117,7 @@
      "groups": []
     }
    },
-   "expect": "throw:GroupThresholdInvalid"
+   "expect": "throw:GroupThresholdInvalid:SSKR group threshold is invalid"
   },
   {
    "name": "spec 2/[2-of-3,3-of-5]",
@@ -40930,7 +41137,7 @@
      ]
     }
    },
-   "expect": "gc=2,sc=8"
+   "expect": "gc=2,sc=8,groups=2-of-3,3-of-5"
   },
   {
    "name": "secret len=0",
@@ -40941,7 +41148,7 @@
      "start": 0
     }
    },
-   "expect": "throw:SecretTooShort"
+   "expect": "throw:SecretTooShort:SSKR secret is too short"
   },
   {
    "name": "secret len=1",
@@ -40952,7 +41159,7 @@
      "start": 0
     }
    },
-   "expect": "throw:SecretTooShort"
+   "expect": "throw:SecretTooShort:SSKR secret is too short"
   },
   {
    "name": "secret len=15",
@@ -40963,7 +41170,7 @@
      "start": 0
     }
    },
-   "expect": "throw:SecretTooShort"
+   "expect": "throw:SecretTooShort:SSKR secret is too short"
   },
   {
    "name": "secret len=16",
@@ -40985,7 +41192,7 @@
      "start": 0
     }
    },
-   "expect": "throw:SecretLengthNotEven"
+   "expect": "throw:SecretLengthNotEven:SSKR secret is not of even length"
   },
   {
    "name": "secret len=18",
@@ -41007,7 +41214,7 @@
      "start": 0
     }
    },
-   "expect": "throw:SecretLengthNotEven"
+   "expect": "throw:SecretLengthNotEven:SSKR secret is not of even length"
   },
   {
    "name": "secret len=32",
@@ -41029,7 +41236,7 @@
      "start": 0
     }
    },
-   "expect": "throw:SecretTooLong"
+   "expect": "throw:SecretTooLong:SSKR secret is too long"
   },
   {
    "name": "secret len=34",
@@ -41040,7 +41247,7 @@
      "start": 0
     }
    },
-   "expect": "throw:SecretTooLong"
+   "expect": "throw:SecretTooLong:SSKR secret is too long"
   },
   {
    "name": "secret len=64",
@@ -41051,7 +41258,7 @@
      "start": 0
     }
    },
-   "expect": "throw:SecretTooLong"
+   "expect": "throw:SecretTooLong:SSKR secret is too long"
   },
   {
    "name": "secret len=24",
@@ -41062,6 +41269,749 @@
     }
    },
    "expect": "len=24"
+  },
+  {
+   "name": "generate 2/[2-of-3,3-of-5] len=32 seed=172951 then 1/[2-of-3] len=32",
+   "recipe": {
+    "k": "generate",
+    "spec": {
+     "gt": 2,
+     "groups": [
+      {
+       "mt": 2,
+       "mc": 3
+      },
+      {
+       "mt": 3,
+       "mc": 5
+      }
+     ]
+    },
+    "secret": {
+     "cycle": 32,
+     "start": 32
+    },
+    "rng": {
+     "seed": [
+      "17295166580085024720",
+      "422929670265678780",
+      "5577237070365765850",
+      "7953171132032326923"
+     ]
+    },
+    "then": [
+     {
+      "spec": {
+       "gt": 1,
+       "groups": [
+        {
+         "mt": 2,
+         "mc": 3
+        }
+       ]
+      },
+      "secret": {
+       "cycle": 32,
+       "start": 32
+      }
+     }
+    ]
+   },
+   "expect": "7eb5110100ce3e74c4025d407218da25028b8af865420c11f8d4590586f76ff7c36e17d39a,7eb5110101119fee659a147dcf884489b743c5cc382d53972b6fdbcc0d647e30d7b22a90b8,7eb51101026b675b9d29cf3a1323fd6673001490df9cb20645b9468c8bca4d62ebcd6d55de;7eb5111200daf28d3545532daee0c5bb5023f50cd8e71ec14901ac746c576c481b893be665,7eb511120137e3de6fe4e9baf528c7171fcc643f10f5e6a868a97072cd99d302adac18aab2,7eb511120251cc902f692708d2757389e157abd2eb250be353e52118287c3818925ac43b92,7eb5111203bcddc375c89d9f89bd7125aeb83ae12337f38a724dfd1e89b28752247fe77745,7eb5111204e4fe6d8fd2d72753a94c009539ce7d68cde16806581537908700d5c7660c4883 | cbe8000100c7a11341977b4917e502eb90eb0b66d40698fdef24e7465723fbe4257358abc6,cbe8000101fd23799547491161aa6b34a07ceec7a5384b8a67ffc771bb3c00545686d89e8f,cbe8000102b3bec7f22c1ff9fb7bd04ef0deda3f367a2513e489a728941d169fc38243c154"
+  },
+  {
+   "name": "generate 2/[2-of-3,0-of-2] len=32 seed=172951 then 1/[2-of-3] len=32",
+   "recipe": {
+    "k": "generate",
+    "spec": {
+     "gt": 2,
+     "groups": [
+      {
+       "mt": 2,
+       "mc": 3
+      },
+      {
+       "mt": 0,
+       "mc": 2
+      }
+     ]
+    },
+    "secret": {
+     "cycle": 32,
+     "start": 32
+    },
+    "rng": {
+     "seed": [
+      "17295166580085024720",
+      "422929670265678780",
+      "5577237070365765850",
+      "7953171132032326923"
+     ]
+    },
+    "then": [
+     {
+      "spec": {
+       "gt": 1,
+       "groups": [
+        {
+         "mt": 2,
+         "mc": 3
+        }
+       ]
+      },
+      "secret": {
+       "cycle": 32,
+       "start": 32
+      }
+     }
+    ]
+   },
+   "expect": "throw:Shamir(InvalidThreshold):SSKR Shamir error: invalid threshold | daf2000100d0aeb670d54c51f20687acaeebbeb9c0e37faf767b594698efc1c026e9db2bee,daf200010165989fce7c5c3286030066407cc3b41adf967a5b8e257103a394ad719dfd9cea,daf2000102a1c2e4179c6c971a0c922369de44a36f9bb61e2c8aa128b5776b1a8801975ee6"
+  },
+  {
+   "name": "generate 1/[1-of-1] len=16 seed=1 then 1/[2-of-3] len=16",
+   "recipe": {
+    "k": "generate",
+    "spec": {
+     "gt": 1,
+     "groups": [
+      {
+       "mt": 1,
+       "mc": 1
+      }
+     ]
+    },
+    "secret": {
+     "cycle": 16,
+     "start": 33
+    },
+    "rng": {
+     "seed": [
+      "1",
+      "1",
+      "1",
+      "1"
+     ]
+    },
+    "then": [
+     {
+      "spec": {
+       "gt": 1,
+       "groups": [
+        {
+         "mt": 2,
+         "mc": 3
+        }
+       ]
+      },
+      "secret": {
+       "cycle": 16,
+       "start": 33
+      }
+     }
+    ]
+   },
+   "expect": "80800000002122232425262728292a2b2c2d2e2f30 | 0080000100fc5a99b2d91289f40a78ec1b1261d88b,0080000101688db5a3fc140e7c83da7b39d09439bb,0080000102cfefc190931e9cff0327d95f8d9001eb"
+  },
+  {
+   "name": "parse \"+0-of-3\"",
+   "recipe": {
+    "k": "parse",
+    "s": "+0-of-3"
+   },
+   "expect": "0-of-3"
+  },
+  {
+   "name": "parse \"00-of-3\"",
+   "recipe": {
+    "k": "parse",
+    "s": "00-of-3"
+   },
+   "expect": "0-of-3"
+  },
+  {
+   "name": "parse \"0-of-16\"",
+   "recipe": {
+    "k": "parse",
+    "s": "0-of-16"
+   },
+   "expect": "0-of-16"
+  },
+  {
+   "name": "parse \"0-of-17\"",
+   "recipe": {
+    "k": "parse",
+    "s": "0-of-17"
+   },
+   "expect": "throw:MemberCountInvalid:SSKR member count is invalid"
+  },
+  {
+   "name": "spec 1/[0-of-16]",
+   "recipe": {
+    "k": "spec",
+    "spec": {
+     "gt": 1,
+     "groups": [
+      {
+       "mt": 0,
+       "mc": 16
+      }
+     ]
+    }
+   },
+   "expect": "gc=1,sc=16,groups=0-of-16"
+  },
+  {
+   "name": "spec 2/[2-of-3,0-of-2]",
+   "recipe": {
+    "k": "spec",
+    "spec": {
+     "gt": 2,
+     "groups": [
+      {
+       "mt": 2,
+       "mc": 3
+      },
+      {
+       "mt": 0,
+       "mc": 2
+      }
+     ]
+    }
+   },
+   "expect": "gc=2,sc=5,groups=2-of-3,0-of-2"
+  },
+  {
+   "name": "generate 1/[0-of-3] len=16 seed=172951",
+   "recipe": {
+    "k": "generate",
+    "spec": {
+     "gt": 1,
+     "groups": [
+      {
+       "mt": 0,
+       "mc": 3
+      }
+     ]
+    },
+    "secret": {
+     "cycle": 16,
+     "start": 32
+    },
+    "rng": {
+     "seed": [
+      "17295166580085024720",
+      "422929670265678780",
+      "5577237070365765850",
+      "7953171132032326923"
+     ]
+    }
+   },
+   "expect": "throw:Shamir(InvalidThreshold):SSKR Shamir error: invalid threshold"
+  },
+  {
+   "name": "generate 2/[2-of-3,0-of-2] len=16 seed=172951",
+   "recipe": {
+    "k": "generate",
+    "spec": {
+     "gt": 2,
+     "groups": [
+      {
+       "mt": 2,
+       "mc": 3
+      },
+      {
+       "mt": 0,
+       "mc": 2
+      }
+     ]
+    },
+    "secret": {
+     "cycle": 16,
+     "start": 32
+    },
+    "rng": {
+     "seed": [
+      "17295166580085024720",
+      "422929670265678780",
+      "5577237070365765850",
+      "7953171132032326923"
+     ]
+    }
+   },
+   "expect": "throw:Shamir(InvalidThreshold):SSKR Shamir error: invalid threshold"
+  },
+  {
+   "name": "combine 1/[0-of-3] len=16 seed=172951 pick=0.0",
+   "recipe": {
+    "k": "combine",
+    "from": {
+     "spec": {
+      "gt": 1,
+      "groups": [
+       {
+        "mt": 0,
+        "mc": 3
+       }
+      ]
+     },
+     "secret": {
+      "cycle": 16,
+      "start": 32
+     },
+     "rng": {
+      "seed": [
+       "17295166580085024720",
+       "422929670265678780",
+       "5577237070365765850",
+       "7953171132032326923"
+      ]
+     }
+    },
+    "pick": [
+     [
+      0,
+      0
+     ]
+    ]
+   },
+   "expect": "throw:Shamir(InvalidThreshold):SSKR Shamir error: invalid threshold"
+  },
+  {
+   "name": "spec 9007199254740992n/[2-of-3]",
+   "recipe": {
+    "k": "spec",
+    "spec": {
+     "gt": "9007199254740992n",
+     "groups": [
+      {
+       "mt": 2,
+       "mc": 3
+      }
+     ]
+    }
+   },
+   "expect": "throw:GroupThresholdInvalid:SSKR group threshold is invalid"
+  },
+  {
+   "name": "spec 18446744073709551615n/[1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1]",
+   "recipe": {
+    "k": "spec",
+    "spec": {
+     "gt": "18446744073709551615n",
+     "groups": [
+      {
+       "mt": 1,
+       "mc": 1
+      },
+      {
+       "mt": 1,
+       "mc": 1
+      },
+      {
+       "mt": 1,
+       "mc": 1
+      },
+      {
+       "mt": 1,
+       "mc": 1
+      },
+      {
+       "mt": 1,
+       "mc": 1
+      },
+      {
+       "mt": 1,
+       "mc": 1
+      },
+      {
+       "mt": 1,
+       "mc": 1
+      },
+      {
+       "mt": 1,
+       "mc": 1
+      },
+      {
+       "mt": 1,
+       "mc": 1
+      },
+      {
+       "mt": 1,
+       "mc": 1
+      },
+      {
+       "mt": 1,
+       "mc": 1
+      },
+      {
+       "mt": 1,
+       "mc": 1
+      },
+      {
+       "mt": 1,
+       "mc": 1
+      },
+      {
+       "mt": 1,
+       "mc": 1
+      },
+      {
+       "mt": 1,
+       "mc": 1
+      },
+      {
+       "mt": 1,
+       "mc": 1
+      },
+      {
+       "mt": 1,
+       "mc": 1
+      }
+     ]
+    }
+   },
+   "expect": "throw:GroupThresholdInvalid:SSKR group threshold is invalid"
+  },
+  {
+   "name": "spec 17n/[1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1,1-of-1]",
+   "recipe": {
+    "k": "spec",
+    "spec": {
+     "gt": "17n",
+     "groups": [
+      {
+       "mt": 1,
+       "mc": 1
+      },
+      {
+       "mt": 1,
+       "mc": 1
+      },
+      {
+       "mt": 1,
+       "mc": 1
+      },
+      {
+       "mt": 1,
+       "mc": 1
+      },
+      {
+       "mt": 1,
+       "mc": 1
+      },
+      {
+       "mt": 1,
+       "mc": 1
+      },
+      {
+       "mt": 1,
+       "mc": 1
+      },
+      {
+       "mt": 1,
+       "mc": 1
+      },
+      {
+       "mt": 1,
+       "mc": 1
+      },
+      {
+       "mt": 1,
+       "mc": 1
+      },
+      {
+       "mt": 1,
+       "mc": 1
+      },
+      {
+       "mt": 1,
+       "mc": 1
+      },
+      {
+       "mt": 1,
+       "mc": 1
+      },
+      {
+       "mt": 1,
+       "mc": 1
+      },
+      {
+       "mt": 1,
+       "mc": 1
+      },
+      {
+       "mt": 1,
+       "mc": 1
+      },
+      {
+       "mt": 1,
+       "mc": 1
+      }
+     ]
+    }
+   },
+   "expect": "throw:GroupCountInvalid:When creating a split spec, the group count is invalid"
+  },
+  {
+   "name": "spec 1/[9007199254740992n-of-3]",
+   "recipe": {
+    "k": "spec",
+    "spec": {
+     "gt": 1,
+     "groups": [
+      {
+       "mt": "9007199254740992n",
+       "mc": 3
+      }
+     ]
+    }
+   },
+   "expect": "throw:MemberThresholdInvalid:SSKR member threshold is invalid"
+  },
+  {
+   "name": "spec 1/[9007199254740993n-of-3]",
+   "recipe": {
+    "k": "spec",
+    "spec": {
+     "gt": 1,
+     "groups": [
+      {
+       "mt": "9007199254740993n",
+       "mc": 3
+      }
+     ]
+    }
+   },
+   "expect": "throw:MemberThresholdInvalid:SSKR member threshold is invalid"
+  },
+  {
+   "name": "spec 1/[1-of-9007199254740992n]",
+   "recipe": {
+    "k": "spec",
+    "spec": {
+     "gt": 1,
+     "groups": [
+      {
+       "mt": 1,
+       "mc": "9007199254740992n"
+      }
+     ]
+    }
+   },
+   "expect": "throw:MemberCountInvalid:SSKR member count is invalid"
+  },
+  {
+   "name": "spec 1/[18446744073709551615n-of-18446744073709551615n]",
+   "recipe": {
+    "k": "spec",
+    "spec": {
+     "gt": 1,
+     "groups": [
+      {
+       "mt": "18446744073709551615n",
+       "mc": "18446744073709551615n"
+      }
+     ]
+    }
+   },
+   "expect": "throw:MemberCountInvalid:SSKR member count is invalid"
+  },
+  {
+   "name": "spec 2n/[2n-of-3n,3-of-5]",
+   "recipe": {
+    "k": "spec",
+    "spec": {
+     "gt": "2n",
+     "groups": [
+      {
+       "mt": "2n",
+       "mc": "3n"
+      },
+      {
+       "mt": 3,
+       "mc": 5
+      }
+     ]
+    }
+   },
+   "expect": "gc=2,sc=8,groups=2-of-3,3-of-5"
+  },
+  {
+   "name": "spec 1/[0n-of-3n]",
+   "recipe": {
+    "k": "spec",
+    "spec": {
+     "gt": 1,
+     "groups": [
+      {
+       "mt": "0n",
+       "mc": "3n"
+      }
+     ]
+    }
+   },
+   "expect": "gc=1,sc=3,groups=0-of-3"
+  },
+  {
+   "name": "spec 9007199254740992/[2-of-3]",
+   "recipe": {
+    "k": "spec",
+    "spec": {
+     "gt": 9007199254740992,
+     "groups": [
+      {
+       "mt": 2,
+       "mc": 3
+      }
+     ]
+    }
+   },
+   "expect": "throw:GroupThresholdInvalid:SSKR group threshold is invalid"
+  },
+  {
+   "name": "spec 1/[9007199254740992-of-3]",
+   "recipe": {
+    "k": "spec",
+    "spec": {
+     "gt": 1,
+     "groups": [
+      {
+       "mt": 9007199254740992,
+       "mc": 3
+      }
+     ]
+    }
+   },
+   "expect": "throw:MemberThresholdInvalid:SSKR member threshold is invalid"
+  },
+  {
+   "name": "spec 1/[1-of-9007199254740992]",
+   "recipe": {
+    "k": "spec",
+    "spec": {
+     "gt": 1,
+     "groups": [
+      {
+       "mt": 1,
+       "mc": 9007199254740992
+      }
+     ]
+    }
+   },
+   "expect": "throw:MemberCountInvalid:SSKR member count is invalid"
+  },
+  {
+   "name": "spec 1/[-1n-of-3]",
+   "recipe": {
+    "k": "spec",
+    "spec": {
+     "gt": 1,
+     "groups": [
+      {
+       "mt": "-1n",
+       "mc": 3
+      }
+     ]
+    }
+   },
+   "expect": "throw:InvalidParameter:memberThreshold must be an integer in [0, 18446744073709551615] (a number or a bigint), got -1n"
+  },
+  {
+   "name": "spec 1/[1-of-18446744073709551616n]",
+   "recipe": {
+    "k": "spec",
+    "spec": {
+     "gt": 1,
+     "groups": [
+      {
+       "mt": 1,
+       "mc": "18446744073709551616n"
+      }
+     ]
+    }
+   },
+   "expect": "throw:InvalidParameter:memberCount must be an integer in [0, 18446744073709551615] (a number or a bigint), got 18446744073709551616n"
+  },
+  {
+   "name": "spec -1n/[1-of-1]",
+   "recipe": {
+    "k": "spec",
+    "spec": {
+     "gt": "-1n",
+     "groups": [
+      {
+       "mt": 1,
+       "mc": 1
+      }
+     ]
+    }
+   },
+   "expect": "throw:InvalidParameter:groupThreshold must be an integer in [0, 18446744073709551615] (a number or a bigint), got -1n"
+  },
+  {
+   "name": "spec 18446744073709551616n/[1-of-1]",
+   "recipe": {
+    "k": "spec",
+    "spec": {
+     "gt": "18446744073709551616n",
+     "groups": [
+      {
+       "mt": 1,
+       "mc": 1
+      }
+     ]
+    }
+   },
+   "expect": "throw:InvalidParameter:groupThreshold must be an integer in [0, 18446744073709551615] (a number or a bigint), got 18446744073709551616n"
+  },
+  {
+   "name": "spec 1/[18446744073709552000-of-3]",
+   "recipe": {
+    "k": "spec",
+    "spec": {
+     "gt": 1,
+     "groups": [
+      {
+       "mt": 18446744073709552000,
+       "mc": 3
+      }
+     ]
+    }
+   },
+   "expect": "throw:MemberThresholdInvalid:SSKR member threshold is invalid"
+  },
+  {
+   "name": "generate 2n/[2n-of-3n,3n-of-5n] len=16 seed=172951",
+   "recipe": {
+    "k": "generate",
+    "spec": {
+     "gt": "2n",
+     "groups": [
+      {
+       "mt": "2n",
+       "mc": "3n"
+      },
+      {
+       "mt": "3n",
+       "mc": "5n"
+      }
+     ]
+    },
+    "secret": {
+     "cycle": 16,
+     "start": 32
+    },
+    "rng": {
+     "seed": [
+      "17295166580085024720",
+      "422929670265678780",
+      "5577237070365765850",
+      "7953171132032326923"
+     ]
+    }
+   },
+   "expect": "7eb51101001552af06741f45e05b57e771820e407f,7eb5110101eada4a8d932f143caec7b0d7b6b36021,7eb5110102f0597e0ba17fe743aa6c4926ea6f00c3;7eb511120042759f5e2fed518684c556472008a679,7eb5111201225982ded720627464cae49a099371f6,7eb511120261f9c13380699b03ae327f8110cb04ff,7eb511120301d5dcb378a4a8f14e3dcd5c3950d370,7eb5111204a50ba84761ea586439b94757d300a554"
   },
   {
    "name": "spec NaN/[1-of-1]",
@@ -41077,7 +42027,7 @@
      ]
     }
    },
-   "expect": "throw:InvalidParameter"
+   "expect": "throw:InvalidParameter:groupThreshold must be an integer in [0, 18446744073709551615] (a number or a bigint), got NaN"
   },
   {
    "name": "spec 1.5/[1-of-1,1-of-1]",
@@ -41097,7 +42047,7 @@
      ]
     }
    },
-   "expect": "throw:InvalidParameter"
+   "expect": "throw:InvalidParameter:groupThreshold must be an integer in [0, 18446744073709551615] (a number or a bigint), got 1.5"
   },
   {
    "name": "spec -1/[1-of-1]",
@@ -41113,7 +42063,7 @@
      ]
     }
    },
-   "expect": "throw:InvalidParameter"
+   "expect": "throw:InvalidParameter:groupThreshold must be an integer in [0, 18446744073709551615] (a number or a bigint), got -1"
   },
   {
    "name": "spec 1/[1.5-of-3]",
@@ -41129,7 +42079,7 @@
      ]
     }
    },
-   "expect": "throw:InvalidParameter"
+   "expect": "throw:InvalidParameter:memberThreshold must be an integer in [0, 18446744073709551615] (a number or a bigint), got 1.5"
   },
   {
    "name": "spec 1/[1-of-NaN]",
@@ -41145,7 +42095,7 @@
      ]
     }
    },
-   "expect": "throw:InvalidParameter"
+   "expect": "throw:InvalidParameter:memberCount must be an integer in [0, 18446744073709551615] (a number or a bigint), got NaN"
   },
   {
    "name": "spec 1/[-1-of-3]",
@@ -41161,7 +42111,7 @@
      ]
     }
    },
-   "expect": "throw:InvalidParameter"
+   "expect": "throw:InvalidParameter:memberThreshold must be an integer in [0, 18446744073709551615] (a number or a bigint), got -1"
   },
   {
    "name": "spec 1/[2-of-2.5]",
@@ -41177,7 +42127,7 @@
      ]
     }
    },
-   "expect": "throw:InvalidParameter"
+   "expect": "throw:InvalidParameter:memberCount must be an integer in [0, 18446744073709551615] (a number or a bigint), got 2.5"
   },
   {
    "name": "spec 1/[Infinity-of-3]",
@@ -41193,7 +42143,23 @@
      ]
     }
    },
-   "expect": "throw:InvalidParameter"
+   "expect": "throw:InvalidParameter:memberThreshold must be an integer in [0, 18446744073709551615] (a number or a bigint), got Infinity"
+  },
+  {
+   "name": "spec 1/[36893488147419103000-of-3]",
+   "recipe": {
+    "k": "spec",
+    "spec": {
+     "gt": 1,
+     "groups": [
+      {
+       "mt": 36893488147419103000,
+       "mc": 3
+      }
+     ]
+    }
+   },
+   "expect": "throw:InvalidParameter:memberThreshold must be an integer in [0, 18446744073709551615] (a number or a bigint), got 36893488147419103232"
   },
   {
    "name": "generate 1.5/[1-of-1,1-of-1] len=16 fake",
@@ -41220,7 +42186,7 @@
      "fake": true
     }
    },
-   "expect": "throw:InvalidParameter"
+   "expect": "throw:InvalidParameter:groupThreshold must be an integer in [0, 18446744073709551615] (a number or a bigint), got 1.5"
   },
   {
    "name": "generate 1/[1-of-2.5] len=16 fake",
@@ -41243,7 +42209,7 @@
      "fake": true
     }
    },
-   "expect": "throw:InvalidParameter"
+   "expect": "throw:InvalidParameter:memberCount must be an integer in [0, 18446744073709551615] (a number or a bigint), got 2.5"
   },
   {
    "name": "shareBytes valid [32437,0,1,1,0,2]",
@@ -41283,7 +42249,7 @@
     },
     "note": "identifier-u16-overflow"
    },
-   "expect": "throw:InvalidParameter"
+   "expect": "throw:InvalidParameter:identifier must be an integer in [0, 65535], got 131071"
   },
   {
    "name": "shareBytes identifier-negative [-1,0,1,1,0,2]",
@@ -41303,7 +42269,7 @@
     },
     "note": "identifier-negative"
    },
-   "expect": "throw:InvalidParameter"
+   "expect": "throw:InvalidParameter:identifier must be an integer in [0, 65535], got -1"
   },
   {
    "name": "shareBytes identifier-fraction [1.5,0,1,1,0,2]",
@@ -41323,7 +42289,7 @@
     },
     "note": "identifier-fraction"
    },
-   "expect": "throw:InvalidParameter"
+   "expect": "throw:InvalidParameter:identifier must be an integer in [0, 65535], got 1.5"
   },
   {
    "name": "shareBytes groupIndex-17 [32437,17,1,1,0,2]",
@@ -41343,7 +42309,7 @@
     },
     "note": "groupIndex-17"
    },
-   "expect": "throw:InvalidParameter"
+   "expect": "throw:InvalidParameter:groupIndex must be an integer in [0, 15], got 17"
   },
   {
    "name": "shareBytes groupThreshold-17 [32437,0,17,1,0,2]",
@@ -41363,7 +42329,7 @@
     },
     "note": "groupThreshold-17"
    },
-   "expect": "throw:InvalidParameter"
+   "expect": "throw:InvalidParameter:groupThreshold must be an integer in [1, 16], got 17"
   },
   {
    "name": "shareBytes groupThreshold-0 [32437,0,0,1,0,2]",
@@ -41383,7 +42349,7 @@
     },
     "note": "groupThreshold-0"
    },
-   "expect": "throw:InvalidParameter"
+   "expect": "throw:InvalidParameter:groupThreshold must be an integer in [1, 16], got 0"
   },
   {
    "name": "shareBytes groupCount-0 [32437,0,1,0,0,2]",
@@ -41403,7 +42369,7 @@
     },
     "note": "groupCount-0"
    },
-   "expect": "throw:InvalidParameter"
+   "expect": "throw:InvalidParameter:groupCount must be an integer in [1, 16], got 0"
   },
   {
    "name": "shareBytes memberThreshold-0 [32437,0,1,1,0,0]",
@@ -41423,7 +42389,7 @@
     },
     "note": "memberThreshold-0"
    },
-   "expect": "throw:InvalidParameter"
+   "expect": "throw:InvalidParameter:memberThreshold must be an integer in [1, 16], got 0"
   },
   {
    "name": "shareBytes memberThreshold-17 [32437,0,1,1,0,17]",
@@ -41443,7 +42409,7 @@
     },
     "note": "memberThreshold-17"
    },
-   "expect": "throw:InvalidParameter"
+   "expect": "throw:InvalidParameter:memberThreshold must be an integer in [1, 16], got 17"
   },
   {
    "name": "shareBytes memberIndex-fraction [32437,0,1,1,1.5,2]",
@@ -41463,7 +42429,7 @@
     },
     "note": "memberIndex-fraction"
    },
-   "expect": "throw:InvalidParameter"
+   "expect": "throw:InvalidParameter:memberIndex must be an integer in [0, 15], got 1.5"
   },
   {
    "name": "shareBytes memberIndex-NaN [32437,0,1,1,NaN,2]",
@@ -41483,7 +42449,7 @@
     },
     "note": "memberIndex-NaN"
    },
-   "expect": "throw:InvalidParameter"
+   "expect": "throw:InvalidParameter:memberIndex must be an integer in [0, 15], got NaN"
   },
   {
    "name": "shareBytes memberIndex-16 [32437,0,1,1,16,2]",
@@ -41503,7 +42469,7 @@
     },
     "note": "memberIndex-16"
    },
-   "expect": "throw:InvalidParameter"
+   "expect": "throw:InvalidParameter:memberIndex must be an integer in [0, 15], got 16"
   },
   {
    "name": "shareBytes groupThreshold-over-groupCount [32437,0,2,1,0,2]",
@@ -41523,7 +42489,7 @@
     },
     "note": "groupThreshold-over-groupCount"
    },
-   "expect": "throw:GroupThresholdInvalid"
+   "expect": "throw:GroupThresholdInvalid:SSKR group threshold is invalid"
   }
  ]
 }
