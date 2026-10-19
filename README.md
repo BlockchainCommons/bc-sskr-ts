@@ -66,6 +66,7 @@ Runnable examples live in the [`examples/`](https://github.com/BlockchainCommons
 
 ### Version History
 
+- **1.0.0-beta.5 (October 19, 2026)** - Installs with npm on a host without Bun: the TypeScript 6 pin for the lint tools runs from `prepare`, not `postinstall` ([bc-components-ts#11](https://github.com/BlockchainCommons/bc-components-ts/issues/11)).
 - **1.0.0-beta.3 (September 14, 2026)** - A zero member threshold is accepted at construction and fails at generation, as in the reference; spec fields accept `bigint` and integer-valued numbers up to 2^64; every argument is type-checked before anything else, share objects are checked as their bytes would be, `equals` on specs, and the identifier draw goes through `@blockchaincommons/rand`.
 - **1.0.0-beta.2 (September 12, 2026)** - `GroupSpec.parse` reports the reference's code for a count or threshold between 2^53 and 2^64;
 - **1.0.0-beta.1 (September 9, 2026)** - Initial beta implementation.
