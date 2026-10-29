@@ -50,9 +50,9 @@
 
     "@blockchaincommons/crypto": ["@blockchaincommons/crypto@1.0.0-beta.3", "", { "dependencies": { "@blockchaincommons/rand": "^1.0.0-beta.3", "@noble/ciphers": "^2.4.0", "@noble/curves": "^2.4.0", "@noble/hashes": "^2.4.0" } }, "sha512-Kd8D6naoW6PL+JnbjSChy0QXv/tST7k0Nj0J95leBdSKnmiFL4ukpEH63HW6oJnd7hY8jfqQdg7EBYs4MofowQ=="],
 
-    "@blockchaincommons/rand": ["@blockchaincommons/rand@1.0.0-beta.3", "", {}, "sha512-SelWiTP+Ngb2y9ZOT5deyDmGFjkP0JxJxMN3GA1UOAiV05XtDgUPMPFreU3LQ9zBpAepFajE8t7IrCf2dDQRxA=="],
+    "@blockchaincommons/rand": ["@blockchaincommons/rand@1.0.0-beta.5", "", {}, "sha512-LcMoEI9sWfmBvR/kqN2jrXexrZpvhnAVlGeZTmGSUS+AkrSp9bIcJF3FMD6qV0k1yNr5oxx07lr8AJPIxLFvWg=="],
 
-    "@blockchaincommons/shamir": ["@blockchaincommons/shamir@1.0.0-beta.3", "", { "dependencies": { "@blockchaincommons/crypto": "^1.0.0-beta.3", "@blockchaincommons/rand": "^1.0.0-beta.3" } }, "sha512-EI3ovNm8IKnH4ubs26vKu7SM9kblVkhNFkXbfZifSEk3AgKJTHnYk/Yl17atUyJ2vy+Z+b8rb4CckamZVYR9dQ=="],
+    "@blockchaincommons/shamir": ["@blockchaincommons/shamir@1.0.0-beta.5", "", { "dependencies": { "@blockchaincommons/crypto": "^1.0.0-beta.3", "@blockchaincommons/rand": "^1.0.0-beta.3" } }, "sha512-2IwrTtelINn4auRiqtfgQAQetiPf4qtPRXxlkcF8Vzr0CBXg14/vAsV7+AJVF/yOaYywdfhsKGzVPHlaXw3RHg=="],
 
     "@braidai/lang": ["@braidai/lang@1.1.2", "", {}, "sha512-qBcknbBufNHlui137Hft8xauQMTZDKdophmLFv05r2eNmdIv/MlPuP4TdUknHG68UdWLgVZwgxVe735HzJNIwA=="],
 
